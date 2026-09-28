@@ -3,29 +3,20 @@ import About from "@/components/About";
 import Certifications from "@/components/Certifications";
 import Experience from "@/components/Experience";
 import ProjectCard from "@/components/ProjectCard";
+import SectionNav from "@/components/SectionNav";
 import Skills from "@/components/Skills";
 import Terminal from "@/components/Terminal";
 import { projects } from "@/data/projects";
-
-const nav = [
-  ["/about", "about"],
-  ["/skills", "skills"],
-  ["/projects", "projects"],
-  ["/experience", "experience"],
-  ["/certifications", "certifications"],
-] as const;
 
 export default function Home() {
   return (
     <>
       <header className="sticky top-0 z-50 border-b border-neutral-200 bg-white/95 backdrop-blur-sm">
-        <div className="mx-auto flex w-[min(1200px,calc(100%-40px))] flex-col gap-4 py-5 md:w-[min(1200px,calc(100%-96px))] md:flex-row md:items-center md:justify-between md:gap-8">
+        <div className="mx-auto flex w-[min(1200px,calc(100%-40px))] flex-col gap-3 py-4 md:w-[min(1200px,calc(100%-96px))] md:flex-row md:items-center md:justify-between md:gap-8 md:py-5">
           <Link href="/" className="whitespace-nowrap text-sm font-bold tracking-tight">
             2kminn <span className="font-normal text-neutral-500">/ PORTFOLIO</span>
           </Link>
-          <nav aria-label="페이지 메뉴" className="flex gap-5 overflow-x-auto pb-1 font-mono text-[13px] font-medium whitespace-nowrap text-neutral-600 md:gap-8">
-            {nav.map(([label, id]) => <a key={id} href={`#${id}`} className="hover:text-black">{label}</a>)}
-          </nav>
+          <SectionNav />
         </div>
       </header>
 
