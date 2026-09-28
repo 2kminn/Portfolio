@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+:root { color-scheme: light; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: #fff; color: #111; font-family: Arial, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; -webkit-font-smoothing: antialiased; }
+* { box-sizing: border-box; }
+a:focus-visible { outline: 2px solid #111; outline-offset: 5px; }
+.section-layout { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 55px; border-top: 1px solid #111; padding: 42px 0 105px; scroll-margin-top: 24px; }
+.section-kicker { color: #666; font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace; }
+.section-kicker span { color: #111; margin-right: 16px; }
+.section-title { margin: 0 0 36px; font-size: clamp(34px, 4vw, 54px); font-weight: 700; line-height: 1.12; letter-spacing: -.06em; }
+.record { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 28px; border-top: 1px solid #d9d9d9; padding: 26px 0 31px; }
+.record-label { color: #666; font: 12px/1.55 ui-monospace, SFMono-Regular, Menlo, monospace; }
+.record h3 { margin: 0; font-size: 22px; line-height: 1.35; font-weight: 600; letter-spacing: -.04em; }
+.record p { margin: 11px 0 0; color: #666; font-size: 15px; line-height: 1.75; word-break: keep-all; }
+@media (max-width: 800px) { .section-layout { grid-template-columns: 1fr; gap: 24px; padding: 32px 0 75px; } .section-title { margin-bottom: 28px; } }
+@media (max-width: 560px) { .record { grid-template-columns: 1fr; gap: 8px; } .record h3 { font-size: 20px; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
