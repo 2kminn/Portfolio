@@ -2,6 +2,7 @@ import Link from "next/link";
 import About from "@/components/About";
 import Certifications from "@/components/Certifications";
 import Experience from "@/components/Experience";
+import GitHubArchive from "@/components/GitHubArchive";
 import ProjectCard from "@/components/ProjectCard";
 import SectionNav from "@/components/SectionNav";
 import Skills from "@/components/Skills";
@@ -35,6 +36,8 @@ export default function Home() {
         <Experience />
         <Certifications />
       </main>
+
+      <GitHubArchive />
 
       <footer className="bg-[#111] text-white">
         <div className="mx-auto flex w-[min(1200px,calc(100%-40px))] flex-col justify-between gap-3 py-8 font-mono text-xs md:w-[min(1200px,calc(100%-96px))] md:flex-row">

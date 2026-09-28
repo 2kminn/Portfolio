@@ -8,6 +8,7 @@ const sections = [
   { id: "projects", label: "/projects" },
   { id: "experience", label: "/experience" },
   { id: "certifications", label: "/certifications" },
+  { id: "github", label: "/github" },
 ] as const;
 
 export default function SectionNav() {
@@ -18,7 +19,7 @@ export default function SectionNav() {
     const update = () => {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
-        const offset = window.innerWidth < 768 ? 145 : 105;
+        const offset = 145;
         let current: string | null = null;
         for (const { id } of sections) {
           const section = document.getElementById(id);
