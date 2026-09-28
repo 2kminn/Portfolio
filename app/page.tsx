@@ -21,9 +21,9 @@ export default function Home() {
       <header className="sticky top-0 z-50 border-b border-neutral-200 bg-white/95 backdrop-blur-sm">
         <div className="mx-auto flex w-[min(1200px,calc(100%-40px))] flex-col gap-4 py-5 md:w-[min(1200px,calc(100%-96px))] md:flex-row md:items-center md:justify-between md:gap-8">
           <Link href="/" className="whitespace-nowrap text-sm font-bold tracking-tight">
-            GYEONGMIN LEE <span className="font-normal text-neutral-500">/ PORTFOLIO</span>
+            2kminn <span className="font-normal text-neutral-500">/ PORTFOLIO</span>
           </Link>
-          <nav aria-label="Sections" className="flex gap-5 overflow-x-auto pb-1 font-mono text-[13px] font-medium whitespace-nowrap text-neutral-600 md:gap-8">
+          <nav aria-label="페이지 메뉴" className="flex gap-5 overflow-x-auto pb-1 font-mono text-[13px] font-medium whitespace-nowrap text-neutral-600 md:gap-8">
             {nav.map(([label, id]) => <a key={id} href={`#${id}`} className="hover:text-black">{label}</a>)}
           </nav>
         </div>
@@ -36,8 +36,8 @@ export default function Home() {
         <Skills />
         <section id="projects" className="section-layout" aria-labelledby="projects-title">
           <div>
-            <h2 id="projects-title" className="section-title">Projects</h2>
-            <p className="mb-7 text-sm leading-7 text-neutral-500">Project details are draft placeholders until the real work is added.</p>
+            <h2 id="projects-title" className="section-title">프로젝트</h2>
+            <p className="mb-7 text-sm leading-7 text-neutral-500">프로젝트 내용은 실제 작업 이력으로 교체할 수 있도록 초안으로 구성했습니다.</p>
             {projects.map((project) => <ProjectCard key={project.slug} project={project} />)}
           </div>
         </section>
@@ -47,7 +47,7 @@ export default function Home() {
 
       <footer className="bg-[#111] text-white">
         <div className="mx-auto flex w-[min(1200px,calc(100%-40px))] flex-col justify-between gap-3 py-8 font-mono text-xs md:w-[min(1200px,calc(100%-96px))] md:flex-row">
-          <span>© {new Date().getFullYear()} Gyeongmin Lee.</span><span className="text-neutral-500">PORTFOLIO / DRAFT</span>
+          <span>© {new Date().getFullYear()} 이경민.</span><span className="text-neutral-500">포트폴리오 초안</span>
         </div>
       </footer>
     </>
