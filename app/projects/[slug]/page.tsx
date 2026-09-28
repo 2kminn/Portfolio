@@ -9,18 +9,18 @@ export function generateStaticParams() { return projects.map(({ slug }) => ({ sl
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const project = getProject((await params).slug);
-  return { title: project ? `${project.title} | 이경민` : "프로젝트를 찾을 수 없습니다", description: project?.summary };
+  return { title: project ? `${project.title} | Gyeongmin Lee` : "Project not found", description: project?.summary };
 }
 
 export default async function ProjectDetail({ params }: Props) {
   const project = getProject((await params).slug);
   if (!project) notFound();
 
-  const details = [["문제", project.challenge], ["접근", project.solution], ["결과", project.result]] as const;
+  const details = [["Challenge", project.challenge], ["Approach", project.solution], ["Outcome", project.result]] as const;
 
   return (
     <main className="mx-auto min-h-screen w-[min(960px,calc(100%-40px))] py-8 md:w-[min(960px,calc(100%-96px))] md:py-12">
-      <Link href="/#projects" className="font-mono text-sm text-neutral-500 hover:text-black">← 프로젝트 목록</Link>
+      <Link href="/#projects" className="font-mono text-sm text-neutral-500 hover:text-black">← /projects</Link>
       <header className="mt-20 border-b border-black pb-12 md:mt-28">
         <p className="mb-7 font-mono text-xs tracking-wide text-neutral-500">PROJECT / DRAFT</p>
         <h1 className="text-[clamp(40px,6vw,76px)] leading-tight font-bold tracking-[-.07em]">{project.title}</h1>
@@ -36,7 +36,7 @@ export default async function ProjectDetail({ params }: Props) {
           <h2 className="font-mono text-sm text-neutral-500">0{index + 1} / {label}</h2><p className="max-w-2xl text-lg leading-9 break-keep">{value}</p>
         </section>)}
       </div>
-      <Link href="/#projects" className="inline-block border-b border-black pb-1 text-sm">모든 프로젝트 보기 ↗</Link>
+      <Link href="/#projects" className="inline-block border-b border-black pb-1 text-sm">All projects ↗</Link>
     </main>
   );
 }
