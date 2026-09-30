@@ -4,8 +4,8 @@
 html { scroll-behavior: smooth; }
 body { margin: 0; background: #fff; color: #111; font-family: Arial, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; -webkit-font-smoothing: antialiased; }
 * { box-sizing: border-box; }
-@keyframes terminal-caret { 50% { opacity: 0; } }
-.terminal-caret { animation: terminal-caret 1s steps(2, start) infinite; }
+@keyframes terminal-caret { 0%, 49% { visibility: visible; } 50%, 100% { visibility: hidden; } }
+.terminal-caret { animation: terminal-caret 1s step-end infinite; }
 a:focus-visible { outline: 2px solid #111; outline-offset: 5px; }
 .section-layout { border-top: 1px solid #111; padding: 42px 0 105px; scroll-margin-top: 120px; }
 .section-title { margin: 0 0 36px; font-size: clamp(34px, 4vw, 54px); font-weight: 700; line-height: 1.12; letter-spacing: -.06em; }
