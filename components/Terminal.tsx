@@ -52,7 +52,7 @@ export default function Terminal() {
           <p aria-live="polite" className="mb-6 font-mono text-sm text-neutral-400"><strong className="font-normal text-white">visitor@2kminn</strong> ~ % {typedCommand}{status === "command" && <span aria-hidden="true" className="ml-1 inline-block animate-pulse text-white">_</span>}</p>
           <div className="min-h-[clamp(112px,16vw,190px)]">
             <h1 id="hero-title" className={typedIntroduction ? "text-[clamp(43px,6vw,78px)] leading-[1.12] font-bold tracking-[-.075em]" : "sr-only"}>
-              {typedIntroduction ? <>{firstLine}{typedIntroduction.includes("\n") && <br />}<span className="text-neutral-400">{secondLine}</span>{status === "introduction" && <span aria-hidden="true" className="ml-1 inline-block animate-pulse text-white">_</span>}</> : "이경민 개발자 포트폴리오"}
+              {typedIntroduction ? <>{firstLine}{typedIntroduction.includes("\n") && <br />}<span className="text-neutral-400">{secondLine}</span>{status !== "command" && <span aria-hidden="true" className="ml-1 inline-block animate-pulse text-white">_</span>}</> : "이경민 개발자 포트폴리오"}
             </h1>
           </div>
         </div>
