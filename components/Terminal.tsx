@@ -28,6 +28,17 @@ export default function Terminal() {
     return () => window.clearTimeout(timer);
   }, [status, typedCommand, typedIntroduction]);
 
+  useEffect(() => {
+    if (status !== "done") return;
+
+    const timer = window.setTimeout(() => {
+      setTypedCommand("");
+      setTypedIntroduction("");
+      setStatus("command");
+    }, 10_000);
+    return () => window.clearTimeout(timer);
+  }, [status]);
+
   const [firstLine, secondLine = ""] = typedIntroduction.split("\n");
 
   return (
