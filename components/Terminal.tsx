@@ -68,6 +68,9 @@ export default function Terminal() {
   const [cwd, setCwd] = useState("/");
   const [previousCwd, setPreviousCwd] = useState<string | null>(null);
   const [input, setInput] = useState("");
+  const [introStatus, setIntroStatus] = useState<"idle" | "command" | "intro" | "done">("idle");
+  const [introCommand, setIntroCommand] = useState("");
+  const [introText, setIntroText] = useState("");
   const [outputs, setOutputs] = useState<Output[]>([]);
   const [history, setHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
@@ -78,6 +81,25 @@ export default function Terminal() {
   useEffect(() => {
     outputRef.current?.scrollTo({ top: outputRef.current.scrollHeight });
   }, [outputs]);
+
+  useEffect(() => {
+    if (introStatus === "idle" || introStatus === "done") return;
+
+    const target = introStatus === "command" ? "whoami" : "안녕하세요.\n개발자 이경민입니다.";
+    const current = introStatus === "command" ? introCommand : introText;
+    const update = introStatus === "command" ? setIntroCommand : setIntroText;
+    const delay = introStatus === "command" ? 85 : 66;
+
+    if (current.length < target.length) {
+      const timer = window.setTimeout(() => update(target.slice(0, current.length + 1)), delay);
+      return () => window.clearTimeout(timer);
+    }
+
+    const timer = window.setTimeout(() => {
+      setIntroStatus((status) => status === "command" ? "intro" : "done");
+    }, 180);
+    return () => window.clearTimeout(timer);
+  }, [introCommand, introStatus, introText]);
 
   function append(output: Output) {
     setOutputs((previous) => [...previous, output].slice(-16));
@@ -107,7 +129,9 @@ export default function Terminal() {
       return;
     }
     if (action === "whoami" && args.length === 0) {
-      append(message("이경민 · 개발자"));
+      setIntroCommand("");
+      setIntroText("");
+      setIntroStatus("command");
       return;
     }
     if (action === "pwd" && args.length === 0) {
@@ -237,18 +261,24 @@ export default function Terminal() {
     }
   }
 
+  const [introFirstLine, introSecondLine = ""] = introText.split("\n");
+
   return (
-    <section className="bg-[#101010] text-white" aria-labelledby="hero-title">
+    <section className="bg-[#101010] text-white" aria-label="개발자 포트폴리오 터미널">
       <div className="mx-auto flex min-h-[510px] w-[min(1200px,calc(100%-40px))] flex-col py-7 md:min-h-[540px] md:w-[min(1200px,calc(100%-96px))] md:py-10">
         <div className="flex items-center border-b border-neutral-700 pb-5">
           <span aria-hidden="true" className="flex gap-1.5"><i className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" /><i className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" /><i className="h-2.5 w-2.5 rounded-full bg-[#28c840]" /></span>
         </div>
 
         <div className="flex flex-1 flex-col justify-center py-10">
-          <p className="mb-6 font-mono text-sm text-neutral-400"><strong className="font-normal text-white">visitor@2kminn</strong> ~ % whoami</p>
-          <h1 id="hero-title" className="text-[clamp(43px,6vw,78px)] leading-[1.12] font-bold tracking-[-.075em]">안녕하세요.<br /><span className="text-neutral-400">개발자 이경민입니다.</span></h1>
+          {introStatus !== "idle" && (
+            <p aria-live="polite" className="mb-6 font-mono text-sm text-neutral-400"><strong className="font-normal text-white">visitor@2kminn</strong> ~ % {introCommand}{introStatus === "command" && <span aria-hidden="true" className="ml-1 inline-block animate-pulse text-white">_</span>}</p>
+          )}
+          <h1 id="hero-title" className={introText ? "text-[clamp(43px,6vw,78px)] leading-[1.12] font-bold tracking-[-.075em]" : "sr-only"}>
+            {introText ? <>{introFirstLine}{introText.includes("\n") && <br />}<span className="text-neutral-400">{introSecondLine}</span>{introStatus === "intro" && <span aria-hidden="true" className="ml-1 inline-block animate-pulse text-white">_</span>}</> : "이경민 개발자 포트폴리오"}
+          </h1>
 
-          <div className="mt-9 max-w-3xl border-t border-neutral-700 pt-5 font-mono text-[13px] leading-6 text-neutral-300">
+          <div className={`${introStatus !== "idle" ? "mt-9" : ""} max-w-3xl border-t border-neutral-700 pt-5 font-mono text-[13px] leading-6 text-neutral-300`}>
             {outputs.length > 0 && (
               <div ref={outputRef} tabIndex={0} aria-label="터미널 출력" aria-live="polite" className="mb-5 max-h-44 space-y-4 overflow-y-auto pr-2">
                 {outputs.map((output, index) => (
@@ -265,7 +295,7 @@ export default function Terminal() {
             )}
             <form onSubmit={handleSubmit} className="flex items-center gap-2 border-b border-transparent pb-1 focus-within:border-neutral-500">
               <label htmlFor="terminal-command" className="shrink-0 text-neutral-400"><span className="text-white">visitor@2kminn</span> {cwd === "/" ? "~" : `~${cwd}`} %</label>
-              <input ref={inputRef} id="terminal-command" type="text" value={input} onChange={(event) => { setInput(event.target.value); setHistoryIndex(-1); }} onKeyDown={handleKeyDown} autoComplete="off" autoCapitalize="off" spellCheck={false} aria-label="터미널 명령어" placeholder="ls 입력 · Tab 자동완성" className="min-w-0 flex-1 bg-transparent text-white outline-none placeholder:text-neutral-400" />
+              <input ref={inputRef} id="terminal-command" type="text" value={input} onChange={(event) => { setInput(event.target.value); setHistoryIndex(-1); }} onKeyDown={handleKeyDown} autoComplete="off" autoCapitalize="off" spellCheck={false} aria-label="터미널 명령어" placeholder={introStatus === "idle" ? "whoami 입력 후 Enter" : "ls 입력 · Tab 자동완성"} className="min-w-0 flex-1 bg-transparent text-white outline-none placeholder:text-neutral-400" />
             </form>
           </div>
         </div>
