@@ -2,7 +2,6 @@ import About from "@/components/About";
 import Certifications from "@/components/Certifications";
 import Experience from "@/components/Experience";
 import GitHubArchive from "@/components/GitHubArchive";
-import MarqueeSection from "@/components/MarqueeSection";
 import ProjectsSection from "@/components/ProjectsSection";
 import SiteHeader from "@/components/SiteHeader";
 import Skills from "@/components/Skills";
@@ -14,7 +13,6 @@ export default function Home() {
       <Terminal />
       <SiteHeader />
       <main className="overflow-x-clip bg-[#0C0C0C]">
-        <MarqueeSection />
         <About />
         <Skills />
         <ProjectsSection />
