@@ -42,17 +42,20 @@ export default function Terminal() {
   const [firstLine, secondLine = ""] = typedIntroduction.split("\n");
 
   return (
-    <section className="terminal-screen bg-[#101010] text-white" aria-label="개발자 포트폴리오 터미널">
-      <div className="mx-auto flex min-h-[100svh] w-[min(1200px,calc(100%-40px))] flex-col py-7 md:w-[min(1200px,calc(100%-96px))] md:py-10">
-        <div className="flex items-center border-b border-neutral-700 pb-5">
+    <section className="terminal-screen bg-[#0C0C0C] px-4 py-4 text-white sm:px-6 sm:py-6" aria-label="개발자 포트폴리오 터미널">
+      <div className="relative mx-auto flex min-h-[calc(100svh-32px)] max-w-[1300px] flex-col overflow-hidden rounded-[32px] border border-[#D7E2EA]/35 bg-[#111316] px-5 py-5 shadow-[0_24px_90px_rgba(0,0,0,.35)] sm:min-h-[calc(100svh-48px)] sm:rounded-[48px] sm:px-10 sm:py-8 md:px-14">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_58%,rgba(154,178,204,.16),transparent_46%)]" />
+        <span aria-hidden="true" className="pointer-events-none absolute -right-[.03em] bottom-[-.12em] font-display text-[clamp(130px,29vw,400px)] leading-none font-black tracking-[-.11em] text-white/[.045]">2KMINN</span>
+
+        <div className="relative z-10 flex items-center border-b border-[#D7E2EA]/25 pb-5">
           <span aria-hidden="true" className="flex gap-1.5"><i className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" /><i className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" /><i className="h-2.5 w-2.5 rounded-full bg-[#28c840]" /></span>
         </div>
 
-        <div className="flex flex-1 flex-col justify-center py-10">
-          <p aria-live="polite" className="mb-6 font-mono text-sm text-neutral-400"><strong className="font-normal text-white">visitor@2kminn</strong> ~ % {typedCommand}{status === "command" && <span aria-hidden="true" className="terminal-caret ml-1 inline-block text-white">_</span>}</p>
-          <div className="min-h-[clamp(112px,16vw,190px)]">
-            <h1 id="hero-title" className={typedIntroduction ? "text-[clamp(43px,6vw,78px)] leading-[1.12] font-bold tracking-[-.075em]" : "sr-only"}>
-              {typedIntroduction ? <>{firstLine}{typedIntroduction.includes("\n") && <br />}<span className="text-neutral-400">{secondLine}</span>{status !== "command" && <span aria-hidden="true" className="terminal-caret ml-1 inline-block text-white">_</span>}</> : "이경민 개발자 포트폴리오"}
+        <div className="relative z-10 flex flex-1 flex-col justify-center py-16 sm:py-20">
+          <p aria-live="polite" className="mb-7 font-mono text-sm text-[#A5B5C1]"><strong className="font-normal text-white">visitor@2kminn</strong> ~ % {typedCommand}{status === "command" && <span aria-hidden="true" className="terminal-caret ml-1 inline-block text-white">_</span>}</p>
+          <div className="min-h-[clamp(140px,18vw,240px)]">
+            <h1 id="hero-title" className={typedIntroduction ? "font-display max-w-[1100px] text-[clamp(42px,6.5vw,96px)] leading-[1.1] font-black tracking-[-.075em] break-keep" : "sr-only"}>
+              {typedIntroduction ? <>{firstLine}{typedIntroduction.includes("\n") && <br />}<span className="hero-heading">{secondLine}</span>{status !== "command" && <span aria-hidden="true" className="terminal-caret ml-1 inline-block text-white">_</span>}</> : "이경민 개발자 포트폴리오"}
             </h1>
           </div>
         </div>
