@@ -42,8 +42,8 @@ export default function Terminal() {
   const [firstLine, secondLine = ""] = typedIntroduction.split("\n");
 
   return (
-    <section className="bg-[#101010] text-white" aria-label="개발자 포트폴리오 터미널">
-      <div className="mx-auto flex min-h-[510px] w-[min(1200px,calc(100%-40px))] flex-col py-7 md:min-h-[540px] md:w-[min(1200px,calc(100%-96px))] md:py-10">
+    <section className="terminal-screen bg-[#101010] text-white" aria-label="개발자 포트폴리오 터미널">
+      <div className="mx-auto flex min-h-[100svh] w-[min(1200px,calc(100%-40px))] flex-col py-7 md:w-[min(1200px,calc(100%-96px))] md:py-10">
         <div className="flex items-center border-b border-neutral-700 pb-5">
           <span aria-hidden="true" className="flex gap-1.5"><i className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" /><i className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" /><i className="h-2.5 w-2.5 rounded-full bg-[#28c840]" /></span>
         </div>

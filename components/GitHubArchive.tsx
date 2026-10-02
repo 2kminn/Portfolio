@@ -2,7 +2,7 @@ import { ArrowUpRight } from "lucide-react";
 
 export default function GitHubArchive() {
   return (
-    <section id="github" aria-labelledby="github-title" className="scroll-mt-32 bg-[#171717] py-20 text-white md:flex md:min-h-[calc(100vh-72px)] md:items-center md:py-28">
+    <section id="github" aria-labelledby="github-title" className="flex min-h-[100svh] scroll-mt-32 items-center bg-[#171717] py-20 text-white md:py-28">
       <div className="mx-auto grid w-[min(1200px,calc(100%-40px))] gap-9 md:w-[min(1200px,calc(100%-96px))] md:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] md:items-center md:gap-14">
         <div>
           <p className="mb-5 font-mono text-xs text-neutral-400">/github</p>

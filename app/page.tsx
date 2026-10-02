@@ -1,10 +1,10 @@
-import Link from "next/link";
 import About from "@/components/About";
 import Certifications from "@/components/Certifications";
 import Experience from "@/components/Experience";
 import GitHubArchive from "@/components/GitHubArchive";
 import ProjectCard from "@/components/ProjectCard";
-import SectionNav from "@/components/SectionNav";
+import ScrollReveal from "@/components/ScrollReveal";
+import SiteHeader from "@/components/SiteHeader";
 import Skills from "@/components/Skills";
 import Terminal from "@/components/Terminal";
 import { projects } from "@/data/projects";
@@ -12,16 +12,8 @@ import { projects } from "@/data/projects";
 export default function Home() {
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-neutral-200 bg-white/95 backdrop-blur-sm">
-        <div className="mx-auto flex w-[min(1200px,calc(100%-40px))] flex-col gap-3 py-4 md:w-[min(1200px,calc(100%-96px))] md:flex-row md:items-center md:justify-between md:gap-8 md:py-5">
-          <Link href="/" className="whitespace-nowrap text-sm font-bold tracking-tight">
-            2kminn <span className="font-normal text-neutral-500">/ PORTFOLIO</span>
-          </Link>
-          <SectionNav />
-        </div>
-      </header>
-
       <Terminal />
+      <SiteHeader />
 
       <main className="mx-auto w-[min(1200px,calc(100%-40px))] pt-8 md:w-[min(1200px,calc(100%-96px))]">
         <About />
@@ -38,6 +30,7 @@ export default function Home() {
       </main>
 
       <GitHubArchive />
+      <ScrollReveal />
 
       <footer className="bg-[#111] text-white">
         <div className="mx-auto flex w-[min(1200px,calc(100%-40px))] flex-col justify-between gap-3 py-8 font-mono text-xs md:w-[min(1200px,calc(100%-96px))] md:flex-row">
