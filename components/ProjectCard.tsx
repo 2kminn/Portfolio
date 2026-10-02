@@ -1,7 +1,6 @@
 "use client";
 
 import type { CSSProperties } from "react";
-import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { motion, useReducedMotion, useTransform, type MotionValue } from "framer-motion";
 import type { Project } from "@/data/projects";
@@ -36,9 +35,9 @@ export default function ProjectCard({ project, index, total, progress }: {
               <p className="mt-2 max-w-xl text-sm leading-6 text-[#AAB9C3] break-keep sm:text-base">{project.summary}</p>
             </div>
           </div>
-          <Link href={`/projects/${project.slug}`} className="project-link inline-flex shrink-0 items-center gap-2 rounded-full border-2 border-[#D7E2EA] px-5 py-2.5 font-display text-xs font-medium tracking-[.14em] uppercase transition-colors hover:bg-white/10 sm:px-7 sm:py-3 sm:text-sm">
+          <a href={`/projects/${project.slug}`} className="project-link inline-flex shrink-0 items-center gap-2 rounded-full border-2 border-[#D7E2EA] px-5 py-2.5 font-display text-xs font-medium tracking-[.14em] uppercase transition-colors hover:bg-white/10 sm:px-7 sm:py-3 sm:text-sm">
             View Project <ArrowUpRight aria-hidden="true" className="size-4" />
-          </Link>
+          </a>
         </div>
 
         <div className="grid h-[230px] grid-cols-[.8fr_1.2fr] gap-3 sm:h-[330px] md:h-[clamp(340px,44vh,480px)] md:grid-cols-[.7fr_1.3fr]">

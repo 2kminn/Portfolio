@@ -16,7 +16,7 @@ function Character({ character, index, total, progress }: {
 export default function AnimatedText({ text }: { text: string }) {
   const ref = useRef<HTMLParagraphElement>(null);
   const reduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.8", "end 0.2"] });
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.85", "center 0.5"] });
   const characters = Array.from(text);
 
   return (

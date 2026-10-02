@@ -1,7 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { getProject, projects } from "@/data/projects";
@@ -83,19 +82,19 @@ export default async function ProjectDetail({ params }: Props) {
     <main style={mediaStyle} className="min-h-screen bg-[#0C0C0C] text-[#D7E2EA]">
       <header className="sticky top-0 z-40 border-b border-white/15 bg-[#0C0C0C]/95 backdrop-blur-md">
         <div className="mx-auto flex w-[min(1200px,calc(100%-40px))] items-center justify-between gap-5 py-4 md:w-[min(1200px,calc(100%-96px))] md:py-5">
-          <Link href="/" className="text-sm font-bold tracking-tight">2kminn <span className="font-normal text-[#8DA0AD]">/ PORTFOLIO</span></Link>
-          <Link href="/#projects" className="inline-flex items-center gap-2 font-mono text-xs tracking-[.1em] text-[#B6C7D2] transition-colors hover:text-white"><ArrowLeft aria-hidden="true" className="size-4" /> PROJECTS</Link>
+          <a href="/" className="text-sm font-bold tracking-tight">2kminn <span className="font-normal text-[#8DA0AD]">/ PORTFOLIO</span></a>
+          <a href="/#projects" className="inline-flex items-center gap-2 font-mono text-xs tracking-[.1em] text-[#B6C7D2] transition-colors hover:text-white"><ArrowLeft aria-hidden="true" className="size-4" /> PROJECTS</a>
         </div>
       </header>
 
       <div className="mx-auto w-[min(1200px,calc(100%-40px))] md:w-[min(1200px,calc(100%-96px))]">
-        <section className="flex min-h-[min(680px,78svh)] flex-col justify-between py-14 sm:py-20" aria-labelledby="project-title">
+        <section className="flex min-h-[min(560px,72svh)] flex-col justify-between py-10 sm:py-14" aria-labelledby="project-title">
           <div className="flex items-center justify-between gap-6 border-b border-white/20 pb-5 font-mono text-xs tracking-[.17em] text-[#92A6B5]">
             <span>SELECTED WORK / {number}</span><span>{number} / {String(projects.length).padStart(2, "0")}</span>
           </div>
-          <div className="py-20">
-            <h1 id="project-title" className="hero-heading font-display max-w-5xl text-[clamp(54px,10vw,144px)] leading-[.94] font-black tracking-[-.07em] break-keep">{project.title}</h1>
-            <p className="mt-10 max-w-2xl text-lg leading-8 text-[#ACBCC7] break-keep sm:text-[22px] sm:leading-10">{project.summary}</p>
+          <div className="py-14">
+            <h1 id="project-title" className="hero-heading font-display max-w-5xl text-[clamp(40px,5vw,76px)] leading-[1.08] font-black tracking-[-.05em] break-keep">{project.title}</h1>
+            <p className="mt-7 max-w-2xl text-lg leading-8 text-[#ACBCC7] break-keep sm:text-[22px] sm:leading-10">{project.summary}</p>
           </div>
           <div className="flex flex-wrap items-center justify-between gap-6 border-t border-white/20 pt-5 font-mono text-xs tracking-[.12em] text-[#92A6B5]">
             <span>{project.period}</span>
@@ -136,14 +135,14 @@ export default async function ProjectDetail({ params }: Props) {
 
       <nav aria-label="프로젝트 탐색" className="px-5 py-16 sm:px-8 sm:py-24 md:px-10">
         <div className="mx-auto grid max-w-6xl gap-10 border-t border-white/20 pt-8 sm:grid-cols-2">
-          <Link href={`/projects/${previous.slug}`} className="group flex min-w-0 flex-col items-start gap-3 text-left">
+          <a href={`/projects/${previous.slug}`} className="group flex min-w-0 flex-col items-start gap-3 text-left">
             <span className="inline-flex items-center gap-2 font-mono text-xs tracking-[.12em] text-[#92A6B5]"><ArrowLeft aria-hidden="true" className="size-4 transition-transform group-hover:-translate-x-1" /> 이전 프로젝트</span>
             <span className="text-[clamp(23px,3vw,38px)] font-semibold tracking-[-.05em] break-keep group-hover:underline">{previous.title}</span>
-          </Link>
-          <Link href={`/projects/${next.slug}`} className="group flex min-w-0 flex-col items-start gap-3 sm:items-end sm:text-right">
+          </a>
+          <a href={`/projects/${next.slug}`} className="group flex min-w-0 flex-col items-start gap-3 sm:items-end sm:text-right">
             <span className="inline-flex items-center gap-2 font-mono text-xs tracking-[.12em] text-[#92A6B5]">다음 프로젝트 <ArrowRight aria-hidden="true" className="size-4 transition-transform group-hover:translate-x-1" /></span>
             <span className="text-[clamp(23px,3vw,38px)] font-semibold tracking-[-.05em] break-keep group-hover:underline">{next.title}</span>
-          </Link>
+          </a>
         </div>
       </nav>
     </main>
