@@ -32,6 +32,7 @@ a:focus-visible { outline: 2px solid #B600A8; outline-offset: 5px; }
 .project-card-shell { position: sticky; top: calc(98px + var(--stack-index) * 24px); margin-bottom: clamp(100px, 18svh, 190px); transform-origin: top center; }
 .project-stack-card { transform-origin: top center; box-shadow: 0 20px 70px rgba(0,0,0,.35); }
 .project-preview { isolation: isolate; }
+.project-detail-media { background: radial-gradient(circle at 68% 28%, var(--project-soft) 0%, var(--project-deep) 48%, #10151B 100%); }
 
 @media (max-width: 767px) {
   #about, #skills, #projects, #experience, #certifications, #github { scroll-margin-top: 96px; }

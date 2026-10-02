@@ -8,6 +8,11 @@ export type Project = {
   challenge: string;
   solution: string;
   result: string;
+  coverImage?: string;
+  screenImage?: string;
+  structureImage?: string;
+  repositoryUrl?: string;
+  liveUrl?: string;
 };
 
 // 실제 프로젝트 정보를 받기 전까지 사용하는 초안 데이터입니다.
