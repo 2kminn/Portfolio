@@ -40,14 +40,14 @@ export default function SectionNav() {
   }, []);
 
   return (
-    <nav aria-label="페이지 메뉴" className="flex gap-5 overflow-x-auto font-mono text-[13px] font-medium whitespace-nowrap md:gap-8">
+    <nav aria-label="페이지 메뉴" className="section-nav flex gap-5 overflow-x-auto font-mono text-[13px] font-medium whitespace-nowrap md:gap-8">
       {sections.map(({ id, label }) => (
         <a
           key={id}
           href={`#${id}`}
           aria-current={active === id ? "location" : undefined}
           onClick={() => setActive(id)}
-          className={`relative shrink-0 py-1.5 transition-colors after:absolute after:right-0 after:bottom-0 after:left-0 after:h-px after:bg-black after:transition-transform ${active === id ? "text-black after:scale-x-100" : "text-neutral-500 hover:text-black after:scale-x-0"}`}
+          className={`relative shrink-0 py-1.5 transition-colors after:absolute after:right-0 after:bottom-0 after:left-0 after:h-px after:bg-[#D7E2EA] after:transition-transform ${active === id ? "text-[#D7E2EA] after:scale-x-100" : "text-[#8DA0AD] hover:text-[#D7E2EA] after:scale-x-0"}`}
         >
           {label}
         </a>

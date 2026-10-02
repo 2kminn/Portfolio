@@ -1,18 +1,44 @@
+@import url("https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&display=swap");
 @import "tailwindcss";
 
-:root { color-scheme: light; }
+:root { color-scheme: dark; }
 html { scroll-behavior: smooth; }
-body { margin: 0; background: #fff; color: #111; font-family: Arial, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0; background: #0C0C0C; color: #D7E2EA; font-family: "Kanit", Arial, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; -webkit-font-smoothing: antialiased; }
 * { box-sizing: border-box; }
+.font-display { font-family: "Kanit", Arial, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; }
+.hero-heading { background: linear-gradient(180deg, #646973 0%, #BBCCD7 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
 @keyframes terminal-caret { 0%, 49% { visibility: visible; } 50%, 100% { visibility: hidden; } }
 .terminal-caret { animation: terminal-caret 1s step-end infinite; }
-a:focus-visible { outline: 2px solid #111; outline-offset: 5px; }
-.section-layout { min-height: 100svh; border-top: 1px solid #111; padding: 42px 0 105px; scroll-margin-top: 120px; }
-.section-title { margin: 0 0 36px; font-size: clamp(34px, 4vw, 54px); font-weight: 700; line-height: 1.12; letter-spacing: -.06em; }
-.record { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: 28px; border-top: 1px solid #d9d9d9; padding: 26px 0 31px; }
-.record-label { color: #666; font: 12px/1.55 ui-monospace, SFMono-Regular, Menlo, monospace; }
-.record h3 { margin: 0; font-size: 22px; line-height: 1.35; font-weight: 600; letter-spacing: -.04em; }
-.record p { margin: 11px 0 0; color: #666; font-size: 15px; line-height: 1.75; word-break: keep-all; }
-@media (max-width: 800px) { .section-layout { padding: 32px 0 75px; scroll-margin-top: 130px; } .section-title { margin-bottom: 28px; } }
-@media (max-width: 560px) { .record { grid-template-columns: 1fr; gap: 8px; } .record h3 { font-size: 20px; } }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+a:focus-visible { outline: 2px solid #B600A8; outline-offset: 5px; }
+.section-nav { scrollbar-width: none; }
+.section-nav::-webkit-scrollbar { display: none; }
+#about, #skills, #projects, #experience, #certifications, #github { scroll-margin-top: 96px; }
+
+.contact-button {
+  background: linear-gradient(123deg, #18011F 7%, #B600A8 37%, #7621B0 72%, #BE4C00 100%);
+  box-shadow: 0 4px 4px rgba(181, 1, 167, .25), inset 4px 4px 12px #7721B1;
+  outline: 2px solid #fff;
+  outline-offset: -3px;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.contact-button:hover { transform: translateY(-3px); box-shadow: 0 10px 26px rgba(181, 1, 167, .32), inset 4px 4px 12px #7721B1; }
+.contact-button:focus-visible { outline-offset: 4px; }
+
+.about-orb { border-radius: 50%; background: radial-gradient(circle at 30% 25%, #d3e2ee 0%, #788ca1 30%, #26384b 66%, #0c0c0c 100%); box-shadow: inset -16px -18px 32px rgba(0,0,0,.7), 0 0 60px rgba(118,153,189,.14); opacity: .62; }
+.about-wire { border-radius: 26%; border: 1px solid rgba(191,212,228,.5); transform: rotate(25deg) skew(-8deg); box-shadow: inset 26px 22px 0 rgba(137,169,191,.06), 16px 20px 0 rgba(117,151,177,.08); opacity: .5; }
+.about-cube { border: 1px solid rgba(188,210,225,.4); border-radius: 18%; background: linear-gradient(135deg, rgba(139,164,184,.4), rgba(25,35,45,.08) 65%); box-shadow: 20px 24px 0 rgba(81,105,126,.15), 24px 29px 0 1px rgba(191,212,228,.17); transform: rotate(-24deg) skew(7deg); opacity: .5; }
+.about-ring { border: clamp(14px, 2.5vw, 32px) solid rgba(165,190,210,.37); border-radius: 50%; transform: rotateX(58deg) rotate(-28deg); box-shadow: 0 25px 45px rgba(92,122,146,.12), inset 0 0 25px rgba(191,212,228,.16); opacity: .65; }
+
+.project-card-shell { position: sticky; top: calc(98px + var(--stack-index) * 24px); margin-bottom: clamp(100px, 18svh, 190px); transform-origin: top center; }
+.project-stack-card { transform-origin: top center; box-shadow: 0 20px 70px rgba(0,0,0,.35); }
+.project-preview { isolation: isolate; }
+
+@media (max-width: 767px) {
+  #about, #skills, #projects, #experience, #certifications, #github { scroll-margin-top: 96px; }
+  .project-card-shell { position: relative; top: auto; margin-bottom: 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .terminal-caret { animation-duration: 1s; }
+  .contact-button { transition: none; }
+}

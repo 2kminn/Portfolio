@@ -19,24 +19,24 @@ export default async function ProjectDetail({ params }: Props) {
   const details = [["문제", project.challenge], ["접근", project.solution], ["결과", project.result]] as const;
 
   return (
-    <main className="mx-auto min-h-screen w-[min(960px,calc(100%-40px))] py-8 md:w-[min(960px,calc(100%-96px))] md:py-12">
-      <Link href="/#projects" className="font-mono text-sm text-neutral-500 hover:text-black">← 프로젝트 목록</Link>
-      <header className="mt-20 border-b border-black pb-12 md:mt-28">
-        <p className="mb-7 font-mono text-xs tracking-wide text-neutral-500">프로젝트 / 초안</p>
-        <h1 className="text-[clamp(40px,6vw,76px)] leading-tight font-bold tracking-[-.07em]">{project.title}</h1>
-        <p className="mt-7 max-w-2xl text-lg leading-8 text-neutral-600 break-keep">{project.summary}</p>
+    <main className="mx-auto min-h-screen w-[min(960px,calc(100%-40px))] py-8 text-[#D7E2EA] md:w-[min(960px,calc(100%-96px))] md:py-12">
+      <Link href="/#projects" className="font-mono text-sm text-[#9BAEBC] hover:text-white">← 프로젝트 목록</Link>
+      <header className="mt-20 border-b border-white/20 pb-12 md:mt-28">
+        <p className="mb-7 font-mono text-xs tracking-wide text-[#8DA0AD]">프로젝트 / 초안</p>
+        <h1 className="hero-heading font-display text-[clamp(40px,6vw,76px)] leading-tight font-black tracking-normal">{project.title}</h1>
+        <p className="mt-7 max-w-2xl text-lg leading-8 text-[#A9BAC5] break-keep">{project.summary}</p>
       </header>
-      <div className="grid gap-10 border-b border-neutral-300 py-8 text-sm sm:grid-cols-3">
-        <div><span className="text-xs text-neutral-500">기간</span><p className="mt-2">{project.period}</p></div>
-        <div><span className="text-xs text-neutral-500">역할</span><p className="mt-2">{project.role}</p></div>
-        <div><span className="text-xs text-neutral-500">사용 기술</span><p className="mt-2">{project.technologies.join(" · ")}</p></div>
+      <div className="grid gap-10 border-b border-white/20 py-8 text-sm sm:grid-cols-3">
+        <div><span className="text-xs text-[#8DA0AD]">기간</span><p className="mt-2">{project.period}</p></div>
+        <div><span className="text-xs text-[#8DA0AD]">역할</span><p className="mt-2">{project.role}</p></div>
+        <div><span className="text-xs text-[#8DA0AD]">사용 기술</span><p className="mt-2">{project.technologies.join(" · ")}</p></div>
       </div>
       <div className="py-12 md:py-20">
-        {details.map(([label, value], index) => <section key={label} className="grid gap-6 border-t border-neutral-300 py-9 sm:grid-cols-[180px_1fr]">
-          <h2 className="font-mono text-sm text-neutral-500">0{index + 1} / {label}</h2><p className="max-w-2xl text-lg leading-9 break-keep">{value}</p>
+        {details.map(([label, value], index) => <section key={label} className="grid gap-6 border-t border-white/20 py-9 sm:grid-cols-[180px_1fr]">
+          <h2 className="font-mono text-sm text-[#8DA0AD]">0{index + 1} / {label}</h2><p className="max-w-2xl text-lg leading-9 break-keep">{value}</p>
         </section>)}
       </div>
-      <Link href="/#projects" className="inline-block border-b border-black pb-1 text-sm">모든 프로젝트 보기 ↗</Link>
+      <Link href="/#projects" className="inline-block border-b border-[#D7E2EA] pb-1 text-sm">모든 프로젝트 보기 ↗</Link>
     </main>
   );
 }

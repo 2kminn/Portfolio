@@ -27,11 +27,11 @@ export default function SiteHeader() {
     <header
       aria-hidden={!visible}
       inert={!visible}
-      className={`fixed inset-x-0 top-0 z-50 border-b border-neutral-200 bg-white/95 backdrop-blur-sm transition-[transform,opacity] duration-500 ease-out ${visible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}`}
+      className={`fixed inset-x-0 top-0 z-50 border-b border-white/15 bg-[#0C0C0C]/95 text-[#D7E2EA] backdrop-blur-sm transition-[transform,opacity] duration-500 ease-out ${visible ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}`}
     >
       <div className="mx-auto flex w-[min(1200px,calc(100%-40px))] flex-col gap-3 py-4 md:w-[min(1200px,calc(100%-96px))] md:flex-row md:items-center md:justify-between md:gap-8 md:py-5">
         <Link href="/" className="whitespace-nowrap text-sm font-bold tracking-tight">
-          2kminn <span className="font-normal text-neutral-500">/ PORTFOLIO</span>
+          2kminn <span className="font-normal text-[#8DA0AD]">/ PORTFOLIO</span>
         </Link>
         <SectionNav />
       </div>

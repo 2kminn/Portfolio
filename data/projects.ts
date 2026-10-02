@@ -34,6 +34,17 @@ export const projects: Project[] = [
     solution: "구현 과정에서 중요했던 판단과 기술적 선택을 작성해 주세요.",
     result: "배포 결과, 개선 효과 또는 학습한 내용을 작성해 주세요.",
   },
+  {
+    slug: "project-03",
+    title: "[프로젝트 03 이름]",
+    period: "[진행 기간]",
+    summary: "프로젝트의 핵심 기능과 본인이 맡은 역할을 작성해 주세요.",
+    role: "[담당 역할]",
+    technologies: ["[사용 기술]"],
+    challenge: "해결하고자 한 문제와 프로젝트의 배경을 작성해 주세요.",
+    solution: "주요 설계와 구현 방법을 작성해 주세요.",
+    result: "완성한 결과와 배운 점을 작성해 주세요.",
+  },
 ];
 
 export function getProject(slug: string) { return projects.find((project) => project.slug === slug); }
