@@ -4,6 +4,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { getProject, projects } from "@/data/projects";
+import ProjectGallery, { ProjectImagePlaceholder, ProjectImageTrigger } from "@/components/ProjectGallery";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -25,30 +26,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-function ProjectMedia({ src, alt, label, number, compact = false }: {
+function ProjectMedia({ src, alt, label, number, index, compact = false }: {
   src?: string;
   alt: string;
   label: string;
   number: string;
+  index: number;
   compact?: boolean;
 }) {
   return (
-    <div className={`project-detail-media relative flex overflow-hidden border border-white/15 ${compact ? "min-h-[260px] rounded-[26px] sm:min-h-[360px] sm:rounded-[36px]" : "min-h-[430px] rounded-[30px] sm:min-h-[560px] sm:rounded-[48px]"}`}>
+    <ProjectImageTrigger index={index} className={`project-detail-media relative flex w-full overflow-hidden border border-white/15 ${compact ? "min-h-[260px] rounded-[26px] sm:min-h-[360px] sm:rounded-[36px]" : "min-h-[430px] rounded-[30px] sm:min-h-[560px] sm:rounded-[48px]"}`}>
       {src ? (
         <Image src={src} alt={alt} fill className="object-cover" sizes="(max-width: 768px) 100vw, 1200px" />
       ) : (
-        <div className="relative flex w-full flex-col justify-between p-6 sm:p-10">
-          <div className="flex items-center justify-between gap-4 font-mono text-xs tracking-[.16em] text-white/70">
-            <span>2KMINN / PORTFOLIO</span><span>{number}</span>
-          </div>
-          <span aria-hidden="true" className="self-center font-display text-[clamp(140px,27vw,370px)] leading-[.7] font-black tracking-[-.12em] text-white/15">{number}</span>
-          <div className="flex items-end justify-between gap-4 border-t border-white/40 pt-5">
-            <span className="text-base font-semibold text-white sm:text-xl">{label}</span>
-            <span className="font-mono text-xs text-white/65">이미지 준비 중</span>
-          </div>
-        </div>
+        <ProjectImagePlaceholder label={label} number={number} compact={compact} />
       )}
-    </div>
+    </ProjectImageTrigger>
   );
 }
 
@@ -79,6 +72,7 @@ export default async function ProjectDetail({ params }: Props) {
   } as CSSProperties;
 
   return (
+    <ProjectGallery project={project} number={number} style={mediaStyle}>
     <main style={mediaStyle} className="min-h-screen bg-[#0C0C0C] text-[#D7E2EA]">
       <header className="sticky top-0 z-40 border-b border-white/15 bg-[#0C0C0C]/95 backdrop-blur-md">
         <div className="mx-auto flex w-[min(1200px,calc(100%-40px))] items-center justify-between gap-5 py-4 md:w-[min(1200px,calc(100%-96px))] md:py-5">
@@ -102,7 +96,7 @@ export default async function ProjectDetail({ params }: Props) {
           </div>
         </section>
 
-        <ProjectMedia src={project.coverImage} alt={`${project.title} 대표 화면`} label="대표 화면" number={number} />
+        <ProjectMedia src={project.coverImage} alt={`${project.title} 대표 화면`} label="대표 화면" number={number} index={0} />
         <div className="grid gap-7 py-9 sm:grid-cols-3 sm:gap-10 sm:py-12">
           <div><span className="font-mono text-xs tracking-[.15em] text-[#8DA0AD]">01 / 기간</span><p className="mt-2 text-base">{project.period}</p></div>
           <div><span className="font-mono text-xs tracking-[.15em] text-[#8DA0AD]">02 / 역할</span><p className="mt-2 text-base">{project.role}</p></div>
@@ -121,8 +115,8 @@ export default async function ProjectDetail({ params }: Props) {
           <DetailSection number="02" title="구현 과정">{project.solution}</DetailSection>
 
           <div className="my-12 grid gap-4 sm:my-20 sm:grid-cols-2 sm:gap-5">
-            <ProjectMedia src={project.screenImage} alt={`${project.title} 화면`} label="화면 캡처" number={`${number}.1`} compact />
-            <ProjectMedia src={project.structureImage} alt={`${project.title} 구조도`} label="구조도" number={`${number}.2`} compact />
+            <ProjectMedia src={project.screenImage} alt={`${project.title} 화면`} label="화면 캡처" number={`${number}.1`} index={1} compact />
+            <ProjectMedia src={project.structureImage} alt={`${project.title} 구조도`} label="구조도" number={`${number}.2`} index={2} compact />
           </div>
 
           <DetailSection number="03" title="결과와 배운 점">{project.result}</DetailSection>
@@ -146,5 +140,6 @@ export default async function ProjectDetail({ params }: Props) {
         </div>
       </nav>
     </main>
+    </ProjectGallery>
   );
 }

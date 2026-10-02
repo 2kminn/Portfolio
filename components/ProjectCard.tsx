@@ -1,9 +1,11 @@
 "use client";
 
 import type { CSSProperties } from "react";
+import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { motion, useReducedMotion, useTransform, type MotionValue } from "framer-motion";
 import type { Project } from "@/data/projects";
+import ProjectGallery, { ProjectImageTrigger } from "@/components/ProjectGallery";
 
 const palettes = [
   { dark: "#17283A", light: "#9AB2CC", glow: "#C5D8EA" },
@@ -25,6 +27,7 @@ export default function ProjectCard({ project, index, total, progress }: {
 
   return (
     <div className="project-card-shell" style={{ "--stack-index": index, zIndex: index + 1 } as CSSProperties}>
+      <ProjectGallery project={project} number={number} style={{ "--project-deep": palette.dark, "--project-soft": palette.light } as CSSProperties}>
       <motion.article style={{ scale: reduceMotion ? 1 : scale }} className="project-stack-card overflow-hidden rounded-[34px] border-2 border-[#D7E2EA]/80 bg-[#111316] p-4 text-[#D7E2EA] sm:rounded-[48px] sm:p-6 md:rounded-[60px] md:p-8">
         <div className="mb-5 flex flex-wrap items-start justify-between gap-5 md:mb-7">
           <div className="flex min-w-0 items-start gap-4 sm:gap-7">
@@ -42,24 +45,31 @@ export default function ProjectCard({ project, index, total, progress }: {
 
         <div className="grid h-[230px] grid-cols-[.8fr_1.2fr] gap-3 sm:h-[330px] md:h-[clamp(340px,44vh,480px)] md:grid-cols-[.7fr_1.3fr]">
           <div className="grid min-h-0 grid-rows-[.75fr_1fr] gap-3">
-            <div className="project-preview relative overflow-hidden rounded-[22px] p-4 sm:rounded-[32px] sm:p-6" style={{ background: `linear-gradient(135deg, ${palette.dark}, ${palette.light})` }}>
+            <ProjectImageTrigger index={1} className="project-preview relative overflow-hidden rounded-[22px] p-4 sm:rounded-[32px] sm:p-6" style={{ background: `linear-gradient(135deg, ${palette.dark}, ${palette.light})` }}>
+              {project.screenImage ? <Image src={project.screenImage} alt={`${project.title} 화면 캡처`} fill sizes="(max-width: 768px) 40vw, 400px" className="object-cover" /> : <>
               <span className="relative z-10 font-mono text-[10px] tracking-[.2em] text-white/80">WIREFRAME / {number}</span>
               <div aria-hidden="true" className="absolute right-[10%] bottom-[-45%] size-[160px] rounded-full border-[18px] border-white/25 sm:size-[230px] sm:border-[28px]" />
-            </div>
-            <div className="project-preview relative overflow-hidden rounded-[22px] border border-white/10 bg-[#27323D] p-4 sm:rounded-[32px] sm:p-6">
+              </>}
+            </ProjectImageTrigger>
+            <ProjectImageTrigger index={2} className="project-preview relative overflow-hidden rounded-[22px] border border-white/10 bg-[#27323D] p-4 sm:rounded-[32px] sm:p-6">
+              {project.structureImage ? <Image src={project.structureImage} alt={`${project.title} 구조도`} fill sizes="(max-width: 768px) 40vw, 400px" className="object-cover" /> : <>
               <span className="font-mono text-[10px] tracking-[.2em] text-white/70">STRUCTURE</span>
               <div aria-hidden="true" className="mt-6 space-y-3 opacity-70"><i className="block h-2 w-3/4 rounded-full bg-white/50" /><i className="block h-2 w-1/2 rounded-full bg-white/30" /><i className="block h-2 w-2/3 rounded-full bg-white/20" /></div>
               <span className="absolute right-5 bottom-3 font-display text-5xl font-black text-white/15 sm:text-7xl">{number}</span>
-            </div>
+              </>}
+            </ProjectImageTrigger>
           </div>
-          <div className="project-preview relative flex min-w-0 flex-col justify-between overflow-hidden rounded-[22px] border border-white/10 p-5 sm:rounded-[32px] sm:p-8" style={{ background: `radial-gradient(circle at 65% 45%, ${palette.light} 0%, ${palette.dark} 50%, #10151B 100%)` }}>
+          <ProjectImageTrigger index={0} className="project-preview relative flex min-w-0 flex-col justify-between overflow-hidden rounded-[22px] border border-white/10 p-5 sm:rounded-[32px] sm:p-8" style={{ background: `radial-gradient(circle at 65% 45%, ${palette.light} 0%, ${palette.dark} 50%, #10151B 100%)` }}>
+            {project.coverImage ? <Image src={project.coverImage} alt={`${project.title} 대표 화면`} fill sizes="(max-width: 768px) 60vw, 700px" className="object-cover" /> : <>
             <div className="relative z-10 flex justify-between font-mono text-[10px] tracking-[.2em] text-white/80"><span>2KMINN / PORTFOLIO</span><span>0{index + 1}</span></div>
             <div aria-hidden="true" className="absolute top-1/2 left-1/2 size-[220px] -translate-x-1/2 -translate-y-1/2 rotate-45 rounded-[45px] border border-white/40 shadow-[0_0_80px_rgba(255,255,255,.16)] sm:size-[330px] sm:rounded-[70px] md:size-[420px]" />
             <div aria-hidden="true" className="absolute top-1/2 left-1/2 size-[130px] -translate-x-1/2 -translate-y-1/2 rounded-full border-[25px] opacity-70 blur-[1px] sm:size-[200px] sm:border-[38px]" style={{ borderColor: palette.glow }} />
             <span className="relative z-10 font-display text-[clamp(27px,5vw,65px)] leading-none font-black tracking-normal text-white uppercase">Project {number}</span>
-          </div>
+            </>}
+          </ProjectImageTrigger>
         </div>
       </motion.article>
+      </ProjectGallery>
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import { Award, CalendarDays, GraduationCap, Mail, Phone, UserRound } from "lucide-react";
 import AnimatedText from "@/components/AnimatedText";
-import ContactButton from "@/components/ContactButton";
 import FadeIn from "@/components/FadeIn";
 
 const introduction = "사용자의 화면부터 서버의 구조까지, 서비스가 완성되는 과정을 폭넓게 이해하는 개발자입니다. 프론트엔드와 백엔드를 함께 살피며 더 나은 경험을 만드는 데 관심이 있습니다.";
@@ -29,9 +28,7 @@ export default function About() {
         </FadeIn>
 
         <div className="mt-16 sm:mt-20 md:mt-24"><AnimatedText text={introduction} /></div>
-        <FadeIn className="mt-16 sm:mt-20 md:mt-24" delay={0.15}><ContactButton /></FadeIn>
-
-        <div className="mt-28 grid w-full gap-x-10 gap-y-0 border-t border-white/15 pt-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-16 grid w-full gap-x-10 gap-y-0 border-t border-white/15 pt-5 sm:mt-20 sm:grid-cols-2 md:mt-24 lg:grid-cols-3">
           {facts.map(({ label, value, href, icon: Icon }, index) => (
             <FadeIn key={label} className="flex gap-4 border-b border-white/15 py-6" delay={Math.min(index, 3) * 0.08} y={20}>
               <Icon aria-hidden="true" className="mt-1 size-5 shrink-0 text-[#AFC1CC]" strokeWidth={1.5} />
