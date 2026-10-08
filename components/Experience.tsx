@@ -42,22 +42,32 @@ export default function Experience() {
   return (
     <section id="experience" aria-labelledby="experience-title" className="relative z-30 -mt-10 min-h-[100svh] rounded-t-[40px] bg-white px-5 py-24 text-[#0C0C0C] sm:-mt-12 sm:rounded-t-[50px] sm:px-8 sm:py-28 md:-mt-14 md:rounded-t-[60px] md:px-10 md:py-32">
       <div className="mx-auto max-w-6xl">
-        <FadeIn className="mb-16 text-center sm:mb-24" y={40}>
+        <FadeIn className="mb-14 text-center sm:mb-20" y={40}>
           <p className="mb-5 font-mono text-xs tracking-[.35em] text-neutral-500">04 / CAREER & ACTIVITIES</p>
           <h2 id="experience-title" className="font-display text-[clamp(56px,10vw,140px)] leading-none font-black tracking-normal uppercase">Experience</h2>
           <p className="mx-auto mt-6 max-w-xl text-base leading-7 text-neutral-600">실무 경험과 교내 프로젝트, 해커톤 활동</p>
         </FadeIn>
-        {experience.map((item, index) => (
-          <FadeIn key={`${item.company}-${index}`} className="grid gap-5 border-t border-black/15 py-9 sm:grid-cols-[minmax(110px,.25fr)_minmax(0,1fr)] sm:gap-8 sm:py-12" delay={Math.min(index, 3) * 0.08}>
-            <span className="font-display text-[clamp(62px,9vw,130px)] leading-none font-black tracking-normal">{String(index + 1).padStart(2, "0")}</span>
-            <div className="flex min-w-0 flex-col justify-center">
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-1 font-mono text-xs tracking-[.1em] text-neutral-500"><span>{item.date}</span><span>{item.category}</span></div>
-              <h3 className="mt-3 text-[clamp(24px,3vw,42px)] leading-tight font-semibold tracking-[-.05em] break-keep">{item.company}</h3>
-              <p className="mt-4 text-sm font-medium leading-6 text-[#333] sm:text-base">{item.roles.join(" · ")}</p>
-              <p className="mt-3 max-w-3xl text-[15px] leading-7 text-neutral-600 break-keep sm:text-base sm:leading-8">{item.description}</p>
-            </div>
-          </FadeIn>
-        ))}
+        <div className="relative">
+          <div aria-hidden="true" className="absolute top-2 bottom-0 left-1 w-px bg-[#0C0C0C]/15 md:left-[224px]" />
+          <ol>
+            {experience.map((item, index) => (
+              <li key={`${item.company}-${index}`} className="pb-10 last:pb-0 sm:pb-12">
+                <FadeIn className="relative grid gap-3 pl-8 md:grid-cols-[200px_minmax(0,1fr)] md:gap-x-6 md:pl-0" delay={Math.min(index, 3) * 0.04} y={20}>
+                  <span aria-hidden="true" className="absolute top-2 left-0 size-[9px] rounded-full border-2 border-[#667A8A] bg-white md:left-[220px]" />
+                  <div className="min-w-0">
+                    <p className="font-mono text-sm leading-7 font-medium text-[#304657]">{item.date}</p>
+                    <p className="mt-1 text-sm text-neutral-500">{item.category}</p>
+                  </div>
+                  <article className="min-w-0 border-b border-black/10 pb-10 md:pl-8">
+                    <h3 className="text-[clamp(23px,2.6vw,34px)] leading-snug font-semibold tracking-[-.04em] break-keep">{item.company}</h3>
+                    <p className="mt-3 text-base font-medium leading-7 text-[#333]">{item.roles.join(" · ")}</p>
+                    <p className="mt-3 max-w-3xl text-base leading-8 text-neutral-600 break-keep">{item.description}</p>
+                  </article>
+                </FadeIn>
+              </li>
+            ))}
+          </ol>
+        </div>
       </div>
     </section>
   );
