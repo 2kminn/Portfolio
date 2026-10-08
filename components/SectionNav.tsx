@@ -25,6 +25,9 @@ export default function SectionNav() {
           const section = document.getElementById(id);
           if (section && section.getBoundingClientRect().top <= offset) current = id;
         }
+        if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) {
+          current = sections[sections.length - 1].id;
+        }
         setActive(current);
       });
     };
