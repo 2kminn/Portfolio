@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const sections = [
   { id: "about", label: "/about" },
@@ -13,6 +13,7 @@ const sections = [
 
 export default function SectionNav() {
   const [active, setActive] = useState<string | null>(null);
+  const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     let frame = 0;
@@ -42,8 +43,29 @@ export default function SectionNav() {
     };
   }, []);
 
+  useEffect(() => {
+    const alignActiveTab = () => {
+      const nav = navRef.current;
+      if (!nav || !window.matchMedia("(max-width: 767px)").matches || nav.scrollWidth <= nav.clientWidth) return;
+      const link = nav.querySelector<HTMLAnchorElement>('[aria-current="location"]');
+      if (!link) return;
+
+      const navBounds = nav.getBoundingClientRect();
+      const linkBounds = link.getBoundingClientRect();
+      const target = nav.scrollLeft + linkBounds.left - navBounds.left - (nav.clientWidth - linkBounds.width) / 2;
+      nav.scrollTo({
+        left: Math.max(0, Math.min(target, nav.scrollWidth - nav.clientWidth)),
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+      });
+    };
+
+    alignActiveTab();
+    window.addEventListener("resize", alignActiveTab);
+    return () => window.removeEventListener("resize", alignActiveTab);
+  }, [active]);
+
   return (
-    <nav aria-label="페이지 메뉴" className="section-nav flex gap-5 overflow-x-auto font-mono text-[13px] font-medium whitespace-nowrap md:gap-8">
+    <nav ref={navRef} aria-label="페이지 메뉴" className="section-nav flex gap-5 overflow-x-auto font-mono text-[13px] font-medium whitespace-nowrap md:gap-8">
       {sections.map(({ id, label }) => (
         <a
           key={id}

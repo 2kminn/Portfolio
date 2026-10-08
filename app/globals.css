@@ -12,6 +12,7 @@ body { margin: 0; background: #0C0C0C; color: #D7E2EA; font-family: "Kanit", Ari
 a:focus-visible { outline: 2px solid #B600A8; outline-offset: 5px; }
 .section-nav { scrollbar-width: none; }
 .section-nav::-webkit-scrollbar { display: none; }
+.back-to-top:focus-visible { outline: 2px solid #D7E2EA; outline-offset: 4px; }
 #about, #skills, #projects, #experience, #certifications, #github { scroll-margin-top: 96px; }
 
 .contact-button {

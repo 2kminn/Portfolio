@@ -45,7 +45,7 @@ export default function Terminal() {
   const afterName = secondLine.slice(7);
 
   return (
-    <section className="terminal-screen bg-[#0C0C0C] px-4 py-4 text-white sm:px-6 sm:py-6" aria-label="개발자 포트폴리오 터미널">
+    <section id="top" tabIndex={-1} className="terminal-screen bg-[#0C0C0C] px-4 py-4 text-white outline-none sm:px-6 sm:py-6" aria-label="개발자 포트폴리오 터미널">
       <div className="relative mx-auto flex min-h-[calc(100svh-32px)] max-w-[1300px] flex-col overflow-hidden rounded-[32px] border border-[#D7E2EA]/35 bg-[#111316] px-5 py-5 shadow-[0_24px_90px_rgba(0,0,0,.35)] sm:min-h-[calc(100svh-48px)] sm:rounded-[48px] sm:px-10 sm:py-8 md:px-14">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_58%,rgba(154,178,204,.18),transparent_48%)]" />
         <div aria-hidden="true" className="pointer-events-none absolute right-0 top-[18%] h-[52%] w-px bg-gradient-to-b from-transparent via-[#BBCCD7]/50 to-transparent" />
