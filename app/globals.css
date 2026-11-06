@@ -1,38 +1,29 @@
-@import url("https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800;900&display=swap");
 @import "tailwindcss";
 
-:root { color-scheme: dark; }
+:root { color-scheme: light; }
 html { scroll-behavior: smooth; }
-body { margin: 0; background: #0C0C0C; color: #D7E2EA; font-family: "Kanit", Arial, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0; background: #f5f3ed; color: #25231f; font-family: "Kanit", Arial, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; -webkit-font-smoothing: antialiased; }
 * { box-sizing: border-box; }
 .font-display { font-family: "Kanit", Arial, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; }
-.hero-heading { background: linear-gradient(180deg, #646973 0%, #BBCCD7 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.hero-heading { color: var(--ui-text); }
 @keyframes terminal-caret { 0%, 49% { visibility: visible; } 50%, 100% { visibility: hidden; } }
 .terminal-caret { animation: terminal-caret 1s step-end infinite; }
-a:focus-visible { outline: 2px solid #B600A8; outline-offset: 5px; }
+@keyframes fade-in-once {
+  from { opacity: 0; transform: translate(var(--reveal-x), var(--reveal-y)); }
+  to { opacity: 1; transform: translate(0, 0); }
+}
+.fade-in-visible { animation: fade-in-once .55s ease-out var(--reveal-delay) backwards; }
+.fade-in-visible:focus-within { animation: none; }
+a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
 .section-nav { scrollbar-width: none; }
 .section-nav::-webkit-scrollbar { display: none; }
-.back-to-top:focus-visible { outline: 2px solid #D7E2EA; outline-offset: 4px; }
+.back-to-top:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
 #about, #skills, #projects, #experience, #certifications, #github { scroll-margin-top: 96px; }
 
-.contact-button {
-  border: 1px solid #A9BDC9;
-  background: linear-gradient(135deg, #18222B, #263947);
-  box-shadow: inset 0 1px 0 rgba(215,226,234,.08);
-  transition: transform .2s ease, background .2s ease, border-color .2s ease;
-}
-.contact-button:hover { transform: translateY(-2px); background: #30495C; border-color: #E7EEF3; }
-.contact-button:focus-visible { outline: 2px solid #D7E2EA; outline-offset: 4px; }
-
-.about-orb { border-radius: 50%; background: radial-gradient(circle at 30% 25%, #d3e2ee 0%, #788ca1 30%, #26384b 66%, #0c0c0c 100%); box-shadow: inset -16px -18px 32px rgba(0,0,0,.7), 0 0 60px rgba(118,153,189,.14); opacity: .62; }
-.about-wire { border-radius: 26%; border: 1px solid rgba(191,212,228,.5); transform: rotate(25deg) skew(-8deg); box-shadow: inset 26px 22px 0 rgba(137,169,191,.06), 16px 20px 0 rgba(117,151,177,.08); opacity: .5; }
-.about-cube { border: 1px solid rgba(188,210,225,.4); border-radius: 18%; background: linear-gradient(135deg, rgba(139,164,184,.4), rgba(25,35,45,.08) 65%); box-shadow: 20px 24px 0 rgba(81,105,126,.15), 24px 29px 0 1px rgba(191,212,228,.17); transform: rotate(-24deg) skew(7deg); opacity: .5; }
-.about-ring { border: clamp(14px, 2.5vw, 32px) solid rgba(165,190,210,.37); border-radius: 50%; transform: rotateX(58deg) rotate(-28deg); box-shadow: 0 25px 45px rgba(92,122,146,.12), inset 0 0 25px rgba(191,212,228,.16); opacity: .65; }
-
 .project-card-shell { position: sticky; top: calc(98px + var(--stack-index) * 24px); margin-bottom: clamp(100px, 18svh, 190px); transform-origin: top center; }
-.project-stack-card { transform-origin: top center; box-shadow: 0 20px 70px rgba(0,0,0,.35); }
+.project-stack-card { transform-origin: top center; box-shadow: 0 12px 32px rgba(37,35,31,.08); }
 .project-preview { isolation: isolate; }
-.project-detail-media { background: radial-gradient(circle at 68% 28%, var(--project-soft) 0%, var(--project-deep) 48%, #10151B 100%); }
+.project-detail-media { background: var(--project-deep); }
 
 @media (max-width: 767px) {
   #about, #skills, #projects, #experience, #certifications, #github { scroll-margin-top: 96px; }
@@ -40,6 +31,33 @@ a:focus-visible { outline: 2px solid #B600A8; outline-offset: 5px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .terminal-caret { animation-duration: 1s; }
-  .contact-button { transition: none; }
+  .terminal-caret, .fade-in-visible { animation: none; }
+}
+
+.animation-toggle {
+  position: fixed;
+  z-index: 70;
+  top: calc(1rem + env(safe-area-inset-top));
+  right: max(1.25rem, calc((100vw - 1100px) / 2 + 1.25rem));
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  gap: .5rem;
+  padding: .35rem .7rem;
+  border: 1px solid #bdb5a8;
+  border-radius: 999px;
+  background: rgb(255 254 250 / 96%);
+  box-shadow: 0 3px 12px rgb(37 35 31 / 10%);
+  color: #38352f;
+  font: 600 .72rem/1 var(--ui-font-mono);
+  cursor: pointer;
+}
+.animation-toggle:hover { background: #f3f0e8; }
+.animation-toggle-dot { width: .55rem; height: .55rem; border-radius: 50%; background: #4e8060; }
+.animation-toggle[aria-pressed="false"] .animation-toggle-dot { background: #99938a; }
+html[data-animations="off"] { scroll-behavior: auto; }
+html[data-animations="off"] *, html[data-animations="off"] *::before, html[data-animations="off"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
 }

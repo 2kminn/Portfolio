@@ -1,0 +1,174 @@
+.mobileBar {
+  --nav-text: #212121;
+  --nav-muted: #686868;
+  --nav-border: #dcdcdc;
+  --nav-blue: #656565;
+  --nav-selected: #f3f3f3;
+  color: var(--nav-text);
+  color-scheme: light;
+  font-family: inherit;
+}
+
+.mobileBar {
+  position: fixed;
+  z-index: 60;
+  top: 0;
+  left: 50%;
+  display: flex;
+  width: 100%;
+  max-width: 560px;
+  height: calc(64px + env(safe-area-inset-top));
+  align-items: center;
+  justify-content: space-between;
+  padding: env(safe-area-inset-top) 20px 0;
+  border-bottom: 1px solid var(--nav-border);
+  background: #ffffff;
+  transform: translateX(-50%);
+}
+
+.mobileBrand {
+  display: flex;
+  min-width: 44px;
+  min-height: 44px;
+  flex-direction: column;
+  justify-content: center;
+  color: inherit;
+  text-decoration: none;
+}
+
+.name {
+  font-size: 17px;
+  font-weight: 650;
+  line-height: 1.35;
+  letter-spacing: -.04em;
+}
+
+.role {
+  color: var(--nav-muted);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.menuToggle {
+  display: flex;
+  min-width: 80px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--nav-border);
+  border-radius: 3px;
+  background: #ffffff;
+  color: var(--nav-text);
+  cursor: pointer;
+  list-style: none;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.5;
+  user-select: none;
+}
+
+.menuToggle::-webkit-details-marker {
+  display: none;
+}
+
+.closeIcon,
+.disclosure[open] .menuIcon {
+  display: none;
+}
+
+.disclosure[open] .closeIcon {
+  display: block;
+}
+
+.mobilePanel {
+  position: absolute;
+  inset: calc(64px + env(safe-area-inset-top)) 0 auto;
+  max-height: calc(100vh - 64px - env(safe-area-inset-top));
+  max-height: calc(100dvh - 64px - env(safe-area-inset-top));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--nav-border);
+  background: #ffffff;
+}
+
+.sectionLink,
+.githubLink {
+  display: flex;
+  min-width: 44px;
+  min-height: 48px;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 24px 11px 21px;
+  border-left: 3px solid transparent;
+  color: var(--nav-text);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.6;
+  transition: background-color 140ms ease, color 140ms ease;
+}
+
+.sectionLink > svg,
+.githubLink > svg {
+  flex-shrink: 0;
+}
+
+.sectionLink:hover,
+.githubLink:hover,
+.menuToggle:hover {
+  background: #efefef;
+}
+
+.sectionLink[aria-current="location"] {
+  border-left-color: var(--nav-blue);
+  background: var(--nav-selected);
+  color: var(--nav-blue);
+  font-weight: 600;
+}
+
+.mobileBar a:focus-visible,
+.menuToggle:focus-visible {
+  outline: 2px solid var(--nav-blue);
+  outline-offset: -4px;
+}
+
+.mobileFooter {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--nav-border);
+}
+
+.githubLink {
+  min-height: 44px;
+  color: var(--nav-muted);
+  font-size: 12px;
+}
+
+.handle {
+  margin-left: 5px;
+  font-size: 11px;
+}
+
+.externalIcon {
+  margin-left: auto;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sectionLink,
+  .githubLink {
+    transition: none;
+  }
+}

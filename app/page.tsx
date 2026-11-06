@@ -7,6 +7,7 @@ import ProjectsSection from "@/components/ProjectsSection";
 import SiteHeader from "@/components/SiteHeader";
 import Skills from "@/components/Skills";
 import Terminal from "@/components/Terminal";
+import { profile } from "@/data/profile";
 
 export default function Home() {
   return (
@@ -14,7 +15,7 @@ export default function Home() {
       <Terminal />
       <SiteHeader />
       <BackToTop />
-      <main className="overflow-x-clip bg-[#0C0C0C]">
+      <main className="overflow-x-clip ui-surface-dark">
         <About />
         <Skills />
         <ProjectsSection />
@@ -22,9 +23,9 @@ export default function Home() {
         <Certifications />
         <GitHubArchive />
       </main>
-      <footer className="bg-[#0C0C0C] text-[#8DA0AD]">
-        <div className="mx-auto flex w-[min(1200px,calc(100%-40px))] flex-col justify-between gap-3 py-8 font-mono text-xs md:w-[min(1200px,calc(100%-96px))] md:flex-row md:pr-16">
-          <span>© {new Date().getFullYear()} 이경민.</span><span className="text-neutral-500">포트폴리오 초안</span>
+      <footer className="cli-footer">
+        <div className="cli-container">
+          <span>© {new Date().getFullYear()} {profile.name}</span><a href="#top">cd ~ <span aria-hidden="true">↑</span></a>
         </div>
       </footer>
     </>

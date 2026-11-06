@@ -3,12 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 
 const sections = [
-  { id: "about", label: "/about" },
-  { id: "skills", label: "/skills" },
-  { id: "projects", label: "/projects" },
-  { id: "experience", label: "/experience" },
-  { id: "certifications", label: "/certifications" },
-  { id: "github", label: "/github" },
+  { id: "about", label: "소개" },
+  { id: "skills", label: "기술" },
+  { id: "projects", label: "프로젝트" },
+  { id: "experience", label: "경험" },
+  { id: "certifications", label: "자격" },
+  { id: "github", label: "연락처" },
 ] as const;
 
 export default function SectionNav() {
@@ -20,7 +20,7 @@ export default function SectionNav() {
     const update = () => {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
-        const offset = 145;
+        const offset = (document.getElementById("site-header")?.getBoundingClientRect().bottom ?? 112) + 16;
         let current: string | null = null;
         for (const { id } of sections) {
           const section = document.getElementById(id);
@@ -55,7 +55,7 @@ export default function SectionNav() {
       const target = nav.scrollLeft + linkBounds.left - navBounds.left - (nav.clientWidth - linkBounds.width) / 2;
       nav.scrollTo({
         left: Math.max(0, Math.min(target, nav.scrollWidth - nav.clientWidth)),
-        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
       });
     };
 
@@ -65,14 +65,14 @@ export default function SectionNav() {
   }, [active]);
 
   return (
-    <nav ref={navRef} aria-label="페이지 메뉴" className="section-nav flex gap-5 overflow-x-auto font-mono text-[13px] font-medium whitespace-nowrap md:gap-8">
+    <nav ref={navRef} aria-label="페이지 메뉴" className="section-nav flex gap-3 overflow-x-auto whitespace-nowrap">
       {sections.map(({ id, label }) => (
         <a
           key={id}
           href={`#${id}`}
           aria-current={active === id ? "location" : undefined}
           onClick={() => setActive(id)}
-          className={`relative shrink-0 py-1.5 transition-colors after:absolute after:right-0 after:bottom-0 after:left-0 after:h-px after:bg-[#D7E2EA] after:transition-transform ${active === id ? "text-[#D7E2EA] after:scale-x-100" : "text-[#8DA0AD] hover:text-[#D7E2EA] after:scale-x-0"}`}
+          className="ui-nav-link shrink-0"
         >
           {label}
         </a>

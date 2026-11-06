@@ -1,17 +1,22 @@
 import type { CSSProperties, ReactNode } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { getProject, projects } from "@/data/projects";
+import { profile } from "@/data/profile";
+import { resolveSocialImageUrl } from "@/lib/metadata";
 import ProjectGallery, { ProjectImagePlaceholder, ProjectImageTrigger } from "@/components/ProjectGallery";
+import SectionHeading from "@/components/SectionHeading";
+import UiIcon from "@/components/UiIcon";
 
 type Props = { params: Promise<{ slug: string }> };
 
 const themes = [
-  { deep: "#17283A", soft: "#9AB2CC" },
-  { deep: "#30233F", soft: "#B6A3CA" },
-  { deep: "#20332F", soft: "#9DBBB2" },
+  { deep: "#eae5db", soft: "#f8f5ee" },
+  { deep: "#e6e1d7", soft: "#fffefa" },
+  { deep: "#ede9df", soft: "#f7f4ec" },
 ];
 
 export function generateStaticParams() {
@@ -20,9 +25,31 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const project = getProject((await params).slug);
+  if (!project) return { title: "프로젝트를 찾을 수 없습니다" };
+
+  const title = `${project.title} | ${profile.name}`;
+  const imageUrl = resolveSocialImageUrl(project.coverImage);
+  const images = imageUrl
+    ? [{ url: imageUrl, alt: `${project.title} 대표 화면` }]
+    : undefined;
+
   return {
-    title: project ? `${project.title} | 이경민` : "프로젝트를 찾을 수 없습니다",
-    description: project?.summary,
+    title,
+    description: project.summary,
+    openGraph: {
+      type: "website",
+      locale: "ko_KR",
+      siteName: `${profile.name} | 개발자 포트폴리오`,
+      title,
+      description: project.summary,
+      images,
+    },
+    twitter: {
+      card: images ? "summary_large_image" : "summary",
+      title,
+      description: project.summary,
+      images,
+    },
   };
 }
 
@@ -35,7 +62,7 @@ function ProjectMedia({ src, alt, label, number, index, compact = false }: {
   compact?: boolean;
 }) {
   return (
-    <ProjectImageTrigger index={index} className={`project-detail-media relative flex w-full overflow-hidden border border-white/15 ${compact ? "min-h-[260px] rounded-[26px] sm:min-h-[360px] sm:rounded-[36px]" : "min-h-[430px] rounded-[30px] sm:min-h-[560px] sm:rounded-[48px]"}`}>
+    <ProjectImageTrigger index={index} className={`project-detail-media ui-detail-media relative flex w-full overflow-hidden ${compact ? "ui-detail-media-compact" : ""}`}>
       {src ? (
         <Image src={src} alt={alt} fill className="object-cover" sizes="(max-width: 768px) 100vw, 1200px" />
       ) : (
@@ -47,12 +74,12 @@ function ProjectMedia({ src, alt, label, number, index, compact = false }: {
 
 function DetailSection({ number, title, children }: { number: string; title: string; children: ReactNode }) {
   return (
-    <section className="grid gap-5 border-t border-[#111]/20 py-10 sm:grid-cols-[minmax(180px,.55fr)_minmax(0,1fr)] sm:gap-10 sm:py-16">
-      <div className="flex items-start gap-5">
-        <span className="font-mono text-sm text-[#666]">{number}</span>
-        <h2 className="text-[clamp(23px,2.7vw,38px)] leading-tight font-semibold tracking-[-.05em]">{title}</h2>
+    <section className="ui-detail-section">
+      <div className="ui-detail-section-heading">
+        <span className="ui-label ui-muted ui-numeric">{number}</span>
+        <h3 className="ui-title">{title}</h3>
       </div>
-      <p className="max-w-2xl text-base leading-8 text-[#454545] break-keep sm:text-lg sm:leading-9">{children}</p>
+      <p className="ui-body">{children}</p>
     </section>
   );
 }
@@ -73,70 +100,66 @@ export default async function ProjectDetail({ params }: Props) {
 
   return (
     <ProjectGallery project={project} number={number} style={mediaStyle}>
-    <main style={mediaStyle} className="min-h-screen bg-[#0C0C0C] text-[#D7E2EA]">
-      <header className="sticky top-0 z-40 border-b border-white/15 bg-[#0C0C0C]/95 backdrop-blur-md">
-        <div className="mx-auto flex w-[min(1200px,calc(100%-40px))] items-center justify-between gap-5 py-4 md:w-[min(1200px,calc(100%-96px))] md:py-5">
-          <a href="/" className="text-sm font-bold tracking-tight">2kminn <span className="font-normal text-[#8DA0AD]">/ PORTFOLIO</span></a>
-          <a href="/#projects" className="inline-flex items-center gap-2 font-mono text-xs tracking-[.1em] text-[#B6C7D2] transition-colors hover:text-white"><ArrowLeft aria-hidden="true" className="size-4" /> PROJECTS</a>
+    <main style={mediaStyle} className="ui-surface-dark min-h-screen">
+      <header className="ui-surface-dark ui-divider sticky top-0 z-40 border-b pt-[env(safe-area-inset-top)]">
+        <div className="ui-container flex items-center justify-between gap-4 py-2">
+          <Link href="/" className="ui-touch-link ui-label">{profile.handle} <span className="ui-muted ml-2">/ 포트폴리오</span></Link>
+          <Link href="/#projects" className="ui-button"><UiIcon icon={ArrowLeft} size="sm" /> 프로젝트</Link>
         </div>
       </header>
 
-      <div className="mx-auto w-[min(1200px,calc(100%-40px))] md:w-[min(1200px,calc(100%-96px))]">
-        <section className="flex min-h-[min(560px,72svh)] flex-col justify-between py-10 sm:py-14" aria-labelledby="project-title">
-          <div className="flex items-center justify-between gap-6 border-b border-white/20 pb-5 font-mono text-xs tracking-[.17em] text-[#92A6B5]">
-            <span>SELECTED WORK / {number}</span><span>{number} / {String(projects.length).padStart(2, "0")}</span>
+      <div className="ui-container">
+        <section className="py-8" aria-labelledby="project-title">
+          <div className="ui-divider ui-label ui-muted flex items-center justify-between gap-4 border-b pb-4">
+            <span>프로젝트</span><span className="ui-numeric">{index + 1} / {projects.length}</span>
           </div>
-          <div className="py-14">
-            <h1 id="project-title" className="hero-heading font-display max-w-5xl text-[clamp(40px,5vw,76px)] leading-[1.08] font-black tracking-[-.05em] break-keep">{project.title}</h1>
-            <p className="mt-7 max-w-2xl text-lg leading-8 text-[#ACBCC7] break-keep sm:text-[22px] sm:leading-10">{project.summary}</p>
+          <div className="py-8">
+            <h1 id="project-title" className="ui-display">{project.title}</h1>
+            <p className="ui-body mt-4">{project.summary}</p>
           </div>
-          <div className="flex flex-wrap items-center justify-between gap-6 border-t border-white/20 pt-5 font-mono text-xs tracking-[.12em] text-[#92A6B5]">
+          <div className="ui-divider ui-label ui-muted flex flex-wrap items-center justify-between gap-4 border-t pt-4">
             <span>{project.period}</span>
-            <span>아래로 스크롤 ↓</span>
           </div>
         </section>
 
         <ProjectMedia src={project.coverImage} alt={`${project.title} 대표 화면`} label="대표 화면" number={number} index={0} />
-        <div className="grid gap-7 py-9 sm:grid-cols-3 sm:gap-10 sm:py-12">
-          <div><span className="font-mono text-xs tracking-[.15em] text-[#8DA0AD]">01 / 기간</span><p className="mt-2 text-base">{project.period}</p></div>
-          <div><span className="font-mono text-xs tracking-[.15em] text-[#8DA0AD]">02 / 역할</span><p className="mt-2 text-base">{project.role}</p></div>
-          <div><span className="font-mono text-xs tracking-[.15em] text-[#8DA0AD]">03 / 기술</span><p className="mt-2 text-base leading-7">{project.technologies.join(" · ")}</p></div>
-        </div>
+        <dl className="grid gap-6 py-8">
+          <div><dt className="ui-label ui-muted">기간</dt><dd className="ui-body mt-2">{project.period}</dd></div>
+          <div><dt className="ui-label ui-muted">역할</dt><dd className="ui-body mt-2">{project.role}</dd></div>
+          <div><dt className="ui-label ui-muted">기술</dt><dd className="ui-body mt-2">{project.technologies.join(" · ")}</dd></div>
+        </dl>
       </div>
 
-      <div className="relative z-10 mt-12 rounded-t-[36px] bg-[#F0F2F3] px-5 py-20 text-[#111] sm:rounded-t-[52px] sm:px-8 sm:py-28 md:px-10">
-        <div className="mx-auto max-w-6xl">
-          <div className="mb-16 flex flex-wrap items-end justify-between gap-6 sm:mb-24">
-            <div><p className="mb-5 font-mono text-xs tracking-[.2em] text-[#6B6B6B]">PROJECT STORY / {number}</p><h2 className="font-display text-[clamp(48px,8vw,112px)] leading-none font-black tracking-[-.07em]">프로젝트 기록</h2></div>
-            <span className="font-mono text-xs text-[#666]">{number} / {String(projects.length).padStart(2, "0")}</span>
-          </div>
+      <div className="ui-section ui-surface-light">
+        <div className="ui-container">
+          <SectionHeading id="project-story-title" title="프로젝트 기록" />
 
           <DetailSection number="01" title="프로젝트 소개">{project.challenge}</DetailSection>
           <DetailSection number="02" title="구현 과정">{project.solution}</DetailSection>
 
-          <div className="my-12 grid gap-4 sm:my-20 sm:grid-cols-2 sm:gap-5">
+          <div className="my-8 grid gap-4">
             <ProjectMedia src={project.screenImage} alt={`${project.title} 화면`} label="화면 캡처" number={`${number}.1`} index={1} compact />
             <ProjectMedia src={project.structureImage} alt={`${project.title} 구조도`} label="구조도" number={`${number}.2`} index={2} compact />
           </div>
 
           <DetailSection number="03" title="결과와 배운 점">{project.result}</DetailSection>
-          <div className="mt-14 flex flex-wrap gap-3 sm:mt-20">
-            {project.repositoryUrl && <a href={project.repositoryUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-[#111] px-6 py-3 text-sm font-semibold transition-colors hover:bg-[#111] hover:text-white">GitHub <ArrowUpRight aria-hidden="true" className="size-4" /></a>}
-            {project.liveUrl && <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-[#111] px-6 py-3 text-sm font-semibold transition-colors hover:bg-[#111] hover:text-white">서비스 보기 <ArrowUpRight aria-hidden="true" className="size-4" /></a>}
+          <div className="mt-8 flex flex-wrap gap-3">
+            {project.repositoryUrl && <a href={project.repositoryUrl} target="_blank" rel="noopener noreferrer" className="ui-button">GitHub <UiIcon icon={ArrowUpRight} size="sm" /></a>}
+            {project.liveUrl && <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="ui-button ui-button-primary">서비스 보기 <UiIcon icon={ArrowUpRight} size="sm" /></a>}
           </div>
         </div>
       </div>
 
-      <nav aria-label="프로젝트 탐색" className="px-5 py-16 sm:px-8 sm:py-24 md:px-10">
-        <div className="mx-auto grid max-w-6xl gap-10 border-t border-white/20 pt-8 sm:grid-cols-2">
-          <a href={`/projects/${previous.slug}`} className="group flex min-w-0 flex-col items-start gap-3 text-left">
-            <span className="inline-flex items-center gap-2 font-mono text-xs tracking-[.12em] text-[#92A6B5]"><ArrowLeft aria-hidden="true" className="size-4 transition-transform group-hover:-translate-x-1" /> 이전 프로젝트</span>
-            <span className="text-[clamp(23px,3vw,38px)] font-semibold tracking-[-.05em] break-keep group-hover:underline">{previous.title}</span>
-          </a>
-          <a href={`/projects/${next.slug}`} className="group flex min-w-0 flex-col items-start gap-3 sm:items-end sm:text-right">
-            <span className="inline-flex items-center gap-2 font-mono text-xs tracking-[.12em] text-[#92A6B5]">다음 프로젝트 <ArrowRight aria-hidden="true" className="size-4 transition-transform group-hover:translate-x-1" /></span>
-            <span className="text-[clamp(23px,3vw,38px)] font-semibold tracking-[-.05em] break-keep group-hover:underline">{next.title}</span>
-          </a>
+      <nav aria-label="프로젝트 탐색" className="ui-section ui-surface-dark">
+        <div className="ui-container ui-divider grid gap-8 border-t pt-8">
+          <Link href={`/projects/${previous.slug}`} className="group flex min-w-0 flex-col items-start gap-3 text-left">
+            <span className="ui-label ui-muted inline-flex items-center gap-2"><UiIcon icon={ArrowLeft} size="sm" /> 이전 프로젝트</span>
+            <span className="ui-title group-hover:underline">{previous.title}</span>
+          </Link>
+          <Link href={`/projects/${next.slug}`} className="group flex min-w-0 flex-col items-start gap-3">
+            <span className="ui-label ui-muted inline-flex items-center gap-2">다음 프로젝트 <UiIcon icon={ArrowRight} size="sm" /></span>
+            <span className="ui-title group-hover:underline">{next.title}</span>
+          </Link>
         </div>
       </nav>
     </main>

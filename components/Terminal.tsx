@@ -1,16 +1,48 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { profile } from "@/data/profile";
+import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
+import { Download } from "lucide-react";
 
 const command = "whoami";
-const introduction = "안녕하세요.\n개발자 이경민입니다.";
+const rolePrefix = "개발자 ";
+const introduction = `안녕하세요.\n${rolePrefix}${profile.name}입니다.`;
 
 export default function Terminal() {
+  const terminalRef = useRef<HTMLElement>(null);
+  const reduceMotion = usePrefersReducedMotion();
+  const [isInView, setIsInView] = useState(false);
   const [status, setStatus] = useState<"command" | "introduction" | "done">("command");
   const [typedCommand, setTypedCommand] = useState("");
   const [typedIntroduction, setTypedIntroduction] = useState("");
 
   useEffect(() => {
+    const terminal = terminalRef.current;
+    if (!terminal || reduceMotion) return;
+    if (!window.IntersectionObserver) {
+      const frame = window.requestAnimationFrame(() => setIsInView(true));
+      return () => window.cancelAnimationFrame(frame);
+    }
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) {
+        setIsInView(false);
+        return;
+      }
+
+      setTypedCommand("");
+      setTypedIntroduction("");
+      setStatus("command");
+      setIsInView(true);
+    });
+    observer.observe(terminal);
+    return () => observer.disconnect();
+  }, [reduceMotion]);
+
+  useEffect(() => {
+    if (reduceMotion || !isInView || status === "done") return;
+
     const target = status === "command" ? command : introduction;
     const current = status === "command" ? typedCommand : typedIntroduction;
     const update = status === "command" ? setTypedCommand : setTypedIntroduction;
@@ -21,44 +53,39 @@ export default function Terminal() {
       return () => window.clearTimeout(timer);
     }
 
-    if (status === "done") return;
     const timer = window.setTimeout(() => {
       setStatus((currentStatus) => currentStatus === "command" ? "introduction" : "done");
     }, 180);
     return () => window.clearTimeout(timer);
-  }, [status, typedCommand, typedIntroduction]);
+  }, [reduceMotion, isInView, status, typedCommand, typedIntroduction]);
 
-  useEffect(() => {
-    if (status !== "done") return;
-
-    const timer = window.setTimeout(() => {
-      setTypedCommand("");
-      setTypedIntroduction("");
-      setStatus("command");
-    }, 10_000);
-    return () => window.clearTimeout(timer);
-  }, [status]);
-
-  const [firstLine, secondLine = ""] = typedIntroduction.split("\n");
-  const beforeName = secondLine.slice(0, 4);
-  const name = secondLine.slice(4, 7);
-  const afterName = secondLine.slice(7);
+  const displayedIntroduction = reduceMotion ? introduction : typedIntroduction;
+  const [firstLine, secondLine = ""] = displayedIntroduction.split("\n");
+  const beforeName = secondLine.slice(0, rolePrefix.length);
+  const name = secondLine.slice(rolePrefix.length, rolePrefix.length + profile.name.length);
+  const afterName = secondLine.slice(rolePrefix.length + profile.name.length);
+  const showCommandCaret = !reduceMotion && status === "command";
+  const showIntroductionCaret = !reduceMotion && status !== "command";
 
   return (
-    <section id="top" tabIndex={-1} className="terminal-screen bg-[#0C0C0C] px-4 py-4 text-white outline-none sm:px-6 sm:py-6" aria-label="개발자 포트폴리오 터미널">
-      <div className="relative mx-auto flex min-h-[calc(100svh-32px)] max-w-[1300px] flex-col overflow-hidden rounded-[32px] border border-[#D7E2EA]/35 bg-[#111316] px-5 py-5 shadow-[0_24px_90px_rgba(0,0,0,.35)] sm:min-h-[calc(100svh-48px)] sm:rounded-[48px] sm:px-10 sm:py-8 md:px-14">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_58%,rgba(154,178,204,.18),transparent_48%)]" />
-        <div aria-hidden="true" className="pointer-events-none absolute right-0 top-[18%] h-[52%] w-px bg-gradient-to-b from-transparent via-[#BBCCD7]/50 to-transparent" />
+    <section ref={terminalRef} id="top" tabIndex={-1} className="terminal-screen px-5 py-4 outline-none ui-surface-dark" aria-label="개발자 포트폴리오 터미널">
+      <div className="relative mx-auto flex min-h-[clamp(340px,50svh,480px)] max-w-[1100px] flex-col rounded-[10px] border px-8 py-5 sm:px-10 sm:py-8 md:px-14 ui-card ui-container ui-divider">
 
-        <div className="relative z-10 flex items-center border-b border-[#D7E2EA]/25 pb-5">
+        <div className="relative z-10 flex items-center justify-between gap-4 border-b pb-5 ui-divider">
           <span aria-hidden="true" className="flex gap-1.5"><i className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" /><i className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" /><i className="h-2.5 w-2.5 rounded-full bg-[#28c840]" /></span>
+          <a href={profile.resumeUrl} download={profile.name + "_이력서.pdf"} className="terminal-resume" aria-label={profile.name + " 이력서 PDF 다운로드"}>
+            <Download size={15} aria-hidden="true" />
+            <span>이력서 다운로드</span>
+            <small>PDF</small>
+          </a>
         </div>
 
-        <div className="relative z-10 flex flex-1 flex-col justify-center py-16 sm:py-20">
-          <p aria-live="polite" className="mb-7 font-mono text-sm text-[#A5B5C1]"><strong className="font-normal text-white">visitor@2kminn</strong> ~ % {typedCommand}{status === "command" && <span aria-hidden="true" className="terminal-caret ml-1 inline-block text-white">_</span>}</p>
-          <div className="min-h-[clamp(140px,18vw,240px)]">
-            <h1 id="hero-title" className={typedIntroduction ? "font-display max-w-[1100px] text-[clamp(42px,6.5vw,96px)] leading-[1.1] font-black tracking-[-.075em] break-keep" : "sr-only"}>
-              {typedIntroduction ? <>{firstLine}{typedIntroduction.includes("\n") && <br />}<span className="hero-heading">{beforeName}</span><span className="text-[#F5FAFD]">{name}</span><span className="hero-heading">{afterName}</span>{status !== "command" && <span aria-hidden="true" className="terminal-caret ml-1 inline-block text-white">_</span>}</> : "이경민 개발자 포트폴리오"}
+        <div className="relative z-10 flex flex-1 flex-col justify-center py-8">
+          <p aria-hidden="true" className="ui-label ui-muted mb-6 font-mono"><strong>visitor@{profile.handle}</strong> ~ % {reduceMotion ? command : typedCommand}{showCommandCaret && <span className="terminal-caret ml-1 inline-block">_</span>}</p>
+          <div className="min-h-[clamp(120px,17vw,190px)]">
+            <h1 id="hero-title" className="max-w-[1100px] break-keep ui-display">
+              <span className="sr-only">{introduction}</span>
+              <span aria-hidden="true">{firstLine}{displayedIntroduction.includes("\n") && <br />}{beforeName}{name}{afterName}{showIntroductionCaret && <span className="terminal-caret ml-1 inline-block">_</span>}</span>
             </h1>
           </div>
         </div>

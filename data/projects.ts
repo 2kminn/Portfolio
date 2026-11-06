@@ -15,9 +15,64 @@ export type Project = {
   liveUrl?: string;
 };
 
-// 실제 프로젝트 정보를 받기 전까지 사용하는 초안 데이터입니다.
-export const projects: Project[] = [
+export type ProjectRecord = Project & {
+  status: "draft" | "published";
+};
+
+const requiredTextFields = ["title", "period", "summary", "role", "challenge", "solution", "result"] as const;
+const placeholderPattern = /^\[[^\]]+\]$|(?:작성|소개)해\s*주세요/;
+
+function validateText(value: string, field: string, slug: string) {
+  if (typeof value !== "string" || !value.trim() || placeholderPattern.test(value.trim())) {
+    throw new Error(`Project "${slug}": ${field} must contain completed project information.`);
+  }
+}
+
+export function getPublishedProjects(records: readonly ProjectRecord[]): Project[] {
+  const slugs = new Set<string>();
+
+  return records.filter((project) => {
+    if (project.status === "draft") return false;
+    if (project.status !== "published") {
+      throw new Error(`Project "${project.slug}": status must be draft or published.`);
+    }
+    if (typeof project.slug !== "string" || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(project.slug) || slugs.has(project.slug)) {
+      throw new Error(`Project "${project.slug}": slug must be unique and use lowercase letters, numbers, and single hyphens.`);
+    }
+    slugs.add(project.slug);
+
+    for (const field of requiredTextFields) {
+      validateText(project[field], field, project.slug);
+    }
+    if (!Array.isArray(project.technologies) || project.technologies.length === 0) {
+      throw new Error(`Project "${project.slug}": at least one technology is required.`);
+    }
+    for (const technology of project.technologies) {
+      validateText(technology, "technologies", project.slug);
+    }
+    for (const field of ["repositoryUrl", "liveUrl"] as const) {
+      const value = project[field];
+      if (value === undefined) continue;
+
+      let url: URL;
+      try {
+        url = new URL(value);
+      } catch {
+        throw new Error(`Project "${project.slug}": ${field} must be an absolute HTTP(S) URL.`);
+      }
+      if (!/^https?:\/\//i.test(value) || !["http:", "https:"].includes(url.protocol)) {
+        throw new Error(`Project "${project.slug}": ${field} must be an absolute HTTP(S) URL.`);
+      }
+    }
+
+    return true;
+  });
+}
+
+// 내용을 완성한 뒤 status를 published로 바꾸면 검증 후 목록과 상세 페이지에 공개됩니다.
+const projectRecords: ProjectRecord[] = [
   {
+    status: "draft",
     slug: "project-01",
     title: "[프로젝트 01 이름]",
     period: "[진행 기간]",
@@ -29,6 +84,7 @@ export const projects: Project[] = [
     result: "성과와 배운 점을 실제 수치나 사례 중심으로 작성해 주세요.",
   },
   {
+    status: "draft",
     slug: "project-02",
     title: "[프로젝트 02 이름]",
     period: "[진행 기간]",
@@ -40,6 +96,7 @@ export const projects: Project[] = [
     result: "배포 결과, 개선 효과 또는 학습한 내용을 작성해 주세요.",
   },
   {
+    status: "draft",
     slug: "project-03",
     title: "[프로젝트 03 이름]",
     period: "[진행 기간]",
@@ -52,4 +109,8 @@ export const projects: Project[] = [
   },
 ];
 
-export function getProject(slug: string) { return projects.find((project) => project.slug === slug); }
+export const projects = getPublishedProjects(projectRecords);
+
+export function getProject(slug: string) {
+  return projects.find((project) => project.slug === slug);
+}
