@@ -53,20 +53,29 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-function ProjectMedia({ src, alt, label, number, index, compact = false }: {
+function ProjectMedia({ src, mobileSrc, alt, label, number, index, compact = false, guide }: {
   src?: string;
+  mobileSrc?: string;
   alt: string;
   label: string;
   number: string;
   index: number;
   compact?: boolean;
+  guide?: string;
 }) {
   return (
     <ProjectImageTrigger index={index} className={`project-detail-media ui-detail-media relative flex w-full overflow-hidden ${compact ? "ui-detail-media-compact" : ""}`}>
       {src ? (
-        <Image src={src} alt={alt} fill className="object-cover" sizes="(max-width: 768px) 100vw, 1200px" />
+        mobileSrc ? (
+          <>
+            <Image src={mobileSrc} alt={alt} fill className="object-contain p-2 sm:hidden" sizes="(max-width: 560px) 100vw, 600px" />
+            <Image src={src} alt={alt} fill className="hidden object-contain p-3 sm:block sm:p-6" sizes="(max-width: 768px) 100vw, 1200px" />
+          </>
+        ) : (
+          <Image src={src} alt={alt} fill className="object-cover" sizes="(max-width: 768px) 100vw, 1200px" />
+        )
       ) : (
-        <ProjectImagePlaceholder label={label} number={number} compact={compact} />
+        <ProjectImagePlaceholder label={label} number={number} compact={compact} guide={guide} />
       )}
     </ProjectImageTrigger>
   );
@@ -122,7 +131,7 @@ export default async function ProjectDetail({ params }: Props) {
           </div>
         </section>
 
-        <ProjectMedia src={project.coverImage} alt={`${project.title} 대표 화면`} label="대표 화면" number={number} index={0} />
+        <ProjectMedia src={project.coverImage} alt={`${project.title} 대표 화면`} label="대표 화면" number={number} index={0} guide={project.capturePlan?.[0]?.description} />
         <dl className="grid gap-6 py-8">
           <div><dt className="ui-label ui-muted">기간</dt><dd className="ui-body mt-2">{project.period}</dd></div>
           <div><dt className="ui-label ui-muted">역할</dt><dd className="ui-body mt-2">{project.role}</dd></div>
@@ -137,10 +146,64 @@ export default async function ProjectDetail({ params }: Props) {
           <DetailSection number="01" title="프로젝트 소개">{project.challenge}</DetailSection>
           <DetailSection number="02" title="구현 과정">{project.solution}</DetailSection>
 
-          <div className="my-8 grid gap-4">
-            <ProjectMedia src={project.screenImage} alt={`${project.title} 화면`} label="화면 캡처" number={`${number}.1`} index={1} compact />
-            <ProjectMedia src={project.structureImage} alt={`${project.title} 구조도`} label="구조도" number={`${number}.2`} index={2} compact />
-          </div>
+          {project.contributions && (
+            <section className="moduflow-contributions" aria-labelledby="contributions-title">
+              <h3 id="contributions-title" className="ui-title">담당한 일</h3>
+              <div className="moduflow-contribution-grid">
+                {project.contributions.map((item) => (
+                  <div key={item.title} className="moduflow-contribution">
+                    <h4>{item.title}</h4>
+                    <p>{item.description}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {project.capturePlan ? (
+            <section className="moduflow-captures" aria-labelledby="captures-title">
+              <div className="moduflow-section-heading">
+                <h3 id="captures-title" className="ui-title">실제 화면</h3>
+                <p className="ui-body">촬영할 화면과 구도를 정해둔 자리입니다.</p>
+              </div>
+              <div className="moduflow-capture-grid">
+                {project.capturePlan.map((item, captureIndex) => (
+                  <figure key={item.title} className={`moduflow-capture moduflow-capture-${item.format}`}>
+                    <div className="moduflow-capture-frame" aria-label={item.image ? `${item.title} 화면 캡처` : `${item.title} 화면 캡처 예정`}>
+                      {item.image ? (
+                        <Image src={item.image} alt={`${project.title} ${item.title} 화면`} fill className="object-contain" sizes={item.format === "mobile" ? "(max-width: 560px) 50vw, 320px" : "(max-width: 768px) 100vw, 672px"} />
+                      ) : (
+                        <>
+                          <span className="moduflow-capture-number">{String(captureIndex + 1).padStart(2, "0")}</span>
+                          <span className="moduflow-capture-icon" aria-hidden="true">{item.format === "mobile" ? "▯" : "▱"}</span>
+                          <span className="moduflow-capture-status">화면 캡처 위치</span>
+                        </>
+                      )}
+                    </div>
+                    <figcaption>
+                      <strong>{item.title}</strong>
+                      <span>{item.description}</span>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </section>
+          ) : (
+            <div className="my-8 grid gap-4">
+              <ProjectMedia src={project.screenImage} alt={`${project.title} 화면`} label="화면 캡처" number={`${number}.1`} index={1} compact />
+              <ProjectMedia src={project.structureImage} alt={`${project.title} 구조도`} label="구조도" number={`${number}.2`} index={2} compact />
+            </div>
+          )}
+
+          {project.capturePlan && project.structureImage && (
+            <section className="moduflow-architecture" aria-labelledby="architecture-title">
+              <div className="moduflow-section-heading">
+                <h3 id="architecture-title" className="ui-title">시스템 구성</h3>
+                <p className="ui-body">{project.structureCaption}</p>
+              </div>
+              <ProjectMedia src={project.structureImage} mobileSrc={project.structureMobileImage} alt={project.structureCaption ?? `${project.title} 시스템 구성도`} label="시스템 구성도" number={`${number}.2`} index={2} compact />
+            </section>
+          )}
 
           <DetailSection number="03" title="결과와 배운 점">{project.result}</DetailSection>
           <div className="mt-8 flex flex-wrap gap-3">

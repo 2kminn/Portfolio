@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" role="img" aria-labelledby="title description">
+  <title id="title">ModuFlow 시스템 구성</title>
+  <desc id="description">Android 앱 안의 React PWA가 Spring Boot API 및 MySQL과 연결되고, 네이티브 운동 화면이 FastAPI 자세 인식 서버와 연결되는 구조</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#315A88" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrow-muted" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#8495A8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <style>
+      text { font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", Arial, sans-serif; }
+      .heading { fill: #18334F; font-size: 32px; font-weight: 700; letter-spacing: -1px; }
+      .intro { fill: #64768A; font-size: 18px; }
+      .section { fill: #49647F; font-size: 18px; font-weight: 700; }
+      .name { fill: #17324E; font-size: 26px; font-weight: 700; }
+      .detail { fill: #596D82; font-size: 18px; }
+      .connection { fill: #315A88; font-size: 17px; font-weight: 700; }
+      .note { fill: #697F94; font-size: 16px; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="620" fill="#FFFFFF"/>
+  <text x="48" y="65" class="heading">ModuFlow 시스템 구성</text>
+  <text x="48" y="97" class="intro">웹 화면, Android 기능, 서버가 연결되는 흐름</text>
+  <path d="M 48 119 H 1152" stroke="#D7E0E9" stroke-width="2"/>
+
+  <text x="48" y="153" class="section">Android 앱</text>
+  <rect x="48" y="172" width="360" height="392" rx="14" fill="#F5F8FC" stroke="#B7C9DC" stroke-width="2"/>
+  <rect x="68" y="194" width="320" height="128" rx="10" fill="#FFFFFF" stroke="#C8D6E4" stroke-width="2"/>
+  <rect x="68" y="194" width="6" height="128" rx="3" fill="#315A88"/>
+  <text x="94" y="236" class="name">PWA 프론트엔드</text>
+  <text x="94" y="267" class="detail">React · Vite · WebView</text>
+  <text x="94" y="294" class="detail">인증 · 운동 · 기록 · 관리자 CMS</text>
+
+  <path d="M 228 322 V 392" fill="none" stroke="#8495A8" stroke-width="2.5" marker-start="url(#arrow-muted)" marker-end="url(#arrow-muted)"/>
+  <rect x="174" y="343" width="108" height="27" rx="5" fill="#F5F8FC"/>
+  <text x="228" y="362" text-anchor="middle" class="note">JS Bridge</text>
+
+  <rect x="68" y="392" width="320" height="150" rx="10" fill="#FFFFFF" stroke="#C8D6E4" stroke-width="2"/>
+  <rect x="68" y="392" width="6" height="150" rx="3" fill="#829AB3"/>
+  <text x="94" y="434" class="name">Android 네이티브</text>
+  <text x="94" y="466" class="detail">운동 시작 · 카메라 · 기기 ID</text>
+  <text x="94" y="494" class="detail">BLE 비콘 감지 · 위치 정보</text>
+  <text x="94" y="520" class="note">PWA와 운동 세션을 공유</text>
+
+  <text x="538" y="153" class="section">서비스 서버</text>
+  <rect x="538" y="194" width="270" height="128" rx="10" fill="#FFFFFF" stroke="#B7C9DC" stroke-width="2"/>
+  <rect x="538" y="194" width="6" height="128" rx="3" fill="#315A88"/>
+  <text x="564" y="236" class="name">Spring Boot API</text>
+  <text x="564" y="267" class="detail">인증 · 루틴 · 운동 기록</text>
+  <text x="564" y="294" class="detail">사용자 · 출석 정보</text>
+
+  <rect x="538" y="392" width="270" height="150" rx="10" fill="#FFFFFF" stroke="#B7C9DC" stroke-width="2"/>
+  <rect x="538" y="392" width="6" height="150" rx="3" fill="#829AB3"/>
+  <text x="564" y="434" class="name">자세 인식 서버</text>
+  <text x="564" y="466" class="detail">FastAPI · MediaPipe</text>
+  <text x="564" y="494" class="detail">프레임 분석 · 자세 피드백</text>
+
+  <text x="922" y="153" class="section">데이터 저장</text>
+  <rect x="922" y="194" width="230" height="128" rx="10" fill="#FFFFFF" stroke="#B7C9DC" stroke-width="2"/>
+  <rect x="922" y="194" width="6" height="128" rx="3" fill="#315A88"/>
+  <text x="948" y="236" class="name">MySQL</text>
+  <text x="948" y="267" class="detail">계정 · 루틴 · 기록</text>
+  <text x="948" y="294" class="detail">비콘 · 출석 데이터</text>
+
+  <path d="M 408 256 H 538" fill="none" stroke="#315A88" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="473" y="242" text-anchor="middle" class="connection">REST · JWT</text>
+  <path d="M 808 256 H 922" fill="none" stroke="#315A88" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="865" y="242" text-anchor="middle" class="connection">JPA</text>
+  <path d="M 408 462 H 538" fill="none" stroke="#315A88" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="473" y="447" text-anchor="middle" class="connection">WebSocket</text>
+
+  <path d="M 408 405 H 466 V 310 H 538" fill="none" stroke="#8495A8" stroke-width="2" stroke-dasharray="6 6" marker-end="url(#arrow-muted)"/>
+  <text x="475" y="339" class="note">기기 · 출석</text>
+  <text x="48" y="599" class="note">실선: 주요 요청 흐름   ·   점선: Android 기기 및 출석 정보</text>
+</svg>

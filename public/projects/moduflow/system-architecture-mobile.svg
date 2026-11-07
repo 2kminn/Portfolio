@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 1010" role="img" aria-labelledby="title description">
+  <title id="title">ModuFlow 시스템 구성 모바일 보기</title>
+  <desc id="description">Android 앱의 PWA와 네이티브 기능이 Spring Boot API, MySQL, 자세 인식 서버에 연결되는 구조</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#315A88" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <style>
+      text { font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", Arial, sans-serif; }
+      .heading { fill: #18334F; font-size: 30px; font-weight: 700; }
+      .section { fill: #49647F; font-size: 21px; font-weight: 700; }
+      .name { fill: #17324E; font-size: 26px; font-weight: 700; }
+      .detail { fill: #596D82; font-size: 20px; }
+      .line-label { fill: #315A88; font-size: 19px; font-weight: 700; }
+    </style>
+  </defs>
+
+  <rect width="600" height="1010" fill="#FFFFFF"/>
+  <text x="36" y="52" class="heading">ModuFlow 시스템 구성</text>
+  <path d="M 36 72 H 564" stroke="#D7E0E9" stroke-width="2"/>
+
+  <text x="36" y="110" class="section">Android 앱</text>
+  <rect x="36" y="128" width="528" height="314" rx="14" fill="#F5F8FC" stroke="#B7C9DC" stroke-width="2"/>
+  <rect x="56" y="148" width="488" height="104" rx="10" fill="#FFFFFF" stroke="#C8D6E4" stroke-width="2"/>
+  <rect x="56" y="148" width="6" height="104" rx="3" fill="#315A88"/>
+  <text x="82" y="188" class="name">PWA 프론트엔드</text>
+  <text x="82" y="222" class="detail">React · Vite · WebView</text>
+
+  <path d="M 300 252 V 318" fill="none" stroke="#8495A8" stroke-width="2.5"/>
+  <rect x="239" y="270" width="122" height="28" rx="5" fill="#F5F8FC"/>
+  <text x="300" y="291" text-anchor="middle" class="detail">JS Bridge</text>
+
+  <rect x="56" y="318" width="488" height="104" rx="10" fill="#FFFFFF" stroke="#C8D6E4" stroke-width="2"/>
+  <rect x="56" y="318" width="6" height="104" rx="3" fill="#829AB3"/>
+  <text x="82" y="358" class="name">Android 네이티브</text>
+  <text x="82" y="392" class="detail">운동 시작 · 카메라 · 기기 ID · BLE</text>
+
+  <path d="M 300 442 V 500" fill="none" stroke="#315A88" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="318" y="477" class="line-label">REST · JWT / 출석 정보</text>
+
+  <rect x="36" y="504" width="528" height="112" rx="10" fill="#FFFFFF" stroke="#B7C9DC" stroke-width="2"/>
+  <rect x="36" y="504" width="6" height="112" rx="3" fill="#315A88"/>
+  <text x="62" y="550" class="name">Spring Boot API</text>
+  <text x="62" y="586" class="detail">인증 · 루틴 · 운동 기록 · 출석</text>
+
+  <path d="M 300 616 V 674" fill="none" stroke="#315A88" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="318" y="650" class="line-label">JPA</text>
+
+  <rect x="36" y="678" width="528" height="106" rx="10" fill="#FFFFFF" stroke="#B7C9DC" stroke-width="2"/>
+  <rect x="36" y="678" width="6" height="106" rx="3" fill="#315A88"/>
+  <text x="62" y="722" class="name">MySQL</text>
+  <text x="62" y="758" class="detail">계정 · 루틴 · 기록 · 비콘 데이터</text>
+
+  <path d="M 544 370 H 580 V 922 H 564" fill="none" stroke="#315A88" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <text x="548" y="838" text-anchor="end" class="line-label">JPEG · WebSocket</text>
+  <rect x="36" y="872" width="528" height="112" rx="10" fill="#FFFFFF" stroke="#B7C9DC" stroke-width="2"/>
+  <rect x="36" y="872" width="6" height="112" rx="3" fill="#829AB3"/>
+  <text x="62" y="916" class="name">자세 인식 서버</text>
+  <text x="62" y="952" class="detail">FastAPI · MediaPipe · 자세 피드백</text>
+</svg>
