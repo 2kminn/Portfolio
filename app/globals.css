@@ -37,6 +37,7 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
 .notebook-viewer-page-heading, .notebook-viewer-page-footer { display: flex; min-height: 2rem; align-items: center; justify-content: space-between; gap: .75rem; padding-left: clamp(2rem, 5vw, 4.25rem); color: #716a60; font: 500 .72rem/1.4 var(--ui-font-mono); }
 .notebook-viewer-page-heading { border-bottom: 1px solid #ddd7cd; padding-bottom: .55rem; }
 .notebook-viewer-page-footer { border-top: 1px solid #ddd7cd; padding-top: .55rem; }
+.notebook-viewer-page-footer a { color: #315a88; text-decoration: underline; text-underline-offset: .2rem; }
 .notebook-viewer-media { position: relative; min-width: 0; min-height: 0; margin-left: clamp(2rem, 5vw, 4.25rem); overflow: hidden; background: #fff; }
 .notebook-viewer-media img { max-width: 100%; max-height: 100%; }
 .notebook-viewer-index { display: grid; width: min(100%, 1200px); grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .6rem; margin-inline: auto; border-top: 1px solid #cfc9bc; padding-top: .75rem; }
@@ -54,8 +55,11 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
 .moduflow-capture-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
 .moduflow-capture { min-width: 0; margin: 0; }
 .moduflow-capture-frame { position: relative; display: flex; aspect-ratio: 9 / 16; flex-direction: column; align-items: center; justify-content: center; gap: .55rem; overflow: hidden; border: 1px dashed #8caaca; border-radius: 1rem; background: linear-gradient(145deg, #f8fbff, #e5edf7); color: #174986; }
+.moduflow-capture-mobile .moduflow-capture-frame.has-image { aspect-ratio: 390 / 844; }
+.moduflow-capture-frame.has-image { border: 1px solid #d9e2ec; background: #fff; }
 .moduflow-capture-desktop { grid-column: 1 / -1; }
 .moduflow-capture-desktop .moduflow-capture-frame { aspect-ratio: 16 / 9; }
+.moduflow-capture-desktop .moduflow-capture-frame.has-image { aspect-ratio: 4 / 3; }
 .moduflow-capture-number { position: absolute; top: 1rem; left: 1rem; font: 600 .75rem/1 var(--ui-font-mono); }
 .moduflow-capture-icon { font: 300 4.5rem/1 var(--ui-font); }
 .moduflow-capture-status { font-size: .82rem; font-weight: 600; }
@@ -71,11 +75,14 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
 }
 @media (max-width: 639px) {
   .moduflow-contribution-grid { grid-template-columns: 1fr; }
-  .moduflow-capture-grid { gap: .9rem; }
+  .moduflow-capture-grid { grid-template-columns: 1fr; gap: 1.5rem; }
   .moduflow-capture-icon { font-size: 3.5rem; }
   .moduflow-architecture .project-detail-media { aspect-ratio: 600 / 1010; }
-  .notebook-viewer-stage { grid-template-columns: 2.25rem minmax(0, 1fr) 2.25rem; gap: .35rem; }
-  .notebook-viewer-arrow { width: 2.25rem; height: 2.25rem; }
+  .notebook-viewer-stage { position: relative; display: block; }
+  .notebook-viewer-arrow { position: absolute; top: 50%; z-index: 5; width: 2.75rem; height: 2.75rem; border-radius: 50%; box-shadow: 0 2px 8px rgb(37 35 31 / 12%); transform: translateY(-50%); }
+  .notebook-viewer-arrow:first-child { left: 0; }
+  .notebook-viewer-arrow:last-child { right: 0; }
+  .notebook-viewer-stage-landscape .notebook-viewer-stack { position: absolute; top: 50%; left: 0; height: auto; aspect-ratio: 4 / 3; transform: translateY(-50%); }
   .notebook-viewer-page { padding: .55rem; }
   .notebook-viewer-page::before { left: 1.2rem; }
   .notebook-viewer-page-heading, .notebook-viewer-page-footer { padding-left: 1.2rem; font-size: .58rem; }

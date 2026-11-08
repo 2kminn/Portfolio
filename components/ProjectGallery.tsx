@@ -77,6 +77,8 @@ export default function ProjectGallery({ project, number, style, children }: {
   const touchStart = useRef<{ x: number; y: number } | null>(null);
   const sources = [project.coverImage, project.screenImage, project.structureImage].map((src) => src ? withBasePath(src) : undefined);
   const source = sources[activeIndex];
+  const originalMobileSource = activeIndex === 2 && project.structureMobileImage ? withBasePath(project.structureMobileImage) : source;
+  const landscapeCover = project.slug === "moduflow" && activeIndex === 0;
   const imageNumber = activeIndex === 0 ? number : `${number}.${activeIndex}`;
   const move = (step: number) => {
     setDirection(step);
@@ -116,7 +118,7 @@ export default function ProjectGallery({ project, number, style, children }: {
             <Dialog.Description className="sr-only">좌우 방향키, 화면의 버튼 또는 손가락으로 종이를 넘길 수 있습니다. Escape 키로 닫습니다.</Dialog.Description>
 
             <div
-              className="notebook-viewer-stage"
+              className={`notebook-viewer-stage ${landscapeCover ? "notebook-viewer-stage-landscape" : ""}`}
               onTouchStart={(event) => {
                 const touch = event.touches[0];
                 touchStart.current = { x: touch.clientX, y: touch.clientY };
@@ -163,7 +165,14 @@ export default function ProjectGallery({ project, number, style, children }: {
                         <div className="project-detail-media h-full"><ProjectImagePlaceholder label={labels[activeIndex]} number={imageNumber} guide={activeIndex === 0 ? project.capturePlan?.[0]?.description : undefined} /></div>
                       )}
                     </div>
-                    <div className="notebook-viewer-page-footer"><span>PORTFOLIO / {project.title}</span><span>{String(activeIndex + 1).padStart(2, "0")}</span></div>
+                    <div className="notebook-viewer-page-footer">
+                      <span className="hidden sm:inline">PORTFOLIO / {project.title}</span>
+                      {source && <span className="ml-auto inline-flex gap-3">
+                        {originalMobileSource && <a href={originalMobileSource} target="_blank" rel="noopener noreferrer" className={originalMobileSource === source ? "" : "sm:hidden"}>원본 보기 ↗</a>}
+                        {originalMobileSource !== source && <a href={source} target="_blank" rel="noopener noreferrer" className="hidden sm:inline">원본 보기 ↗</a>}
+                      </span>}
+                      <span>{String(activeIndex + 1).padStart(2, "0")}</span>
+                    </div>
                   </motion.div>
                 </AnimatePresence>
               </div>

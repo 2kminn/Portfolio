@@ -86,6 +86,8 @@ const projectRecords: ProjectRecord[] = [
     challenge: "운동 계획과 기록, 자세 분석, 헬스장 이용 정보가 분리되어 있어 사용자가 운동 전후로 여러 흐름을 오가야 했습니다. 웹 화면과 Android 앱, 백엔드가 함께 동작하는 구조를 정리하고 모바일에서도 일관된 사용 흐름을 만드는 것이 과제였습니다.",
     solution: "사용자·관리자 화면 흐름과 시스템 연동 구조를 설계하고 개발 진행을 관리했습니다. React PWA의 공통 레이아웃과 인증·홈·운동·루틴·통계·마이페이지·관리자 CMS 화면을 구현했습니다. Axios 클라이언트로 인증, 루틴, 운동 기록, 사용자 설정 API를 연결하고, Android WebView 브리지에서 운동 시작·토큰 전달·기기 ID 조회를 처리했습니다. 백엔드 영역은 API 연동과 기능 구현을 보조했습니다.",
     result: "PWA 설치·업데이트 처리, 계정별 로컬 데이터 분리, 공통 API 오류 Toast와 인증 만료 처리를 적용했습니다. 앱과 웹을 오가는 운동 흐름 및 관리 기능을 하나의 프론트엔드 경험으로 구성했으며, 주요 기능과 예외 상황을 테스트 항목으로 정리했습니다.",
+    coverImage: "/projects/moduflow/admin-cover.webp",
+    screenImage: "/projects/moduflow/home.webp",
     structureImage: "/projects/moduflow/system-architecture.svg",
     structureMobileImage: "/projects/moduflow/system-architecture-mobile.svg",
     structureCaption: "PWA, Android 앱, 백엔드, 자세 인식 서버의 연결 관계를 정리한 전체 시스템 구성도",
@@ -96,13 +98,13 @@ const projectRecords: ProjectRecord[] = [
       { title: "백엔드 개발 보조", description: "인증·루틴·운동 기록 API의 데이터 흐름을 화면 요구사항과 맞추고 연동 과정의 수정 작업을 보조했습니다." },
       { title: "모바일 안정성", description: "서비스 워커 갱신, 계정별 로컬 캐시 분리, 오류 Toast와 로그인 만료 흐름을 적용했습니다." },
     ],
-    // 캡처를 추가할 때 public/projects/moduflow/에 저장하고 각 항목의 image에 공개 경로를 지정합니다.
     capturePlan: [
-      { title: "홈 · 오늘의 운동", description: "로그인 후 홈 화면에서 오늘의 루틴과 운동 시작 버튼이 함께 보이도록 촬영", format: "mobile" },
-      { title: "운동 목록", description: "운동 검색과 운동별 상세 화면이 드러나도록 촬영", format: "mobile" },
-      { title: "루틴 관리", description: "요일별 운동과 휴식일 편집 화면을 촬영", format: "mobile" },
-      { title: "운동 기록 · 통계", description: "운동 완료 기록과 주간 통계가 보이는 화면을 촬영", format: "mobile" },
-      { title: "관리자 CMS", description: "운동·비콘 구역·사용자 관리 중 주요 기능이 드러나는 데스크톱 화면을 촬영", format: "desktop" },
+      { title: "홈 · 오늘의 운동", description: "추가한 일요일 루틴과 운동 시작 흐름", format: "mobile", image: "/projects/moduflow/home.webp" },
+      { title: "운동 목록", description: "하체 카테고리에서 운동을 찾는 화면", format: "mobile", image: "/projects/moduflow/exercise-list.webp" },
+      { title: "운동 상세", description: "스쿼트 자세와 자극 부위를 확인하는 화면", format: "mobile", image: "/projects/moduflow/exercise-detail.webp" },
+      { title: "루틴 관리", description: "스쿼트와 푸시업을 추가한 요일별 루틴", format: "mobile", image: "/projects/moduflow/routines.webp" },
+      { title: "운동 기록", description: "완료한 운동이 반영된 월간 기록", format: "mobile", image: "/projects/moduflow/stats-workout.webp" },
+      { title: "관리자 CMS", description: "출결 요약과 비콘 구역 설정 대시보드", format: "desktop", image: "/projects/moduflow/admin-cms.webp" },
     ],
   },
   {

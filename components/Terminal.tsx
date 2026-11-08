@@ -77,7 +77,6 @@ export default function Terminal() {
               <span className="sr-only">{introduction}</span>
               <span aria-hidden="true">{firstLine}{displayedIntroduction.includes("\n") && <br />}{secondLine}{showIntroductionCaret && <span className="terminal-caret ml-1 inline-block">_</span>}</span>
             </h1>
-            <p className="ui-label ui-muted mt-5">개발자 {profile.name}</p>
           </div>
         </div>
       </div>

@@ -54,7 +54,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-function ProjectMedia({ src, mobileSrc, alt, label, number, index, compact = false, guide }: {
+function ProjectMedia({ src, mobileSrc, alt, label, number, index, compact = false, fit = "cover", guide }: {
   src?: string;
   mobileSrc?: string;
   alt: string;
@@ -62,10 +62,11 @@ function ProjectMedia({ src, mobileSrc, alt, label, number, index, compact = fal
   number: string;
   index: number;
   compact?: boolean;
+  fit?: "cover" | "contain";
   guide?: string;
 }) {
   return (
-    <ProjectImageTrigger index={index} className={`project-detail-media ui-detail-media relative flex w-full overflow-hidden ${compact ? "ui-detail-media-compact" : ""}`}>
+    <ProjectImageTrigger index={index} className={`project-detail-media ui-detail-media relative flex w-full overflow-hidden ${compact ? "ui-detail-media-compact" : ""} ${fit === "contain" ? "aspect-video bg-white" : ""}`}>
       {src ? (
         mobileSrc ? (
           <>
@@ -73,7 +74,7 @@ function ProjectMedia({ src, mobileSrc, alt, label, number, index, compact = fal
             <Image src={withBasePath(src)} alt={alt} fill className="hidden object-contain p-3 sm:block sm:p-6" sizes="(max-width: 768px) 100vw, 1200px" />
           </>
         ) : (
-          <Image src={withBasePath(src)} alt={alt} fill className="object-cover" sizes="(max-width: 768px) 100vw, 1200px" />
+          <Image src={withBasePath(src)} alt={alt} fill className={fit === "contain" ? "object-contain" : "object-cover"} sizes="(max-width: 768px) 100vw, 1200px" />
         )
       ) : (
         <ProjectImagePlaceholder label={label} number={number} compact={compact} guide={guide} />
@@ -113,8 +114,8 @@ export default async function ProjectDetail({ params }: Props) {
     <main style={mediaStyle} className="ui-surface-dark min-h-screen">
       <header className="ui-surface-dark ui-divider sticky top-0 z-40 border-b pt-[env(safe-area-inset-top)]">
         <div className="ui-container flex items-center justify-between gap-4 py-2">
-          <Link href="/" className="ui-touch-link ui-label">{profile.handle} <span className="ui-muted ml-2">/ 포트폴리오</span></Link>
-          <Link href="/#projects" className="ui-button"><UiIcon icon={ArrowLeft} size="sm" /> 프로젝트</Link>
+          <Link href="/" className="ui-touch-link ui-label">{profile.handle} <span className="ui-muted ml-2 hidden sm:inline">/ 포트폴리오</span></Link>
+          <Link href="/#projects" className="ui-button mr-[7.75rem] sm:mr-0" aria-label="프로젝트 목록으로"><UiIcon icon={ArrowLeft} size="sm" /><span className="hidden sm:inline">프로젝트</span></Link>
         </div>
       </header>
 
@@ -132,7 +133,7 @@ export default async function ProjectDetail({ params }: Props) {
           </div>
         </section>
 
-        <ProjectMedia src={project.coverImage} alt={`${project.title} 대표 화면`} label="대표 화면" number={number} index={0} guide={project.capturePlan?.[0]?.description} />
+        <ProjectMedia src={project.coverImage} alt={`${project.title} 대표 화면`} label="대표 화면" number={number} index={0} fit={project.slug === "moduflow" ? "contain" : "cover"} guide={project.capturePlan?.[0]?.description} />
         <dl className="grid gap-6 py-8">
           <div><dt className="ui-label ui-muted">기간</dt><dd className="ui-body mt-2">{project.period}</dd></div>
           <div><dt className="ui-label ui-muted">역할</dt><dd className="ui-body mt-2">{project.role}</dd></div>
@@ -165,14 +166,16 @@ export default async function ProjectDetail({ params }: Props) {
             <section className="moduflow-captures" aria-labelledby="captures-title">
               <div className="moduflow-section-heading">
                 <h3 id="captures-title" className="ui-title">실제 화면</h3>
-                <p className="ui-body">촬영할 화면과 구도를 정해둔 자리입니다.</p>
+                <p className="ui-body">데모 계정에서 주요 흐름을 실행해 촬영했습니다. 서버와 자세 인식 기능은 연결되지 않은 화면입니다.</p>
               </div>
               <div className="moduflow-capture-grid">
                 {project.capturePlan.map((item, captureIndex) => (
                   <figure key={item.title} className={`moduflow-capture moduflow-capture-${item.format}`}>
-                    <div className="moduflow-capture-frame" aria-label={item.image ? `${item.title} 화면 캡처` : `${item.title} 화면 캡처 예정`}>
+                    <div className={`moduflow-capture-frame ${item.image ? "has-image" : ""}`} aria-label={item.image ? `${item.title} 화면 캡처` : `${item.title} 화면 캡처 예정`}>
                       {item.image ? (
-                        <Image src={withBasePath(item.image)} alt={`${project.title} ${item.title} 화면`} fill className="object-contain" sizes={item.format === "mobile" ? "(max-width: 560px) 50vw, 320px" : "(max-width: 768px) 100vw, 672px"} />
+                        <a href={withBasePath(item.image)} target="_blank" rel="noopener noreferrer" className="relative block h-full w-full cursor-zoom-in" aria-label={`${item.title} 원본 화면 보기`}>
+                          <Image src={withBasePath(item.image)} alt={`${project.title} ${item.title} 화면`} fill className="object-contain" sizes={item.format === "mobile" ? "(max-width: 639px) 100vw, 340px" : "(max-width: 768px) 100vw, 672px"} />
+                        </a>
                       ) : (
                         <>
                           <span className="moduflow-capture-number">{String(captureIndex + 1).padStart(2, "0")}</span>
