@@ -52,6 +52,11 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
 .moduflow-contribution p { margin-top: .5rem; color: var(--ui-body-text); font-size: .9rem; line-height: 1.7; word-break: keep-all; }
 .moduflow-section-heading { margin-bottom: 1.5rem; }
 .moduflow-section-heading p { margin-top: .35rem; font-size: .9rem; }
+.moduflow-capture-group + .moduflow-capture-group { margin-top: 3.5rem; }
+.moduflow-capture-group-admin { width: min(1100px, calc(100vw - 2.5rem)); margin-left: 50%; transform: translateX(-50%); }
+.moduflow-capture-group-heading { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 1.5rem; align-items: end; margin-bottom: 1.5rem; border-top: 1px solid var(--ui-divider); padding-top: 1rem; }
+.moduflow-capture-group-heading h4 { color: var(--ui-text); font-size: clamp(1.25rem, 2vw, 1.6rem); font-weight: 700; }
+.moduflow-capture-group-heading p { max-width: 32rem; color: var(--ui-body-text); font-size: .9rem; line-height: 1.7; word-break: keep-all; }
 .moduflow-capture-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
 .moduflow-capture { min-width: 0; margin: 0; }
 .moduflow-capture-frame { position: relative; display: flex; aspect-ratio: 9 / 16; flex-direction: column; align-items: center; justify-content: center; gap: .55rem; overflow: hidden; border: 1px dashed #8caaca; border-radius: 1rem; background: linear-gradient(145deg, #f8fbff, #e5edf7); color: #174986; }
@@ -75,6 +80,7 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
 }
 @media (max-width: 639px) {
   .moduflow-contribution-grid { grid-template-columns: 1fr; }
+  .moduflow-capture-group-heading { grid-template-columns: 1fr; gap: .35rem; }
   .moduflow-capture-grid { grid-template-columns: 1fr; gap: 1.5rem; }
   .moduflow-capture-icon { font-size: 3.5rem; }
   .moduflow-architecture .project-detail-media { aspect-ratio: 600 / 1010; }
@@ -88,7 +94,8 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
   .notebook-viewer-page-heading, .notebook-viewer-page-footer { padding-left: 1.2rem; font-size: .58rem; }
   .notebook-viewer-media { margin-left: 1.2rem; }
   .notebook-viewer-index { gap: .15rem; }
-  .notebook-viewer-index button { gap: .25rem; padding-inline: .2rem; font-size: .68rem; }
+  .notebook-viewer-index button { justify-content: center; gap: .25rem; padding-inline: .1rem; font-size: .65rem; white-space: nowrap; }
+  .notebook-viewer-index button span { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

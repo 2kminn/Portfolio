@@ -12,10 +12,11 @@ export type Project = {
   screenImage?: string;
   structureImage?: string;
   structureMobileImage?: string;
+  galleryExtras?: { label: string; image: string }[];
   repositoryUrl?: string;
   liveUrl?: string;
   contributions?: { title: string; description: string }[];
-  capturePlan?: { title: string; description: string; format: "mobile" | "desktop"; image?: string }[];
+  capturePlan?: { title: string; description: string; format: "mobile" | "desktop"; group: "user" | "admin"; image?: string }[];
   structureCaption?: string;
 };
 
@@ -90,6 +91,10 @@ const projectRecords: ProjectRecord[] = [
     screenImage: "/projects/moduflow/home.webp",
     structureImage: "/projects/moduflow/system-architecture.svg",
     structureMobileImage: "/projects/moduflow/system-architecture-mobile.svg",
+    galleryExtras: [
+      { label: "자극 근육", image: "/projects/moduflow/exercise-detail.webp" },
+      { label: "혼잡도", image: "/projects/moduflow/congestion.webp" },
+    ],
     structureCaption: "PWA, Android 앱, 백엔드, 자세 인식 서버의 연결 관계를 정리한 전체 시스템 구성도",
     contributions: [
       { title: "설계와 진행 관리", description: "화면 흐름, 전체 시스템 구성, 데이터 구조와 기능별 테스트 범위를 정리하고 개발 진행을 관리했습니다." },
@@ -99,12 +104,13 @@ const projectRecords: ProjectRecord[] = [
       { title: "모바일 안정성", description: "서비스 워커 갱신, 계정별 로컬 캐시 분리, 오류 Toast와 로그인 만료 흐름을 적용했습니다." },
     ],
     capturePlan: [
-      { title: "홈 · 오늘의 운동", description: "추가한 일요일 루틴과 운동 시작 흐름", format: "mobile", image: "/projects/moduflow/home.webp" },
-      { title: "운동 목록", description: "하체 카테고리에서 운동을 찾는 화면", format: "mobile", image: "/projects/moduflow/exercise-list.webp" },
-      { title: "운동 상세", description: "스쿼트 자세와 자극 부위를 확인하는 화면", format: "mobile", image: "/projects/moduflow/exercise-detail.webp" },
-      { title: "루틴 관리", description: "스쿼트와 푸시업을 추가한 요일별 루틴", format: "mobile", image: "/projects/moduflow/routines.webp" },
-      { title: "운동 기록", description: "완료한 운동이 반영된 월간 기록", format: "mobile", image: "/projects/moduflow/stats-workout.webp" },
-      { title: "관리자 CMS", description: "출결 요약과 비콘 구역 설정 대시보드", format: "desktop", image: "/projects/moduflow/admin-cms.webp" },
+      { title: "홈 · 오늘의 운동", description: "등록한 일요일 루틴과 운동 시작 버튼", format: "mobile", group: "user", image: "/projects/moduflow/home.webp" },
+      { title: "운동 목록", description: "카테고리와 검색으로 운동을 찾는 화면", format: "mobile", group: "user", image: "/projects/moduflow/exercise-list.webp" },
+      { title: "운동 상세 · 자극 부위", description: "스쿼트 동작과 자극 근육을 확인하고 루틴에 추가", format: "mobile", group: "user", image: "/projects/moduflow/exercise-detail.webp" },
+      { title: "루틴 관리", description: "스쿼트와 푸시업을 추가한 요일별 루틴", format: "mobile", group: "user", image: "/projects/moduflow/routines.webp" },
+      { title: "운동 기록", description: "완료한 운동이 반영된 월간 기록", format: "mobile", group: "user", image: "/projects/moduflow/stats-workout.webp" },
+      { title: "운동존 상태", description: "비콘 신호를 받기 전 혼잡도 표시 상태", format: "mobile", group: "user", image: "/projects/moduflow/congestion.webp" },
+      { title: "관리자 대시보드", description: "샘플 출결 지표와 구역별 혼잡도·비콘 설정", format: "desktop", group: "admin", image: "/projects/moduflow/admin-cms.webp" },
     ],
   },
   {

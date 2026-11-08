@@ -165,32 +165,45 @@ export default async function ProjectDetail({ params }: Props) {
           {project.capturePlan ? (
             <section className="moduflow-captures" aria-labelledby="captures-title">
               <div className="moduflow-section-heading">
-                <h3 id="captures-title" className="ui-title">실제 화면</h3>
-                <p className="ui-body">데모 계정에서 주요 흐름을 실행해 촬영했습니다. 서버와 자세 인식 기능은 연결되지 않은 화면입니다.</p>
+                <h3 id="captures-title" className="ui-title">화면 예시</h3>
+                <p className="ui-body">데모 계정에서 촬영했습니다. 서버·자세 인식·비콘 신호는 연결되지 않은 상태입니다.</p>
               </div>
-              <div className="moduflow-capture-grid">
-                {project.capturePlan.map((item, captureIndex) => (
-                  <figure key={item.title} className={`moduflow-capture moduflow-capture-${item.format}`}>
-                    <div className={`moduflow-capture-frame ${item.image ? "has-image" : ""}`} aria-label={item.image ? `${item.title} 화면 캡처` : `${item.title} 화면 캡처 예정`}>
-                      {item.image ? (
-                        <a href={withBasePath(item.image)} target="_blank" rel="noopener noreferrer" className="relative block h-full w-full cursor-zoom-in" aria-label={`${item.title} 원본 화면 보기`}>
-                          <Image src={withBasePath(item.image)} alt={`${project.title} ${item.title} 화면`} fill className="object-contain" sizes={item.format === "mobile" ? "(max-width: 639px) 100vw, 340px" : "(max-width: 768px) 100vw, 672px"} />
-                        </a>
-                      ) : (
-                        <>
-                          <span className="moduflow-capture-number">{String(captureIndex + 1).padStart(2, "0")}</span>
-                          <span className="moduflow-capture-icon" aria-hidden="true">{item.format === "mobile" ? "▯" : "▱"}</span>
-                          <span className="moduflow-capture-status">화면 캡처 위치</span>
-                        </>
-                      )}
+              {[
+                { key: "user", title: "사용자 화면", description: "운동을 찾고 루틴에 추가한 뒤 기록과 운동존 상태를 확인하는 흐름입니다." },
+                { key: "admin", title: "관리자 CMS", description: "샘플 출결 지표와 구역별 혼잡도, 비콘 설정을 한 화면에서 확인합니다." },
+              ].map((group) => (
+                <div className={`moduflow-capture-group ${group.key === "admin" ? "moduflow-capture-group-admin" : ""}`} key={group.key}>
+                  <div className="moduflow-capture-group-heading">
+                    <div>
+                      <h4>{group.title}</h4>
                     </div>
-                    <figcaption>
-                      <strong>{item.title}</strong>
-                      <span>{item.description}</span>
-                    </figcaption>
-                  </figure>
-                ))}
-              </div>
+                    <p>{group.description}</p>
+                  </div>
+                  <div className="moduflow-capture-grid">
+                    {project.capturePlan?.filter((item) => item.group === group.key).map((item, captureIndex) => (
+                      <figure key={item.title} className={`moduflow-capture moduflow-capture-${item.format}`}>
+                        <div className={`moduflow-capture-frame ${item.image ? "has-image" : ""}`} aria-label={item.image ? `${item.title} 화면 캡처` : `${item.title} 화면 캡처 예정`}>
+                          {item.image ? (
+                            <a href={withBasePath(item.image)} target="_blank" rel="noopener noreferrer" className="relative block h-full w-full cursor-zoom-in" aria-label={`${item.title} 원본 화면 보기`}>
+                              <Image src={withBasePath(item.image)} alt={`${project.title} ${item.title} 화면`} fill className="object-contain" sizes={item.format === "mobile" ? "(max-width: 639px) 100vw, 340px" : "(max-width: 768px) 100vw, 672px"} />
+                            </a>
+                          ) : (
+                            <>
+                              <span className="moduflow-capture-number">{String(captureIndex + 1).padStart(2, "0")}</span>
+                              <span className="moduflow-capture-icon" aria-hidden="true">{item.format === "mobile" ? "▯" : "▱"}</span>
+                              <span className="moduflow-capture-status">화면 캡처 위치</span>
+                            </>
+                          )}
+                        </div>
+                        <figcaption>
+                          <strong>{item.title}</strong>
+                          <span>{item.description}</span>
+                        </figcaption>
+                      </figure>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </section>
           ) : (
             <div className="my-8 grid gap-4">
@@ -205,7 +218,7 @@ export default async function ProjectDetail({ params }: Props) {
                 <h3 id="architecture-title" className="ui-title">시스템 구성</h3>
                 <p className="ui-body">{project.structureCaption}</p>
               </div>
-              <ProjectMedia src={project.structureImage} mobileSrc={project.structureMobileImage} alt={project.structureCaption ?? `${project.title} 시스템 구성도`} label="시스템 구성도" number={`${number}.2`} index={2} compact />
+              <ProjectMedia src={project.structureImage} mobileSrc={project.structureMobileImage} alt={project.structureCaption ?? `${project.title} 시스템 구성도`} label="시스템 구성도" number={`${number}.2`} index={2 + (project.galleryExtras?.length ?? 0)} compact />
             </section>
           )}
 

@@ -29,6 +29,9 @@ export default function ProjectCard({ project, index, total, progress }: {
   const scale = useTransform(progress, [index / total, Math.min(1, (index + 1) / total)], [1, targetScale]);
   const palette = palettes[index % palettes.length];
   const number = String(index + 1).padStart(2, "0");
+  const secondaryPreview = project.galleryExtras?.[0];
+  const secondaryImage = secondaryPreview?.image ?? project.structureImage;
+  const secondaryLabel = secondaryPreview?.label ?? "구조도";
 
   return (
     <div className="project-card-shell" style={{ "--stack-index": index, zIndex: index + 1 } as CSSProperties}>
@@ -57,7 +60,7 @@ export default function ProjectCard({ project, index, total, progress }: {
               </>}
             </ProjectImageTrigger>
             <ProjectImageTrigger index={2} className="project-preview relative overflow-hidden rounded-[22px] border p-4 sm:rounded-[32px] sm:p-6 ui-divider">
-              {project.structureImage ? <Image src={withBasePath(project.structureImage)} alt={`${project.title} 구조도`} fill sizes="(max-width: 768px) 40vw, 400px" className={project.slug === "moduflow" ? "object-contain bg-white p-2" : "object-cover"} /> : <>
+              {secondaryImage ? <Image src={withBasePath(secondaryImage)} alt={`${project.title} ${secondaryLabel}`} fill sizes="(max-width: 768px) 40vw, 400px" className={project.slug === "moduflow" ? "object-contain bg-white p-2" : "object-cover"} /> : <>
               <span className="font-mono ui-caption ui-muted">STRUCTURE</span>
               <div aria-hidden="true" className="mt-6 space-y-3 opacity-70"><i className="block h-2 w-3/4 rounded-full bg-black/30" /><i className="block h-2 w-1/2 rounded-full bg-black/20" /><i className="block h-2 w-2/3 rounded-full bg-black/10" /></div>
               <span className="absolute right-5 bottom-3 ui-title ui-muted">{number}</span>

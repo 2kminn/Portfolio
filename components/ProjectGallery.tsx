@@ -11,13 +11,12 @@ import { profile } from "@/data/profile";
 import { withBasePath } from "@/lib/base-path";
 import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
 
-const labels = ["대표 화면", "화면 캡처", "구조도"];
 const pageVariants = {
   enter: (direction: number) => ({ x: direction > 0 ? 100 : -100, rotate: direction > 0 ? 3 : -3, opacity: 0 }),
   center: { x: 0, rotate: 0, opacity: 1 },
   exit: (direction: number) => ({ x: direction > 0 ? -220 : 220, rotate: direction > 0 ? -7 : 7, opacity: 0 }),
 };
-const GalleryContext = createContext<((index: number) => void) | null>(null);
+const GalleryContext = createContext<{ selectImage: (index: number) => void; labels: string[] } | null>(null);
 
 export function ProjectImagePlaceholder({ label, number, compact = false, guide }: {
   label: string;
@@ -45,13 +44,13 @@ export function ProjectImageTrigger({ index, children, className, style }: {
   className?: string;
   style?: CSSProperties;
 }) {
-  const selectImage = useContext(GalleryContext);
-  if (!selectImage) throw new Error("ProjectImageTrigger requires ProjectGallery");
+  const gallery = useContext(GalleryContext);
+  if (!gallery) throw new Error("ProjectImageTrigger requires ProjectGallery");
 
   return (
     <Dialog.Trigger
-      onClick={() => selectImage(index)}
-      aria-label={`${labels[index]} 확대 보기`}
+      onClick={() => gallery.selectImage(index)}
+      aria-label={`${gallery.labels[index]} 확대 보기`}
       style={style}
       className={`group relative min-h-11 min-w-11 cursor-zoom-in text-left ${className ?? ""}`}
     >
@@ -75,14 +74,21 @@ export default function ProjectGallery({ project, number, style, children }: {
   const reduceMotion = usePrefersReducedMotion();
   const closeRef = useRef<HTMLButtonElement>(null);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
-  const sources = [project.coverImage, project.screenImage, project.structureImage].map((src) => src ? withBasePath(src) : undefined);
-  const source = sources[activeIndex];
-  const originalMobileSource = activeIndex === 2 && project.structureMobileImage ? withBasePath(project.structureMobileImage) : source;
+  const pages = [
+    { label: "대표 화면", source: project.coverImage ? withBasePath(project.coverImage) : undefined, mobileSource: undefined as string | undefined },
+    { label: project.slug === "moduflow" ? "사용자 홈" : "화면 캡처", source: project.screenImage ? withBasePath(project.screenImage) : undefined, mobileSource: undefined as string | undefined },
+    ...(project.galleryExtras?.map((item) => ({ label: item.label, source: withBasePath(item.image), mobileSource: undefined as string | undefined })) ?? []),
+    { label: "구조도", source: project.structureImage ? withBasePath(project.structureImage) : undefined, mobileSource: project.structureMobileImage ? withBasePath(project.structureMobileImage) : undefined },
+  ];
+  const labels = pages.map((page) => page.label);
+  const activePage = pages[activeIndex];
+  const source = activePage.source;
+  const originalMobileSource = activePage.mobileSource ?? source;
   const landscapeCover = project.slug === "moduflow" && activeIndex === 0;
   const imageNumber = activeIndex === 0 ? number : `${number}.${activeIndex}`;
   const move = (step: number) => {
     setDirection(step);
-    setActiveIndex((current) => (current + step + labels.length) % labels.length);
+    setActiveIndex((current) => (current + step + pages.length) % pages.length);
   };
   const selectPage = (index: number) => {
     if (index === activeIndex) return;
@@ -91,7 +97,7 @@ export default function ProjectGallery({ project, number, style, children }: {
   };
 
   return (
-    <GalleryContext.Provider value={setActiveIndex}>
+    <GalleryContext.Provider value={{ selectImage: setActiveIndex, labels }}>
       <Dialog.Root open={open} onOpenChange={setOpen}>
         {children}
         <Dialog.Portal>
@@ -153,9 +159,9 @@ export default function ProjectGallery({ project, number, style, children }: {
                     </div>
                     <div className="notebook-viewer-media">
                       {source ? (
-                        activeIndex === 2 && project.structureMobileImage ? (
+                        activePage.mobileSource ? (
                           <>
-                            <Image src={withBasePath(project.structureMobileImage)} alt={`${project.title} 모바일 구조도`} width={600} height={1010} sizes="(max-width: 640px) 100vw, 600px" className="sm:hidden" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                            <Image src={activePage.mobileSource} alt={`${project.title} 모바일 구조도`} width={600} height={1010} sizes="(max-width: 640px) 100vw, 600px" className="sm:hidden" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
                             <Image src={source} alt={`${project.title} 구조도`} width={1200} height={620} sizes="(max-width: 768px) 100vw, 1200px" className="hidden sm:block" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
                           </>
                         ) : (
@@ -180,7 +186,7 @@ export default function ProjectGallery({ project, number, style, children }: {
             </div>
 
             <div aria-live="polite" aria-atomic="true" className="sr-only">{labels[activeIndex]}, 이미지 {activeIndex + 1} / {labels.length}</div>
-            <div role="group" aria-label="프로젝트 이미지 선택" className="notebook-viewer-index">
+            <div role="group" aria-label="프로젝트 이미지 선택" className="notebook-viewer-index" style={{ gridTemplateColumns: `repeat(${pages.length}, minmax(0, 1fr))` }}>
               {labels.map((label, index) => (
                 <button key={label} type="button" onClick={() => selectPage(index)} aria-pressed={activeIndex === index}>
                   <span>{String(index + 1).padStart(2, "0")}</span>{label}
