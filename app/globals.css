@@ -40,6 +40,12 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
 .notebook-viewer-page-footer a { color: #315a88; text-decoration: underline; text-underline-offset: .2rem; }
 .notebook-viewer-media { position: relative; min-width: 0; min-height: 0; margin-left: clamp(2rem, 5vw, 4.25rem); overflow: hidden; background: #fff; }
 .notebook-viewer-media img { max-width: 100%; max-height: 100%; }
+.notebook-viewer-media-collection { background: transparent; }
+.notebook-viewer-collection { display: grid; width: 100%; height: 100%; min-height: 0; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(.5rem, 1vw, 1rem); padding: .2rem; }
+.notebook-viewer-collection-item { display: grid; min-width: 0; min-height: 0; grid-template-rows: minmax(0, 1fr) auto; gap: .4rem; color: #315a88; text-decoration: none; cursor: zoom-in; }
+.notebook-viewer-collection-image { position: relative; display: block; min-height: 0; overflow: hidden; border: 1px solid #d9e2ec; border-radius: .4rem; background: #f4f7fb; }
+.notebook-viewer-collection-label { color: #315a88; font: 600 .72rem/1.4 var(--ui-font-mono); text-align: center; }
+.notebook-viewer-collection-item:hover .notebook-viewer-collection-label { text-decoration: underline; text-underline-offset: .2rem; }
 .notebook-viewer-index { display: grid; width: min(100%, 1200px); grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .6rem; margin-inline: auto; border-top: 1px solid #cfc9bc; padding-top: .75rem; }
 .notebook-viewer-index button { display: flex; min-height: 2.75rem; align-items: center; gap: .65rem; border-bottom: 2px solid transparent; padding: .4rem .65rem; color: #716a60; font-size: .85rem; text-align: left; cursor: pointer; }
 .notebook-viewer-index button span { font: 600 .7rem var(--ui-font-mono); }
@@ -85,6 +91,9 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
   .moduflow-capture-icon { font-size: 3.5rem; }
   .moduflow-architecture .project-detail-media { aspect-ratio: 600 / 1010; }
   .notebook-viewer-stage { position: relative; display: block; }
+  .notebook-viewer-stage-collection { touch-action: auto; }
+  .notebook-viewer-collection { display: flex; gap: .65rem; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: thin; -webkit-overflow-scrolling: touch; }
+  .notebook-viewer-collection-item { flex: 0 0 82%; height: 100%; scroll-snap-align: start; }
   .notebook-viewer-arrow { position: absolute; top: 50%; z-index: 5; width: 2.75rem; height: 2.75rem; border-radius: 50%; box-shadow: 0 2px 8px rgb(37 35 31 / 12%); transform: translateY(-50%); }
   .notebook-viewer-arrow:first-child { left: 0; }
   .notebook-viewer-arrow:last-child { right: 0; }

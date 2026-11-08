@@ -74,17 +74,23 @@ export default function ProjectGallery({ project, number, style, children }: {
   const reduceMotion = usePrefersReducedMotion();
   const closeRef = useRef<HTMLButtonElement>(null);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
-  const pages = [
-    { label: "대표 화면", source: project.coverImage ? withBasePath(project.coverImage) : undefined, mobileSource: undefined as string | undefined },
-    { label: project.slug === "moduflow" ? "사용자 홈" : "화면 캡처", source: project.screenImage ? withBasePath(project.screenImage) : undefined, mobileSource: undefined as string | undefined },
-    ...(project.galleryExtras?.map((item) => ({ label: item.label, source: withBasePath(item.image), mobileSource: undefined as string | undefined })) ?? []),
-    { label: "구조도", source: project.structureImage ? withBasePath(project.structureImage) : undefined, mobileSource: project.structureMobileImage ? withBasePath(project.structureMobileImage) : undefined },
-  ];
+  const hasGroupedScreens = !!project.galleryExtras?.length;
+  const coverPage = { label: project.coverLabel ?? (hasGroupedScreens ? "관리자 CMS" : "대표 화면"), source: project.coverImage ? withBasePath(project.coverImage) : undefined, mobileSource: undefined as string | undefined };
+  const screenPage = { label: project.screenLabel ?? (hasGroupedScreens ? "사용자 화면" : "화면 캡처"), source: project.screenImage ? withBasePath(project.screenImage) : undefined, mobileSource: undefined as string | undefined };
+  const structurePage = { label: "구조도", source: project.structureImage ? withBasePath(project.structureImage) : undefined, mobileSource: project.structureMobileImage ? withBasePath(project.structureMobileImage) : undefined };
+  const pages = hasGroupedScreens
+    ? project.structureImage ? [screenPage, coverPage, structurePage] : [screenPage, coverPage]
+    : [coverPage, screenPage, structurePage];
   const labels = pages.map((page) => page.label);
   const activePage = pages[activeIndex];
   const source = activePage.source;
+  const isCollection = hasGroupedScreens && activeIndex === 0 && !!source;
+  const collectionItems = source ? [
+    { label: project.screenLabel ?? "홈", source },
+    ...(project.galleryExtras?.map((item) => ({ label: item.label, source: withBasePath(item.image) })) ?? []),
+  ] : [];
   const originalMobileSource = activePage.mobileSource ?? source;
-  const landscapeCover = project.slug === "moduflow" && activeIndex === 0;
+  const landscapeCover = project.slug === "moduflow" && activeIndex === 1;
   const imageNumber = activeIndex === 0 ? number : `${number}.${activeIndex}`;
   const move = (step: number) => {
     setDirection(step);
@@ -124,7 +130,7 @@ export default function ProjectGallery({ project, number, style, children }: {
             <Dialog.Description className="sr-only">좌우 방향키, 화면의 버튼 또는 손가락으로 종이를 넘길 수 있습니다. Escape 키로 닫습니다.</Dialog.Description>
 
             <div
-              className={`notebook-viewer-stage ${landscapeCover ? "notebook-viewer-stage-landscape" : ""}`}
+              className={`notebook-viewer-stage ${landscapeCover ? "notebook-viewer-stage-landscape" : ""} ${isCollection ? "notebook-viewer-stage-collection" : ""}`}
               onTouchStart={(event) => {
                 const touch = event.touches[0];
                 touchStart.current = { x: touch.clientX, y: touch.clientY };
@@ -157,8 +163,19 @@ export default function ProjectGallery({ project, number, style, children }: {
                       <span>{project.title}</span>
                       <span>{labels[activeIndex]} / {String(activeIndex + 1).padStart(2, "0")}</span>
                     </div>
-                    <div className="notebook-viewer-media">
-                      {source ? (
+                    <div className={`notebook-viewer-media ${isCollection ? "notebook-viewer-media-collection" : ""}`}>
+                      {isCollection ? (
+                        <div className="notebook-viewer-collection" onTouchStart={(event) => event.stopPropagation()} onTouchEnd={(event) => event.stopPropagation()} onTouchCancel={(event) => event.stopPropagation()}>
+                          {collectionItems.map((item) => (
+                            <a key={item.label} href={item.source} target="_blank" rel="noopener noreferrer" className="notebook-viewer-collection-item" aria-label={`${project.title} ${item.label} 원본 보기`}>
+                              <span className="notebook-viewer-collection-image">
+                                <Image src={item.source} alt={`${project.title} ${item.label} 화면`} fill sizes="(max-width: 639px) 75vw, 300px" className="object-contain" />
+                              </span>
+                              <span className="notebook-viewer-collection-label">{item.label} <span aria-hidden="true">↗</span></span>
+                            </a>
+                          ))}
+                        </div>
+                      ) : source ? (
                         activePage.mobileSource ? (
                           <>
                             <Image src={activePage.mobileSource} alt={`${project.title} 모바일 구조도`} width={600} height={1010} sizes="(max-width: 640px) 100vw, 600px" className="sm:hidden" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
@@ -173,10 +190,11 @@ export default function ProjectGallery({ project, number, style, children }: {
                     </div>
                     <div className="notebook-viewer-page-footer">
                       <span className="hidden sm:inline">PORTFOLIO / {project.title}</span>
-                      {source && <span className="ml-auto inline-flex gap-3">
+                      {source && !isCollection && <span className="ml-auto inline-flex gap-3">
                         {originalMobileSource && <a href={originalMobileSource} target="_blank" rel="noopener noreferrer" className={originalMobileSource === source ? "" : "sm:hidden"}>원본 보기 ↗</a>}
                         {originalMobileSource !== source && <a href={source} target="_blank" rel="noopener noreferrer" className="hidden sm:inline">원본 보기 ↗</a>}
                       </span>}
+                      {isCollection && <span className="ml-auto"><span className="sm:hidden">옆으로 밀어 보기 →</span><span className="hidden sm:inline">사진을 눌러 원본 보기 ↗</span></span>}
                       <span>{String(activeIndex + 1).padStart(2, "0")}</span>
                     </div>
                   </motion.div>

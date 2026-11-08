@@ -133,7 +133,7 @@ export default async function ProjectDetail({ params }: Props) {
           </div>
         </section>
 
-        <ProjectMedia src={project.coverImage} alt={`${project.title} 대표 화면`} label="대표 화면" number={number} index={0} fit={project.slug === "moduflow" ? "contain" : "cover"} guide={project.capturePlan?.[0]?.description} />
+        <ProjectMedia src={project.coverImage} alt={`${project.title} ${project.coverLabel ?? "대표 화면"}`} label={project.coverLabel ?? (project.galleryExtras?.length ? "관리자 CMS" : "대표 화면")} number={number} index={project.galleryExtras?.length ? 1 : 0} fit={project.slug === "moduflow" ? "contain" : "cover"} guide={project.capturePlan?.[0]?.description} />
         <dl className="grid gap-6 py-8">
           <div><dt className="ui-label ui-muted">기간</dt><dd className="ui-body mt-2">{project.period}</dd></div>
           <div><dt className="ui-label ui-muted">역할</dt><dd className="ui-body mt-2">{project.role}</dd></div>
@@ -166,18 +166,18 @@ export default async function ProjectDetail({ params }: Props) {
             <section className="moduflow-captures" aria-labelledby="captures-title">
               <div className="moduflow-section-heading">
                 <h3 id="captures-title" className="ui-title">화면 예시</h3>
-                <p className="ui-body">데모 계정에서 촬영했습니다. 서버·자세 인식·비콘 신호는 연결되지 않은 상태입니다.</p>
+                <p className="ui-body">{project.captureIntro ?? "데모 계정에서 촬영했습니다. 서버·자세 인식·비콘 신호는 연결되지 않은 상태입니다."}</p>
               </div>
               {[
                 { key: "user", title: "사용자 화면", description: "운동을 찾고 루틴에 추가한 뒤 기록과 운동존 상태를 확인하는 흐름입니다." },
                 { key: "admin", title: "관리자 CMS", description: "샘플 출결 지표와 구역별 혼잡도, 비콘 설정을 한 화면에서 확인합니다." },
-              ].map((group) => (
+              ].filter((group) => project.capturePlan?.some((item) => item.group === group.key)).map((group) => (
                 <div className={`moduflow-capture-group ${group.key === "admin" ? "moduflow-capture-group-admin" : ""}`} key={group.key}>
                   <div className="moduflow-capture-group-heading">
                     <div>
                       <h4>{group.title}</h4>
                     </div>
-                    <p>{group.description}</p>
+                    <p>{project.captureGroupDescriptions?.[group.key as "user" | "admin"] ?? group.description}</p>
                   </div>
                   <div className="moduflow-capture-grid">
                     {project.capturePlan?.filter((item) => item.group === group.key).map((item, captureIndex) => (
@@ -207,7 +207,7 @@ export default async function ProjectDetail({ params }: Props) {
             </section>
           ) : (
             <div className="my-8 grid gap-4">
-              <ProjectMedia src={project.screenImage} alt={`${project.title} 화면`} label="화면 캡처" number={`${number}.1`} index={1} compact />
+              <ProjectMedia src={project.screenImage} alt={`${project.title} 화면`} label="화면 캡처" number={`${number}.1`} index={project.galleryExtras?.length ? 0 : 1} compact />
               <ProjectMedia src={project.structureImage} alt={`${project.title} 구조도`} label="구조도" number={`${number}.2`} index={2} compact />
             </div>
           )}
@@ -218,7 +218,7 @@ export default async function ProjectDetail({ params }: Props) {
                 <h3 id="architecture-title" className="ui-title">시스템 구성</h3>
                 <p className="ui-body">{project.structureCaption}</p>
               </div>
-              <ProjectMedia src={project.structureImage} mobileSrc={project.structureMobileImage} alt={project.structureCaption ?? `${project.title} 시스템 구성도`} label="시스템 구성도" number={`${number}.2`} index={2 + (project.galleryExtras?.length ?? 0)} compact />
+              <ProjectMedia src={project.structureImage} mobileSrc={project.structureMobileImage} alt={project.structureCaption ?? `${project.title} 시스템 구성도`} label="시스템 구성도" number={`${number}.2`} index={2} compact />
             </section>
           )}
 
