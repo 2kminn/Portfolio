@@ -16,7 +16,7 @@ const pageVariants = {
   center: { x: 0, rotate: 0, opacity: 1 },
   exit: (direction: number) => ({ x: direction > 0 ? -220 : 220, rotate: direction > 0 ? -7 : 7, opacity: 0 }),
 };
-const GalleryContext = createContext<{ selectImage: (index: number) => void; labels: string[] } | null>(null);
+const GalleryContext = createContext<{ selectImage: (index: number, itemIndex?: number) => void; labels: string[] } | null>(null);
 
 export function ProjectImagePlaceholder({ label, number, compact = false, guide }: {
   label: string;
@@ -38,8 +38,9 @@ export function ProjectImagePlaceholder({ label, number, compact = false, guide 
   );
 }
 
-export function ProjectImageTrigger({ index, children, className, style }: {
+export function ProjectImageTrigger({ index, itemIndex, children, className, style }: {
   index: number;
+  itemIndex?: number;
   children: ReactNode;
   className?: string;
   style?: CSSProperties;
@@ -49,7 +50,7 @@ export function ProjectImageTrigger({ index, children, className, style }: {
 
   return (
     <Dialog.Trigger
-      onClick={() => gallery.selectImage(index)}
+      onClick={() => gallery.selectImage(index, itemIndex)}
       aria-label={`${gallery.labels[index]} 확대 보기`}
       style={style}
       className={`group relative min-h-11 min-w-11 cursor-zoom-in text-left ${className ?? ""}`}
@@ -70,6 +71,7 @@ export default function ProjectGallery({ project, number, style, children }: {
 }) {
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [activeItemIndex, setActiveItemIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const reduceMotion = usePrefersReducedMotion();
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -85,25 +87,41 @@ export default function ProjectGallery({ project, number, style, children }: {
   const activePage = pages[activeIndex];
   const source = activePage.source;
   const isCollection = hasGroupedScreens && activeIndex === 0 && !!source;
-  const collectionItems = source ? [
-    { label: project.screenLabel ?? "홈", source },
+  const collectionItems = screenPage.source ? [
+    { label: project.screenLabel ?? "홈", source: screenPage.source },
     ...(project.galleryExtras?.map((item) => ({ label: item.label, source: withBasePath(item.image) })) ?? []),
   ] : [];
+  const activeItem = collectionItems[activeItemIndex];
   const originalMobileSource = activePage.mobileSource ?? source;
   const landscapeCover = project.slug === "moduflow" && activeIndex === 1;
   const imageNumber = activeIndex === 0 ? number : `${number}.${activeIndex}`;
   const move = (step: number) => {
     setDirection(step);
-    setActiveIndex((current) => (current + step + pages.length) % pages.length);
+    if (isCollection && step > 0 && activeItemIndex < collectionItems.length - 1) {
+      setActiveItemIndex(activeItemIndex + 1);
+      return;
+    }
+    if (isCollection && step < 0 && activeItemIndex > 0) {
+      setActiveItemIndex(activeItemIndex - 1);
+      return;
+    }
+    const nextIndex = (activeIndex + step + pages.length) % pages.length;
+    setActiveIndex(nextIndex);
+    setActiveItemIndex(nextIndex === 0 && step < 0 ? collectionItems.length - 1 : 0);
   };
   const selectPage = (index: number) => {
-    if (index === activeIndex) return;
+    if (index === activeIndex && activeItemIndex === 0) return;
     setDirection(index > activeIndex ? 1 : -1);
     setActiveIndex(index);
+    setActiveItemIndex(0);
+  };
+  const openPage = (index: number, itemIndex = 0) => {
+    setActiveIndex(index);
+    setActiveItemIndex(index === 0 ? itemIndex : 0);
   };
 
   return (
-    <GalleryContext.Provider value={{ selectImage: setActiveIndex, labels }}>
+    <GalleryContext.Provider value={{ selectImage: openPage, labels }}>
       <Dialog.Root open={open} onOpenChange={setOpen}>
         {children}
         <Dialog.Portal>
@@ -145,7 +163,7 @@ export default function ProjectGallery({ project, number, style, children }: {
               }}
               onTouchCancel={() => { touchStart.current = null; }}
             >
-              <button type="button" aria-label="이전 종이" onClick={() => move(-1)} className="notebook-viewer-arrow"><UiIcon icon={ChevronLeft} /></button>
+              <button type="button" aria-label="이전 이미지" onClick={() => move(-1)} className="notebook-viewer-arrow"><UiIcon icon={ChevronLeft} /></button>
               <div className="notebook-viewer-stack">
                 <AnimatePresence mode="wait" custom={direction} initial={false}>
                   <motion.div
@@ -161,20 +179,27 @@ export default function ProjectGallery({ project, number, style, children }: {
                   >
                     <div className="notebook-viewer-page-heading">
                       <span>{project.title}</span>
-                      <span>{labels[activeIndex]} / {String(activeIndex + 1).padStart(2, "0")}</span>
+                      <span>{isCollection ? `${activeItem.label} / ${activeItemIndex + 1} · ${collectionItems.length}` : `${labels[activeIndex]} / ${String(activeIndex + 1).padStart(2, "0")}`}</span>
                     </div>
                     <div className={`notebook-viewer-media ${isCollection ? "notebook-viewer-media-collection" : ""}`}>
                       {isCollection ? (
-                        <div className="notebook-viewer-collection" onTouchStart={(event) => event.stopPropagation()} onTouchEnd={(event) => event.stopPropagation()} onTouchCancel={(event) => event.stopPropagation()}>
-                          {collectionItems.map((item) => (
-                            <a key={item.label} href={item.source} target="_blank" rel="noopener noreferrer" className="notebook-viewer-collection-item" aria-label={`${project.title} ${item.label} 원본 보기`}>
-                              <span className="notebook-viewer-collection-image">
-                                <Image src={item.source} alt={`${project.title} ${item.label} 화면`} fill sizes="(max-width: 639px) 75vw, 300px" className="object-contain" />
-                              </span>
-                              <span className="notebook-viewer-collection-label">{item.label} <span aria-hidden="true">↗</span></span>
-                            </a>
-                          ))}
-                        </div>
+                        <AnimatePresence mode="sync" initial={false} custom={direction}>
+                          <motion.a
+                            key={activeItemIndex}
+                            custom={direction}
+                            initial={{ opacity: 0, x: direction * 32 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: direction * -32 }}
+                            transition={{ duration: reduceMotion ? 0 : .2 }}
+                            href={activeItem.source}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="notebook-viewer-slide"
+                            aria-label={`${project.title} ${activeItem.label} 원본 보기`}
+                          >
+                            <Image src={activeItem.source} alt={`${project.title} ${activeItem.label} 화면`} fill sizes="(max-width: 768px) 100vw, 1200px" className="object-contain" />
+                          </motion.a>
+                        </AnimatePresence>
                       ) : source ? (
                         activePage.mobileSource ? (
                           <>
@@ -194,16 +219,16 @@ export default function ProjectGallery({ project, number, style, children }: {
                         {originalMobileSource && <a href={originalMobileSource} target="_blank" rel="noopener noreferrer" className={originalMobileSource === source ? "" : "sm:hidden"}>원본 보기 ↗</a>}
                         {originalMobileSource !== source && <a href={source} target="_blank" rel="noopener noreferrer" className="hidden sm:inline">원본 보기 ↗</a>}
                       </span>}
-                      {isCollection && <span className="ml-auto"><span className="sm:hidden">옆으로 밀어 보기 →</span><span className="hidden sm:inline">사진을 눌러 원본 보기 ↗</span></span>}
+                      {isCollection && <span className="ml-auto">{activeItem.label} · {activeItemIndex + 1} / {collectionItems.length}</span>}
                       <span>{String(activeIndex + 1).padStart(2, "0")}</span>
                     </div>
                   </motion.div>
                 </AnimatePresence>
               </div>
-              <button type="button" aria-label="다음 종이" onClick={() => move(1)} className="notebook-viewer-arrow"><UiIcon icon={ChevronRight} /></button>
+              <button type="button" aria-label="다음 이미지" onClick={() => move(1)} className="notebook-viewer-arrow"><UiIcon icon={ChevronRight} /></button>
             </div>
 
-            <div aria-live="polite" aria-atomic="true" className="sr-only">{labels[activeIndex]}, 이미지 {activeIndex + 1} / {labels.length}</div>
+            <div aria-live="polite" aria-atomic="true" className="sr-only">{labels[activeIndex]}{isCollection ? `, ${activeItem.label}, 이미지 ${activeItemIndex + 1} / ${collectionItems.length}` : `, 탭 ${activeIndex + 1} / ${labels.length}`}</div>
             <div role="group" aria-label="프로젝트 이미지 선택" className="notebook-viewer-index" style={{ gridTemplateColumns: `repeat(${pages.length}, minmax(0, 1fr))` }}>
               {labels.map((label, index) => (
                 <button key={label} type="button" onClick={() => selectPage(index)} aria-pressed={activeIndex === index}>
