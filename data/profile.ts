@@ -7,5 +7,4 @@ export const profile = {
   education: "경성대학교 · 2027년 2월 졸업 예정",
   gpa: "4.04 / 4.5",
   photoUrl: "/profile.jpg",
-  resumeUrl: "/resume.pdf",
 } as const;
