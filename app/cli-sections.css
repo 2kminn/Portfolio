@@ -61,7 +61,7 @@
 .cli-skill-group:nth-child(4) { --note-paper: #e8edf2; }
 .cli-skill-group:nth-child(5) { --note-paper: #f9eecf; }
 .cli-skill-group:nth-child(6) { --note-paper: #eee9f3; }
-.cli-skill-sheet { position: absolute; z-index: -1; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.cli-skill-sheet { position: absolute; z-index: -1; inset: 0; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 1px 2px rgb(37 35 31 / 12%)); pointer-events: none; }
 .cli-skill-bend { display: var(--note-bend); transform: scaleX(var(--note-reflection)); transform-box: view-box; transform-origin: center; }
 .cli-skill-straight { display: var(--note-straight); }
 .cli-skill-group h3 { margin: .5rem 0 1.5rem; font: 600 clamp(1.1rem, 2vw, 1.35rem)/1.4 var(--ui-font); color: #25231f; }
