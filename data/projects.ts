@@ -13,10 +13,14 @@ export type Project = {
   structureImage?: string;
   structureMobileImage?: string;
   galleryExtras?: { label: string; image: string }[];
+  coverLabel?: string;
+  screenLabel?: string;
   repositoryUrl?: string;
   liveUrl?: string;
   contributions?: { title: string; description: string }[];
   capturePlan?: { title: string; description: string; format: "mobile" | "desktop"; group: "user" | "admin"; image?: string }[];
+  captureIntro?: string;
+  captureGroupDescriptions?: Partial<Record<"user" | "admin", string>>;
   structureCaption?: string;
 };
 
@@ -111,6 +115,44 @@ const projectRecords: ProjectRecord[] = [
       { title: "운동 기록", description: "완료한 운동이 반영된 월간 기록", format: "mobile", group: "user", image: "/projects/moduflow/stats-workout.webp" },
       { title: "운동존 상태", description: "비콘 신호를 받기 전 혼잡도 표시 상태", format: "mobile", group: "user", image: "/projects/moduflow/congestion.webp" },
       { title: "관리자 대시보드", description: "샘플 출결 지표와 구역별 혼잡도·비콘 설정", format: "desktop", group: "admin", image: "/projects/moduflow/admin-cms.webp" },
+    ],
+  },
+  {
+    status: "published",
+    slug: "artar-busan",
+    title: "ArtAR Busan",
+    period: "2026.03 – 2026.06 · 캡스톤디자인 팀 프로젝트 (5인)",
+    summary: "방문 전에는 모바일에서 미술관과 작품을 살펴보고, 현장에서는 작품별 QR로 상세 정보를 확인하는 관람 서비스입니다. 저는 콘텐츠와 운영 데이터를 관리하는 CMS를 개발했습니다.",
+    role: "관리자 CMS 프론트엔드 개발 · 백엔드 및 API 연동 보조 · 모바일 앱 연동",
+    technologies: ["React", "TypeScript", "Vite", "Tailwind CSS", "Recharts", "FastAPI 연동", "QR 딥링크"],
+    challenge: "초기에는 XR 스마트글라스로 시선만으로 작품 정보를 확인하는 방식을 구상했습니다. 그러나 기기 수급과 개발 환경의 제약으로 기간 내 안정적인 구현이 어려워졌습니다. 팀은 관람객에게 필요한 정보를 현장에서 쉽게 제공한다는 목표를 유지하면서 스마트폰과 작품별 QR을 활용하는 방향으로 전환했습니다.",
+    solution: "방문 전 모바일 정보 탐색과 현장 QR 기반 작품 안내 흐름에 맞춰 관리자 CMS를 구성했습니다. React와 TypeScript로 장소·작품 등록 및 수정, 다국어 작품 정보, 작품별 QR 관리, 관리자 권한 흐름과 방문 통계 화면을 구현했습니다. 백엔드 API 연동과 모바일 앱에 전달할 데이터 형식을 팀원들과 함께 확인하고 수정했습니다.",
+    result: "XR 기기 제약 속에서도 스마트폰과 QR로 관람 흐름을 완성할 수 있는 방향을 찾았습니다. 담당자별 진행 상황과 연동 문제를 공유하며 CMS와 모바일 서비스의 연결을 맞췄고, 공동의 목표를 기준으로 구현 방식을 조정하는 협업의 중요성을 배웠습니다. 현재 공개 데모는 서버 연결이 없어 샘플 데이터로 화면을 확인할 수 있습니다.",
+    coverImage: "/projects/artar-busan/dashboard.jpg",
+    screenImage: "/projects/artar-busan/artworks.jpg",
+    coverLabel: "방문 통계 대시보드",
+    screenLabel: "작품 QR 관리",
+    galleryExtras: [
+      { label: "장소 관리", image: "/projects/artar-busan/places.jpg" },
+      { label: "작품 편집", image: "/projects/artar-busan/artwork-editor.jpg" },
+    ],
+    repositoryUrl: "https://github.com/2kminn/museum-admin-cms",
+    liveUrl: "https://museum-admin-cms.vercel.app",
+    contributions: [
+      { title: "관리자 CMS", description: "장소·작품 등록과 수정, 노출 상태 관리, 다국어 작품 입력 화면을 구현했습니다." },
+      { title: "QR 중심 운영 흐름", description: "작품별 QR URL과 출력 화면을 관리하고, 현장 모바일 관람 흐름에 맞춰 콘텐츠 구조를 정리했습니다." },
+      { title: "통계와 권한", description: "방문 추이와 언어 비율을 보여주는 대시보드, 관리자 권한 및 승인 화면을 구현했습니다." },
+      { title: "서비스 연동", description: "백엔드 개발과 API 연동을 보조하고, 모바일 앱 담당자와 데이터 형식 및 연결 문제를 함께 확인했습니다." },
+    ],
+    captureIntro: "관리자 CMS의 공개 데모에서 촬영했습니다. 서버 연결이 없어 샘플 데이터가 표시됩니다.",
+    captureGroupDescriptions: {
+      admin: "장소와 작품 정보를 관리하고, QR 기반 안내와 방문 통계를 확인하는 화면입니다.",
+    },
+    capturePlan: [
+      { title: "방문 통계 대시보드", description: "샘플 방문 추이와 언어별 비중 시각화", format: "desktop", group: "admin", image: "/projects/artar-busan/dashboard.jpg" },
+      { title: "작품 QR 관리", description: "작품별 정보, QR 생성 상태와 노출 여부를 확인", format: "desktop", group: "admin", image: "/projects/artar-busan/artworks.jpg" },
+      { title: "작품 정보 편집", description: "다국어 작품 정보와 QR URL, 미디어 입력 영역", format: "desktop", group: "admin", image: "/projects/artar-busan/artwork-editor.jpg" },
+      { title: "장소 관리", description: "모바일 앱에 표시할 미술관·문화공간 목록", format: "desktop", group: "admin", image: "/projects/artar-busan/places.jpg" },
     ],
   },
   {
