@@ -13,6 +13,7 @@ export type Project = {
   structureImage?: string;
   structureMobileImage?: string;
   galleryExtras?: { label: string; image: string }[];
+  galleryDisplay?: "portrait-group" | "sequence";
   coverLabel?: string;
   screenLabel?: string;
   repositoryUrl?: string;
@@ -99,6 +100,7 @@ const projectRecords: ProjectRecord[] = [
       { label: "혼잡도", image: "/projects/moduflow/congestion.webp" },
       { label: "루틴 추가", image: "/projects/moduflow/exercise-detail.webp" },
     ],
+    galleryDisplay: "portrait-group",
     structureCaption: "PWA, Android 앱, 백엔드, 자세 인식 서버의 연결 관계를 정리한 전체 시스템 구성도",
     contributions: [
       { title: "설계와 진행 관리", description: "화면 흐름, 전체 시스템 구성, 데이터 구조와 기능별 테스트 범위를 정리하고 개발 진행을 관리했습니다." },

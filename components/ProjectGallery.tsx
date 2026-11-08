@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import UiIcon from "@/components/UiIcon";
 import Image from "next/image";
 import { Dialog } from "@base-ui/react/dialog";
@@ -72,10 +72,18 @@ export default function ProjectGallery({ project, number, style, children }: {
   const [open, setOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [activeItemIndex, setActiveItemIndex] = useState(0);
+  const [canGroupPortrait, setCanGroupPortrait] = useState(false);
   const [direction, setDirection] = useState(1);
   const reduceMotion = usePrefersReducedMotion();
   const closeRef = useRef<HTMLButtonElement>(null);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
+  useEffect(() => {
+    const media = window.matchMedia("(min-width: 900px)");
+    const update = () => setCanGroupPortrait(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
   const hasGroupedScreens = !!project.galleryExtras?.length;
   const coverPage = { label: project.coverLabel ?? (hasGroupedScreens ? "관리자 CMS" : "대표 화면"), source: project.coverImage ? withBasePath(project.coverImage) : undefined, mobileSource: undefined as string | undefined };
   const screenPage = { label: project.screenLabel ?? (hasGroupedScreens ? "사용자 화면" : "화면 캡처"), source: project.screenImage ? withBasePath(project.screenImage) : undefined, mobileSource: undefined as string | undefined };
@@ -87,6 +95,8 @@ export default function ProjectGallery({ project, number, style, children }: {
   const activePage = pages[activeIndex];
   const source = activePage.source;
   const isCollection = hasGroupedScreens && activeIndex === 0 && !!source;
+  const portraitGroupEnabled = project.galleryDisplay === "portrait-group" && canGroupPortrait;
+  const showPortraitGroup = isCollection && portraitGroupEnabled;
   const collectionItems = screenPage.source ? [
     { label: project.screenLabel ?? "홈", source: screenPage.source },
     ...(project.galleryExtras?.map((item) => ({ label: item.label, source: withBasePath(item.image) })) ?? []),
@@ -97,17 +107,17 @@ export default function ProjectGallery({ project, number, style, children }: {
   const imageNumber = activeIndex === 0 ? number : `${number}.${activeIndex}`;
   const move = (step: number) => {
     setDirection(step);
-    if (isCollection && step > 0 && activeItemIndex < collectionItems.length - 1) {
+    if (isCollection && !showPortraitGroup && step > 0 && activeItemIndex < collectionItems.length - 1) {
       setActiveItemIndex(activeItemIndex + 1);
       return;
     }
-    if (isCollection && step < 0 && activeItemIndex > 0) {
+    if (isCollection && !showPortraitGroup && step < 0 && activeItemIndex > 0) {
       setActiveItemIndex(activeItemIndex - 1);
       return;
     }
     const nextIndex = (activeIndex + step + pages.length) % pages.length;
     setActiveIndex(nextIndex);
-    setActiveItemIndex(nextIndex === 0 && step < 0 ? collectionItems.length - 1 : 0);
+    setActiveItemIndex(nextIndex === 0 && step < 0 && !portraitGroupEnabled ? collectionItems.length - 1 : 0);
   };
   const selectPage = (index: number) => {
     if (index === activeIndex && activeItemIndex === 0) return;
@@ -179,10 +189,21 @@ export default function ProjectGallery({ project, number, style, children }: {
                   >
                     <div className="notebook-viewer-page-heading">
                       <span>{project.title}</span>
-                      <span>{isCollection ? `${activeItem.label} / ${activeItemIndex + 1} · ${collectionItems.length}` : `${labels[activeIndex]} / ${String(activeIndex + 1).padStart(2, "0")}`}</span>
+                      <span>{showPortraitGroup ? `${labels[activeIndex]} / ${collectionItems.length}장` : isCollection ? `${activeItem.label} / ${activeItemIndex + 1} · ${collectionItems.length}` : `${labels[activeIndex]} / ${String(activeIndex + 1).padStart(2, "0")}`}</span>
                     </div>
                     <div className={`notebook-viewer-media ${isCollection ? "notebook-viewer-media-collection" : ""}`}>
-                      {isCollection ? (
+                      {showPortraitGroup ? (
+                        <div className="notebook-viewer-portrait-grid">
+                          {collectionItems.map((item) => (
+                            <a key={item.source} href={item.source} target="_blank" rel="noopener noreferrer" className="notebook-viewer-portrait-item" aria-label={`${project.title} ${item.label} 원본 보기`}>
+                              <span className="notebook-viewer-portrait-image">
+                                <Image src={item.source} alt={`${project.title} ${item.label} 화면`} fill sizes="260px" className="object-contain" />
+                              </span>
+                              <span className="notebook-viewer-portrait-label">{item.label} ↗</span>
+                            </a>
+                          ))}
+                        </div>
+                      ) : isCollection ? (
                         <AnimatePresence mode="sync" initial={false} custom={direction}>
                           <motion.a
                             key={activeItemIndex}
@@ -219,7 +240,7 @@ export default function ProjectGallery({ project, number, style, children }: {
                         {originalMobileSource && <a href={originalMobileSource} target="_blank" rel="noopener noreferrer" className={originalMobileSource === source ? "" : "sm:hidden"}>원본 보기 ↗</a>}
                         {originalMobileSource !== source && <a href={source} target="_blank" rel="noopener noreferrer" className="hidden sm:inline">원본 보기 ↗</a>}
                       </span>}
-                      {isCollection && <span className="ml-auto">{activeItem.label} · {activeItemIndex + 1} / {collectionItems.length}</span>}
+                      {isCollection && <span className="ml-auto">{showPortraitGroup ? `${collectionItems.length}장 함께 보기` : `${activeItem.label} · ${activeItemIndex + 1} / ${collectionItems.length}`}</span>}
                       <span>{String(activeIndex + 1).padStart(2, "0")}</span>
                     </div>
                   </motion.div>
@@ -228,7 +249,7 @@ export default function ProjectGallery({ project, number, style, children }: {
               <button type="button" aria-label="다음 이미지" onClick={() => move(1)} className="notebook-viewer-arrow"><UiIcon icon={ChevronRight} /></button>
             </div>
 
-            <div aria-live="polite" aria-atomic="true" className="sr-only">{labels[activeIndex]}{isCollection ? `, ${activeItem.label}, 이미지 ${activeItemIndex + 1} / ${collectionItems.length}` : `, 탭 ${activeIndex + 1} / ${labels.length}`}</div>
+            <div aria-live="polite" aria-atomic="true" className="sr-only">{labels[activeIndex]}{showPortraitGroup ? `, 이미지 ${collectionItems.length}장 함께 보기` : isCollection ? `, ${activeItem.label}, 이미지 ${activeItemIndex + 1} / ${collectionItems.length}` : `, 탭 ${activeIndex + 1} / ${labels.length}`}</div>
             <div role="group" aria-label="프로젝트 이미지 선택" className="notebook-viewer-index" style={{ gridTemplateColumns: `repeat(${pages.length}, minmax(0, 1fr))` }}>
               {labels.map((label, index) => (
                 <button key={label} type="button" onClick={() => selectPage(index)} aria-pressed={activeIndex === index}>
