@@ -11,6 +11,7 @@ import { withBasePath } from "@/lib/base-path";
 import ProjectGallery, { ProjectImagePlaceholder, ProjectImageTrigger } from "@/components/ProjectGallery";
 import SectionHeading from "@/components/SectionHeading";
 import UiIcon from "@/components/UiIcon";
+import ProjectScreensPreview from "@/components/ProjectScreensPreview";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -133,7 +134,13 @@ export default async function ProjectDetail({ params }: Props) {
           </div>
         </section>
 
-        <ProjectMedia src={project.coverImage} alt={`${project.title} ${project.coverLabel ?? "대표 화면"}`} label={project.coverLabel ?? (project.galleryExtras?.length ? "관리자 CMS" : "대표 화면")} number={number} index={project.galleryExtras?.length ? 1 : 0} fit={project.slug === "moduflow" ? "contain" : "cover"} guide={project.capturePlan?.[0]?.description} />
+        {project.slug === "moduflow" ? (
+          <ProjectImageTrigger index={0} className="project-detail-media ui-detail-media relative block aspect-[4/3] w-full overflow-hidden bg-[#f4f7fb] sm:aspect-video">
+            <ProjectScreensPreview project={project} />
+          </ProjectImageTrigger>
+        ) : (
+          <ProjectMedia src={project.coverImage} alt={`${project.title} ${project.coverLabel ?? "대표 화면"}`} label={project.coverLabel ?? (project.galleryExtras?.length ? "관리자 CMS" : "대표 화면")} number={number} index={project.galleryExtras?.length ? 1 : 0} guide={project.capturePlan?.[0]?.description} />
+        )}
         <dl className="grid gap-6 py-8">
           <div><dt className="ui-label ui-muted">기간</dt><dd className="ui-body mt-2">{project.period}</dd></div>
           <div><dt className="ui-label ui-muted">역할</dt><dd className="ui-body mt-2">{project.role}</dd></div>

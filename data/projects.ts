@@ -96,8 +96,8 @@ const projectRecords: ProjectRecord[] = [
     structureImage: "/projects/moduflow/system-architecture.svg",
     structureMobileImage: "/projects/moduflow/system-architecture-mobile.svg",
     galleryExtras: [
-      { label: "자극 근육", image: "/projects/moduflow/exercise-detail.webp" },
       { label: "혼잡도", image: "/projects/moduflow/congestion.webp" },
+      { label: "루틴 추가", image: "/projects/moduflow/exercise-detail.webp" },
     ],
     structureCaption: "PWA, Android 앱, 백엔드, 자세 인식 서버의 연결 관계를 정리한 전체 시스템 구성도",
     contributions: [

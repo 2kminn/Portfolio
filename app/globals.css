@@ -24,6 +24,8 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
 .project-stack-card { transform-origin: top center; box-shadow: 0 12px 32px rgba(37,35,31,.08); }
 .project-preview { isolation: isolate; }
 .project-detail-media { background: var(--project-deep); }
+.project-screens-preview { position: absolute; inset: 0; display: grid; width: min(100%, 900px); height: 100%; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(.4rem, 1.2vw, 1rem); margin: auto; padding: clamp(.5rem, 1.5vw, 1.5rem); background: #f4f7fb; }
+.project-screens-preview-frame { position: relative; display: block; min-width: 0; min-height: 0; overflow: hidden; border: 1px solid #d9e2ec; border-radius: .5rem; background: #fff; box-shadow: 0 5px 14px rgb(37 35 31 / 8%); }
 .notebook-viewer { padding: max(1rem, env(safe-area-inset-top)) clamp(.75rem, 3vw, 2.5rem) max(.75rem, env(safe-area-inset-bottom)); background: #eae6dd; color: #25231f; }
 .notebook-viewer-header { display: flex; width: min(100%, 1200px); min-height: 4rem; align-items: center; justify-content: space-between; gap: 1rem; margin-inline: auto; border-bottom: 1px solid #cfc9bc; padding-bottom: .75rem; }
 .notebook-viewer-close, .notebook-viewer-arrow { display: inline-flex; flex: none; width: 2.75rem; height: 2.75rem; align-items: center; justify-content: center; border: 1px solid #aaa49a; background: #fffefa; color: #25231f; cursor: pointer; }
