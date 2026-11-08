@@ -106,5 +106,5 @@ body { font-family: var(--ui-font); font-size: var(--ui-body); line-height: 1.75
 .ui-footer { padding-block: var(--ui-space-8); color: var(--ui-muted); font-size: var(--ui-caption); line-height: 1.5; }
 .ui-media-label { display: inline-block; padding: .25rem .5rem; border-radius: .5rem; background: rgb(37 35 31 / 88%); color: #fffefa; font-size: var(--ui-caption); line-height: 1.5; }
 #site-header { padding-top: env(safe-area-inset-top); }
-#about, #skills, #projects, #experience, #certifications, #github { scroll-margin-top: calc(128px + env(safe-area-inset-top)); }
+#about, #skills, #projects, #experience, #certifications { scroll-margin-top: calc(128px + env(safe-area-inset-top)); }
 @media (prefers-reduced-motion: reduce) { .ui-button, .ui-icon-button, .ui-github-card { transition: none; } }

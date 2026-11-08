@@ -8,7 +8,6 @@ const sections = [
   { id: "projects", label: "프로젝트" },
   { id: "experience", label: "경험" },
   { id: "certifications", label: "자격" },
-  { id: "github", label: "연락처" },
 ] as const;
 
 export default function SectionNav() {

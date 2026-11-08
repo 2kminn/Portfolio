@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
-import { ArrowUpRight, Award, BriefcaseBusiness, Code2, FolderOpen, GitBranch, Mail, Menu, UserRound, X } from "lucide-react";
+import { ArrowUpRight, Award, BriefcaseBusiness, Code2, FolderOpen, GitBranch, Menu, UserRound, X } from "lucide-react";
 import styles from "./HomeNavigation.module.css";
 
 const sections = [
@@ -10,7 +10,6 @@ const sections = [
   { id: "experience", label: "경험", icon: BriefcaseBusiness },
   { id: "skills", label: "기술", icon: Code2 },
   { id: "certifications", label: "자격", icon: Award },
-  { id: "github", label: "연락처", icon: Mail },
 ] as const;
 
 type Props = { name: string; handle: string; githubUrl: string };
@@ -50,7 +49,7 @@ export default function HomeNavigation({ name, handle, githubUrl }: Props) {
       }
 
       const pageHeight = document.documentElement.scrollHeight;
-      if (pageHeight > window.innerHeight + 2 && window.scrollY + window.innerHeight >= pageHeight - 2) current = "github";
+      if (pageHeight > window.innerHeight + 2 && window.scrollY + window.innerHeight >= pageHeight - 2) current = "certifications";
       setActive(current);
     };
 

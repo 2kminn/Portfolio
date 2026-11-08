@@ -2,7 +2,6 @@ import About from "@/components/About";
 import BackToTop from "@/components/BackToTop";
 import Certifications from "@/components/Certifications";
 import Experience from "@/components/Experience";
-import GitHubArchive from "@/components/GitHubArchive";
 import ProjectsSection from "@/components/ProjectsSection";
 import SiteHeader from "@/components/SiteHeader";
 import Skills from "@/components/Skills";
@@ -21,7 +20,6 @@ export default function Home() {
         <ProjectsSection />
         <Experience />
         <Certifications />
-        <GitHubArchive />
       </main>
       <footer className="cli-footer">
         <div className="cli-container">

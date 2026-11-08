@@ -4,10 +4,10 @@ import { useEffect, useRef, useState } from "react";
 import { profile } from "@/data/profile";
 import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
 import { Download } from "lucide-react";
+import { withBasePath } from "@/lib/base-path";
 
 const command = "whoami";
-const rolePrefix = "개발자 ";
-const introduction = `안녕하세요.\n${rolePrefix}${profile.name}입니다.`;
+const introduction = "화면을 만들고,\n서비스를 연결합니다.";
 
 export default function Terminal() {
   const terminalRef = useRef<HTMLElement>(null);
@@ -61,9 +61,6 @@ export default function Terminal() {
 
   const displayedIntroduction = reduceMotion ? introduction : typedIntroduction;
   const [firstLine, secondLine = ""] = displayedIntroduction.split("\n");
-  const beforeName = secondLine.slice(0, rolePrefix.length);
-  const name = secondLine.slice(rolePrefix.length, rolePrefix.length + profile.name.length);
-  const afterName = secondLine.slice(rolePrefix.length + profile.name.length);
   const showCommandCaret = !reduceMotion && status === "command";
   const showIntroductionCaret = !reduceMotion && status !== "command";
 
@@ -73,7 +70,7 @@ export default function Terminal() {
 
         <div className="relative z-10 flex items-center justify-between gap-4 border-b pb-5 ui-divider">
           <span aria-hidden="true" className="flex gap-1.5"><i className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" /><i className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" /><i className="h-2.5 w-2.5 rounded-full bg-[#28c840]" /></span>
-          <a href={profile.resumeUrl} download={profile.name + "_이력서.pdf"} className="terminal-resume" aria-label={profile.name + " 이력서 PDF 다운로드"}>
+          <a href={withBasePath(profile.resumeUrl)} download={profile.name + "_이력서.pdf"} className="terminal-resume" aria-label={profile.name + " 이력서 PDF 다운로드"}>
             <Download size={15} aria-hidden="true" />
             <span>이력서 다운로드</span>
             <small>PDF</small>
@@ -85,8 +82,9 @@ export default function Terminal() {
           <div className="min-h-[clamp(120px,17vw,190px)]">
             <h1 id="hero-title" className="max-w-[1100px] break-keep ui-display">
               <span className="sr-only">{introduction}</span>
-              <span aria-hidden="true">{firstLine}{displayedIntroduction.includes("\n") && <br />}{beforeName}{name}{afterName}{showIntroductionCaret && <span className="terminal-caret ml-1 inline-block">_</span>}</span>
+              <span aria-hidden="true">{firstLine}{displayedIntroduction.includes("\n") && <br />}{secondLine}{showIntroductionCaret && <span className="terminal-caret ml-1 inline-block">_</span>}</span>
             </h1>
+            <p className="ui-label ui-muted mt-5">개발자 {profile.name}</p>
           </div>
         </div>
       </div>

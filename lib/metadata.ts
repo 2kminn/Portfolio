@@ -1,3 +1,5 @@
+import { withBasePath } from "@/lib/base-path";
+
 function parseHttpUrl(value: string | undefined): URL | undefined {
   if (!value || !/^https?:\/\//i.test(value.trim())) return undefined;
 
@@ -19,7 +21,7 @@ export function resolveSocialImageUrl(source: string | undefined, base = metadat
   if (!base) return undefined;
 
   try {
-    return parseHttpUrl(new URL(source, base).href)?.href;
+    return parseHttpUrl(new URL(withBasePath(source), base).href)?.href;
   } catch {
     return undefined;
   }

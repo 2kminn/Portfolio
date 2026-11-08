@@ -8,6 +8,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Maximize2, X } from "lucide-react";
 import type { Project } from "@/data/projects";
 import { profile } from "@/data/profile";
+import { withBasePath } from "@/lib/base-path";
 import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
 
 const labels = ["대표 화면", "화면 캡처", "구조도"];
@@ -74,7 +75,7 @@ export default function ProjectGallery({ project, number, style, children }: {
   const reduceMotion = usePrefersReducedMotion();
   const closeRef = useRef<HTMLButtonElement>(null);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
-  const sources = [project.coverImage, project.screenImage, project.structureImage];
+  const sources = [project.coverImage, project.screenImage, project.structureImage].map((src) => src ? withBasePath(src) : undefined);
   const source = sources[activeIndex];
   const imageNumber = activeIndex === 0 ? number : `${number}.${activeIndex}`;
   const move = (step: number) => {
@@ -152,7 +153,7 @@ export default function ProjectGallery({ project, number, style, children }: {
                       {source ? (
                         activeIndex === 2 && project.structureMobileImage ? (
                           <>
-                            <Image src={project.structureMobileImage} alt={`${project.title} 모바일 구조도`} width={600} height={1010} sizes="(max-width: 640px) 100vw, 600px" className="sm:hidden" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                            <Image src={withBasePath(project.structureMobileImage)} alt={`${project.title} 모바일 구조도`} width={600} height={1010} sizes="(max-width: 640px) 100vw, 600px" className="sm:hidden" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
                             <Image src={source} alt={`${project.title} 구조도`} width={1200} height={620} sizes="(max-width: 768px) 100vw, 1200px" className="hidden sm:block" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
                           </>
                         ) : (

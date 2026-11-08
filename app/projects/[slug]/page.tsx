@@ -7,6 +7,7 @@ import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { getProject, projects } from "@/data/projects";
 import { profile } from "@/data/profile";
 import { resolveSocialImageUrl } from "@/lib/metadata";
+import { withBasePath } from "@/lib/base-path";
 import ProjectGallery, { ProjectImagePlaceholder, ProjectImageTrigger } from "@/components/ProjectGallery";
 import SectionHeading from "@/components/SectionHeading";
 import UiIcon from "@/components/UiIcon";
@@ -68,11 +69,11 @@ function ProjectMedia({ src, mobileSrc, alt, label, number, index, compact = fal
       {src ? (
         mobileSrc ? (
           <>
-            <Image src={mobileSrc} alt={alt} fill className="object-contain p-2 sm:hidden" sizes="(max-width: 560px) 100vw, 600px" />
-            <Image src={src} alt={alt} fill className="hidden object-contain p-3 sm:block sm:p-6" sizes="(max-width: 768px) 100vw, 1200px" />
+            <Image src={withBasePath(mobileSrc)} alt={alt} fill className="object-contain p-2 sm:hidden" sizes="(max-width: 560px) 100vw, 600px" />
+            <Image src={withBasePath(src)} alt={alt} fill className="hidden object-contain p-3 sm:block sm:p-6" sizes="(max-width: 768px) 100vw, 1200px" />
           </>
         ) : (
-          <Image src={src} alt={alt} fill className="object-cover" sizes="(max-width: 768px) 100vw, 1200px" />
+          <Image src={withBasePath(src)} alt={alt} fill className="object-cover" sizes="(max-width: 768px) 100vw, 1200px" />
         )
       ) : (
         <ProjectImagePlaceholder label={label} number={number} compact={compact} guide={guide} />
@@ -171,7 +172,7 @@ export default async function ProjectDetail({ params }: Props) {
                   <figure key={item.title} className={`moduflow-capture moduflow-capture-${item.format}`}>
                     <div className="moduflow-capture-frame" aria-label={item.image ? `${item.title} 화면 캡처` : `${item.title} 화면 캡처 예정`}>
                       {item.image ? (
-                        <Image src={item.image} alt={`${project.title} ${item.title} 화면`} fill className="object-contain" sizes={item.format === "mobile" ? "(max-width: 560px) 50vw, 320px" : "(max-width: 768px) 100vw, 672px"} />
+                        <Image src={withBasePath(item.image)} alt={`${project.title} ${item.title} 화면`} fill className="object-contain" sizes={item.format === "mobile" ? "(max-width: 560px) 50vw, 320px" : "(max-width: 768px) 100vw, 672px"} />
                       ) : (
                         <>
                           <span className="moduflow-capture-number">{String(captureIndex + 1).padStart(2, "0")}</span>

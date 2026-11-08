@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import type { CSSProperties } from "react";
 import { profile } from "@/data/profile";
 import { metadataBase } from "@/lib/metadata";
+import { withBasePath } from "@/lib/base-path";
 import AnimationToggle from "@/components/AnimationToggle";
 import "./globals.css";
 import "./ui-system.css";
@@ -26,8 +28,8 @@ export const metadata: Metadata = {
     description,
   },
   icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
+    icon: withBasePath("/favicon.svg"),
+    shortcut: withBasePath("/favicon.svg"),
   },
 };
 
@@ -37,7 +39,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
+    <html lang="ko" style={{ "--notebook-connector-image": `url("${withBasePath("/notebook-connector.svg")}")` } as CSSProperties}>
       <body><AnimationToggle />{children}</body>
     </html>
   );

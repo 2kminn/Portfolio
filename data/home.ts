@@ -62,6 +62,7 @@ export const certifications: Certification[] = [
   { name: "ADsP · 데이터분석 준전문가", date: "2026.06.05", issuer: "한국데이터산업진흥원", detail: "유효기간 영구" },
   { name: "리눅스마스터 2급", date: "2026.04.03", issuer: "국가공인 정보통신기술자격" },
   { name: "SQLD · SQL 개발자", date: "2025.12.12", issuer: "한국데이터산업진흥원", detail: "유효기간 2027.12.12까지" },
+  { name: "운전면허 1종 보통", date: "2021.01.04", issuer: "경찰청", detail: "발급일 기준" },
 ];
 
 export const skillGroups: SkillGroup[] = [

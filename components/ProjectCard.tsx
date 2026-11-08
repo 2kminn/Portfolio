@@ -8,6 +8,7 @@ import { ArrowUpRight } from "lucide-react";
 import { motion, useTransform, type MotionValue } from "framer-motion";
 import type { Project } from "@/data/projects";
 import { profile } from "@/data/profile";
+import { withBasePath } from "@/lib/base-path";
 import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
 import ProjectGallery, { ProjectImageTrigger } from "@/components/ProjectGallery";
 
@@ -50,13 +51,13 @@ export default function ProjectCard({ project, index, total, progress }: {
         <div className="grid h-[230px] grid-cols-[.8fr_1.2fr] gap-3 sm:h-[330px] md:h-[clamp(340px,44vh,480px)] md:grid-cols-[.7fr_1.3fr]">
           <div className="grid min-h-0 grid-rows-[.75fr_1fr] gap-3">
             <ProjectImageTrigger index={1} className="project-preview relative overflow-hidden rounded-[22px] p-4 sm:rounded-[32px] sm:p-6" style={{ background: `linear-gradient(135deg, ${palette.dark}, ${palette.light})` }}>
-              {project.screenImage ? <Image src={project.screenImage} alt={`${project.title} 화면 캡처`} fill sizes="(max-width: 768px) 40vw, 400px" className="object-cover" /> : <>
+              {project.screenImage ? <Image src={withBasePath(project.screenImage)} alt={`${project.title} 화면 캡처`} fill sizes="(max-width: 768px) 40vw, 400px" className="object-cover" /> : <>
               <span className="relative z-10 font-mono ui-caption ui-muted">{project.capturePlan ? "SCREEN / 운동 · 루틴" : `WIREFRAME / ${number}`}</span>
               <div aria-hidden="true" className="absolute right-[10%] bottom-[-45%] size-[160px] rounded-full border-[18px] border-black/10 sm:size-[230px] sm:border-[28px]" />
               </>}
             </ProjectImageTrigger>
             <ProjectImageTrigger index={2} className="project-preview relative overflow-hidden rounded-[22px] border p-4 sm:rounded-[32px] sm:p-6 ui-divider">
-              {project.structureImage ? <Image src={project.structureImage} alt={`${project.title} 구조도`} fill sizes="(max-width: 768px) 40vw, 400px" className={project.slug === "moduflow" ? "object-contain bg-white p-2" : "object-cover"} /> : <>
+              {project.structureImage ? <Image src={withBasePath(project.structureImage)} alt={`${project.title} 구조도`} fill sizes="(max-width: 768px) 40vw, 400px" className={project.slug === "moduflow" ? "object-contain bg-white p-2" : "object-cover"} /> : <>
               <span className="font-mono ui-caption ui-muted">STRUCTURE</span>
               <div aria-hidden="true" className="mt-6 space-y-3 opacity-70"><i className="block h-2 w-3/4 rounded-full bg-black/30" /><i className="block h-2 w-1/2 rounded-full bg-black/20" /><i className="block h-2 w-2/3 rounded-full bg-black/10" /></div>
               <span className="absolute right-5 bottom-3 ui-title ui-muted">{number}</span>
@@ -64,7 +65,7 @@ export default function ProjectCard({ project, index, total, progress }: {
             </ProjectImageTrigger>
           </div>
           <ProjectImageTrigger index={0} className="project-preview relative flex min-w-0 flex-col justify-between overflow-hidden rounded-[22px] border p-5 sm:rounded-[32px] sm:p-8 ui-divider" style={{ background: `radial-gradient(circle at 65% 45%, ${palette.light} 0%, ${palette.dark} 80%)` }}>
-            {project.coverImage ? <Image src={project.coverImage} alt={`${project.title} 대표 화면`} fill sizes="(max-width: 768px) 60vw, 700px" className="object-cover" /> : <>
+            {project.coverImage ? <Image src={withBasePath(project.coverImage)} alt={`${project.title} 대표 화면`} fill sizes="(max-width: 768px) 60vw, 700px" className="object-cover" /> : <>
             <div className="relative z-10 flex justify-between font-mono ui-muted"><span>{profile.handle.toUpperCase()} / PORTFOLIO</span><span>0{index + 1}</span></div>
             <div aria-hidden="true" className="absolute top-1/2 left-1/2 size-[220px] -translate-x-1/2 -translate-y-1/2 rotate-45 rounded-[45px] border border-black/20 sm:size-[330px] sm:rounded-[70px] md:size-[420px]" />
             <div aria-hidden="true" className="absolute top-1/2 left-1/2 size-[130px] -translate-x-1/2 -translate-y-1/2 rounded-full border-[25px] opacity-70 blur-[1px] sm:size-[200px] sm:border-[38px]" style={{ borderColor: palette.glow }} />
