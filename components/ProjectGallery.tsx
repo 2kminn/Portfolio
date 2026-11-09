@@ -218,7 +218,7 @@ export default function ProjectGallery({ project, number, style, children }: {
                             className="notebook-viewer-slide"
                             aria-label={`${project.title} ${activeItem.label} 원본 보기`}
                           >
-                            <Image src={activeItem.source} alt={`${project.title} ${activeItem.label} 화면`} fill sizes="(max-width: 768px) 100vw, 1200px" className="object-contain" />
+                            <Image src={activeItem.source} alt={`${project.title} ${activeItem.label} 화면`} fill unoptimized sizes="(max-width: 768px) 100vw, 1200px" className="object-contain" />
                           </motion.a>
                         </AnimatePresence>
                       ) : source ? (
@@ -228,7 +228,7 @@ export default function ProjectGallery({ project, number, style, children }: {
                             <Image src={source} alt={`${project.title} 구조도`} width={1200} height={620} sizes="(max-width: 768px) 100vw, 1200px" className="hidden sm:block" style={{ width: "100%", height: "100%", objectFit: "contain" }} />
                           </>
                         ) : (
-                          <Image key={source} src={source} alt={`${project.title} ${labels[activeIndex]}`} fill sizes="(max-width: 768px) 100vw, 1200px" className="object-contain" />
+                          <Image key={source} src={source} alt={`${project.title} ${labels[activeIndex]}`} fill unoptimized sizes="(max-width: 768px) 100vw, 1200px" className="object-contain" />
                         )
                       ) : (
                         <div className="project-detail-media h-full"><ProjectImagePlaceholder label={labels[activeIndex]} number={imageNumber} guide={activeIndex === 0 ? project.capturePlan?.[0]?.description : undefined} /></div>
