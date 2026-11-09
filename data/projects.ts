@@ -133,6 +133,9 @@ const projectRecords: ProjectRecord[] = [
     result: "XR 기기 제약 속에서도 스마트폰과 QR로 관람 흐름을 완성할 수 있는 방향을 찾았습니다. 담당자별 진행 상황과 연동 문제를 공유하며 CMS와 모바일 서비스의 연결을 맞췄고, 공동의 목표를 기준으로 구현 방식을 조정하는 협업의 중요성을 배웠습니다. 현재 공개 데모는 서버 연결이 없어 샘플 데이터로 화면을 확인할 수 있습니다.",
     coverImage: "/projects/artar-busan/dashboard.jpg",
     screenImage: "/projects/artar-busan/artworks.jpg",
+    structureImage: "/projects/artar-busan/system-architecture.svg",
+    structureMobileImage: "/projects/artar-busan/system-architecture-mobile.svg",
+    structureCaption: "관리자 승인과 CMS 콘텐츠 등록, FastAPI 연동, 모바일 앱의 QR 관람과 통계 조회를 연결한 최종 구현 흐름",
     coverLabel: "방문 통계 대시보드",
     screenLabel: "작품 QR 관리",
     galleryExtras: [

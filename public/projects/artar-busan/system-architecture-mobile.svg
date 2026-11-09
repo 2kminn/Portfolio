@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 1200" role="img" aria-labelledby="title description">
+  <title id="title">ArtAR Busan 시스템 구성 모바일 보기</title>
+  <desc id="description">관리자 등록과 승인, CMS 콘텐츠 입력, FastAPI 제공, Android 앱 관람, 작품별 QR 안내와 CMS 통계 조회의 흐름</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 1 1 L 9 5 L 1 9" fill="none" stroke="#315A88" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <style>
+      text { font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", Arial, sans-serif; }
+      .title { fill: #18334F; font-size: 30px; font-weight: 700; }
+      .intro { fill: #61758A; font-size: 18px; }
+      .step { fill: #315A88; font-size: 16px; font-weight: 700; }
+      .name { fill: #17324E; font-size: 26px; font-weight: 700; }
+      .detail { fill: #566B80; font-size: 20px; }
+      .panel { fill: #17324E; font-size: 22px; font-weight: 700; }
+      .flow { fill: #315A88; font-size: 20px; font-weight: 700; }
+      .note { fill: #61758A; font-size: 17px; }
+    </style>
+  </defs>
+  <rect width="600" height="1200" fill="#FFFFFF"/>
+  <text x="36" y="54" class="title">ArtAR Busan 시스템 구성</text>
+  <text x="36" y="87" class="intro">CMS에서 모바일 관람까지</text>
+  <path d="M 36 107 H 564" stroke="#D7E0E9" stroke-width="2"/>
+
+  <rect x="36" y="127" width="528" height="142" rx="14" fill="#F5F8FC" stroke="#BDD0E0" stroke-width="2"/>
+  <rect x="36" y="127" width="6" height="142" rx="3" fill="#315A88"/>
+  <text x="62" y="160" class="step">01  ACCESS</text>
+  <text x="62" y="204" class="name">관리자 등록·승인</text>
+  <text x="62" y="238" class="detail">박물관 신청 → 슈퍼유저 승인</text>
+
+  <path d="M 300 269 V 301" fill="none" stroke="#315A88" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <rect x="36" y="306" width="528" height="142" rx="14" fill="#F5F8FC" stroke="#BDD0E0" stroke-width="2"/>
+  <rect x="36" y="306" width="6" height="142" rx="3" fill="#315A88"/>
+  <text x="62" y="339" class="step">02  CONTENT</text>
+  <text x="62" y="383" class="name">관리자 CMS</text>
+  <text x="62" y="417" class="detail">행사 · 장소 · 작품 입력 / QR 출력</text>
+
+  <path d="M 300 448 V 480" fill="none" stroke="#315A88" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <rect x="36" y="485" width="528" height="142" rx="14" fill="#F5F8FC" stroke="#BDD0E0" stroke-width="2"/>
+  <rect x="36" y="485" width="6" height="142" rx="3" fill="#315A88"/>
+  <text x="62" y="518" class="step">03  SERVICE</text>
+  <text x="62" y="562" class="name">FastAPI</text>
+  <text x="62" y="596" class="detail">인증 · 콘텐츠 · QR URL 제공</text>
+
+  <path d="M 300 627 V 659" fill="none" stroke="#315A88" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <rect x="36" y="664" width="528" height="142" rx="14" fill="#F5F8FC" stroke="#BDD0E0" stroke-width="2"/>
+  <rect x="36" y="664" width="6" height="142" rx="3" fill="#315A88"/>
+  <text x="62" y="697" class="step">04  VISITOR</text>
+  <text x="62" y="741" class="name">Android 앱</text>
+  <text x="62" y="775" class="detail">방문 전 탐색 · 현장 작품 안내</text>
+
+  <rect x="36" y="836" width="528" height="139" rx="14" fill="#FFFFFF" stroke="#C8D6E4" stroke-width="2"/>
+  <text x="62" y="874" class="panel">현장 관람</text>
+  <text x="62" y="915" class="flow">작품별 QR → 앱 딥링크 → 상세</text>
+  <text x="62" y="947" class="note">API의 QR URL을 CMS에서 출력합니다.</text>
+
+  <rect x="36" y="993" width="528" height="139" rx="14" fill="#FFFFFF" stroke="#C8D6E4" stroke-width="2"/>
+  <text x="62" y="1031" class="panel">운영 지표</text>
+  <text x="62" y="1072" class="flow">API 요약 → CMS 대시보드</text>
+  <text x="62" y="1104" class="note">방문 추이 · 언어별 사용자 비율</text>
+
+  <text x="36" y="1172" class="note">XR 구상에서 스마트폰·QR 방식으로 전환</text>
+</svg>
