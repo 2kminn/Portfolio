@@ -137,6 +137,8 @@ const projectRecords: ProjectRecord[] = [
     galleryExtras: [
       { label: "장소 관리", image: "/projects/artar-busan/places.jpg" },
       { label: "작품 편집", image: "/projects/artar-busan/artwork-editor.jpg" },
+      { label: "미술관 등록", image: "/projects/artar-busan/museum-registration.jpg" },
+      { label: "슈퍼유저 승인", image: "/projects/artar-busan/super-admin-approval.jpg" },
     ],
     repositoryUrl: "https://github.com/2kminn/museum-admin-cms",
     liveUrl: "https://museum-admin-cms.vercel.app",
@@ -155,6 +157,8 @@ const projectRecords: ProjectRecord[] = [
       { title: "작품 QR 관리", description: "작품별 정보, QR 생성 상태와 노출 여부를 확인", format: "desktop", group: "admin", image: "/projects/artar-busan/artworks.jpg" },
       { title: "작품 정보 편집", description: "다국어 작품 정보와 QR URL, 미디어 입력 영역", format: "desktop", group: "admin", image: "/projects/artar-busan/artwork-editor.jpg" },
       { title: "장소 관리", description: "모바일 앱에 표시할 미술관·문화공간 목록", format: "desktop", group: "admin", image: "/projects/artar-busan/places.jpg" },
+      { title: "미술관 등록 신청", description: "기관 정보 입력과 서버 없이 확인할 수 있는 임시 신청 흐름", format: "desktop", group: "admin", image: "/projects/artar-busan/museum-registration.jpg" },
+      { title: "슈퍼유저 승인", description: "관리자 신청 목록 확인과 승인·거절 처리", format: "desktop", group: "admin", image: "/projects/artar-busan/super-admin-approval.jpg" },
     ],
   },
   {
