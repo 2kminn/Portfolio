@@ -107,6 +107,16 @@ img.object-contain { object-fit: contain !important; }
   .notebook-viewer-index button { justify-content: center; gap: .25rem; padding-inline: .1rem; font-size: .65rem; white-space: nowrap; }
   .notebook-viewer-index button span { display: none; }
 }
+@media (max-width: 899px) {
+  .notebook-viewer-stage-landscape { position: relative; display: block; }
+  .notebook-viewer-stage-landscape .notebook-viewer-stack { position: absolute; top: 50%; left: 0; width: 100%; height: min(70vh, 72vw); max-height: 100%; aspect-ratio: auto; transform: translateY(-50%); }
+  .notebook-viewer-stage-landscape .notebook-viewer-arrow { position: absolute; top: 50%; z-index: 5; transform: translateY(-50%); }
+  .notebook-viewer-stage-landscape .notebook-viewer-arrow:first-child { left: 0; }
+  .notebook-viewer-stage-landscape .notebook-viewer-arrow:last-child { right: 0; }
+  .notebook-viewer-stage-landscape .notebook-viewer-page::before { display: none; }
+  .notebook-viewer-stage-landscape .notebook-viewer-page-heading, .notebook-viewer-stage-landscape .notebook-viewer-page-footer { padding-left: 0; }
+  .notebook-viewer-stage-landscape .notebook-viewer-media { margin-left: 0; }
+}
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .terminal-caret, .fade-in-visible { animation: none; }

@@ -113,7 +113,7 @@ export default function ProjectGallery({ project, number, style, children }: {
   const showPortraitGroup = isCollection && portraitGroupEnabled;
   const activeItem = collectionItems[activeItemIndex];
   const originalMobileSource = activePage.mobileSource ?? source;
-  const landscapeCover = project.slug === "moduflow" && activeIndex === 1;
+  const landscapeCover = project.slug === "artar-busan" || (project.slug === "moduflow" && activeIndex === 1);
   const imageNumber = activeIndex === 0 ? number : `${number}.${activeIndex}`;
   const move = (step: number) => {
     setDirection(step);

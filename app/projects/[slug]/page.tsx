@@ -75,7 +75,7 @@ function ProjectMedia({ src, mobileSrc, alt, label, number, index, compact = fal
             <Image src={withBasePath(src)} alt={alt} fill className="hidden object-contain p-3 sm:block sm:p-6" sizes="(max-width: 768px) 100vw, 1200px" />
           </>
         ) : (
-          <Image src={withBasePath(src)} alt={alt} fill className={fit === "contain" ? "object-contain" : "object-cover"} sizes="(max-width: 768px) 100vw, 1200px" />
+          <Image src={withBasePath(src)} alt={alt} fill unoptimized={src.includes("/artar-busan/")} className={fit === "contain" ? "object-contain" : "object-cover"} sizes="(max-width: 768px) 100vw, 1200px" />
         )
       ) : (
         <ProjectImagePlaceholder label={label} number={number} compact={compact} guide={guide} />
@@ -192,7 +192,7 @@ export default async function ProjectDetail({ params }: Props) {
                         <div className={`moduflow-capture-frame ${item.image ? "has-image" : ""}`} aria-label={item.image ? `${item.title} 화면 캡처` : `${item.title} 화면 캡처 예정`}>
                           {item.image ? (
                             <a href={withBasePath(item.image)} target="_blank" rel="noopener noreferrer" className="relative block h-full w-full cursor-zoom-in" aria-label={`${item.title} 원본 화면 보기`}>
-                              <Image src={withBasePath(item.image)} alt={`${project.title} ${item.title} 화면`} fill className="object-contain" sizes={item.format === "mobile" ? "(max-width: 639px) 100vw, 340px" : "(max-width: 768px) 100vw, 672px"} />
+                              <Image src={withBasePath(item.image)} alt={`${project.title} ${item.title} 화면`} fill unoptimized={project.slug === "artar-busan"} className="object-contain" sizes={item.format === "mobile" ? "(max-width: 639px) 100vw, 340px" : "(max-width: 768px) 100vw, 672px"} />
                             </a>
                           ) : (
                             <>
