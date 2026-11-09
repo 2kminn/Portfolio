@@ -54,6 +54,16 @@ export default function ProjectCard({ project, index, total, progress }: {
           </Link>
         </div>
 
+        {isArtar && project.galleryTabs ? (
+          <div className="grid h-[300px] grid-cols-2 gap-3 sm:h-[330px] md:h-[clamp(340px,44vh,480px)]">
+            {project.galleryTabs.map((tab, tabIndex) => (
+              <ProjectImageTrigger key={tab.label} index={tabIndex} className="project-preview relative overflow-hidden rounded-[22px] border bg-white sm:rounded-[32px] ui-divider">
+                <Image src={withBasePath(tab.images[0].image)} alt={`${project.title} ${tab.label}`} fill unoptimized sizes="(max-width: 768px) 50vw, 500px" className="object-contain" />
+                <span className="absolute bottom-3 left-3 z-10 rounded-md border border-black/10 bg-white/95 px-2 py-1 text-xs font-semibold text-[#25231f] sm:bottom-5 sm:left-5 sm:px-3 sm:py-1.5">{String(tabIndex + 1).padStart(2, "0")} {tab.label}</span>
+              </ProjectImageTrigger>
+            ))}
+          </div>
+        ) : (
         <div className={`grid grid-cols-1 gap-3 sm:h-[330px] md:h-[clamp(340px,44vh,480px)] ${isModuFlow ? "sm:grid-cols-[1.2fr_.8fr] md:grid-cols-[1.3fr_.7fr]" : "sm:grid-cols-[.8fr_1.2fr] md:grid-cols-[.7fr_1.3fr]"}`}>
           <div className={`order-2 grid h-[150px] min-h-0 grid-cols-2 gap-3 sm:h-auto sm:grid-cols-1 sm:grid-rows-[.75fr_1fr] ${isModuFlow ? "sm:order-2" : "sm:order-1"}`}>
             <ProjectImageTrigger index={isModuFlow ? 1 : isArtar ? 3 : secondaryPreview ? 0 : 1} className="project-preview relative overflow-hidden rounded-[22px] p-4 sm:rounded-[32px] sm:p-6" style={{ background: `linear-gradient(135deg, ${palette.dark}, ${palette.light})` }}>
@@ -79,6 +89,7 @@ export default function ProjectCard({ project, index, total, progress }: {
             </>}
           </ProjectImageTrigger>
         </div>
+        )}
       </motion.article>
       </ProjectGallery>
     </div>
