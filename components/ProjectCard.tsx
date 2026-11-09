@@ -31,6 +31,7 @@ export default function ProjectCard({ project, index, total, progress }: {
   const palette = palettes[index % palettes.length];
   const number = String(index + 1).padStart(2, "0");
   const isModuFlow = project.slug === "moduflow";
+  const isArtar = project.slug === "artar-busan";
   const secondaryPreview = isModuFlow ? undefined : project.galleryExtras?.[0];
   const secondaryImage = secondaryPreview?.image ?? project.structureImage;
   const secondaryLabel = secondaryPreview?.label ?? "구조도";
@@ -55,13 +56,13 @@ export default function ProjectCard({ project, index, total, progress }: {
 
         <div className={`grid grid-cols-1 gap-3 sm:h-[330px] md:h-[clamp(340px,44vh,480px)] ${isModuFlow ? "sm:grid-cols-[1.2fr_.8fr] md:grid-cols-[1.3fr_.7fr]" : "sm:grid-cols-[.8fr_1.2fr] md:grid-cols-[.7fr_1.3fr]"}`}>
           <div className={`order-2 grid h-[150px] min-h-0 grid-cols-2 gap-3 sm:h-auto sm:grid-cols-1 sm:grid-rows-[.75fr_1fr] ${isModuFlow ? "sm:order-2" : "sm:order-1"}`}>
-            <ProjectImageTrigger index={isModuFlow ? 1 : secondaryPreview ? 0 : 1} className="project-preview relative overflow-hidden rounded-[22px] p-4 sm:rounded-[32px] sm:p-6" style={{ background: `linear-gradient(135deg, ${palette.dark}, ${palette.light})` }}>
+            <ProjectImageTrigger index={isModuFlow ? 1 : isArtar ? 3 : secondaryPreview ? 0 : 1} className="project-preview relative overflow-hidden rounded-[22px] p-4 sm:rounded-[32px] sm:p-6" style={{ background: `linear-gradient(135deg, ${palette.dark}, ${palette.light})` }}>
               {isModuFlow && project.coverImage ? <Image src={withBasePath(project.coverImage)} alt={`${project.title} 관리자 CMS`} fill sizes="(max-width: 768px) 40vw, 400px" className="object-contain bg-white p-2" /> : project.screenImage ? <Image src={withBasePath(project.screenImage)} alt={`${project.title} ${project.screenLabel ?? "화면 캡처"}`} fill sizes="(max-width: 768px) 40vw, 400px" className="object-cover" /> : <>
               <span className="relative z-10 font-mono ui-caption ui-muted">{project.capturePlan ? "SCREEN / 운동 · 루틴" : `WIREFRAME / ${number}`}</span>
               <div aria-hidden="true" className="absolute right-[10%] bottom-[-45%] size-[160px] rounded-full border-[18px] border-black/10 sm:size-[230px] sm:border-[28px]" />
               </>}
             </ProjectImageTrigger>
-            <ProjectImageTrigger index={isModuFlow ? 2 : secondaryPreview ? 0 : 2} itemIndex={secondaryPreview ? 1 : 0} className="project-preview relative overflow-hidden rounded-[22px] border p-4 sm:rounded-[32px] sm:p-6 ui-divider">
+            <ProjectImageTrigger index={isModuFlow ? 2 : isArtar ? 2 : secondaryPreview ? 0 : 2} itemIndex={secondaryPreview ? 1 : 0} className="project-preview relative overflow-hidden rounded-[22px] border p-4 sm:rounded-[32px] sm:p-6 ui-divider">
               {secondaryImage ? <Image src={withBasePath(secondaryImage)} alt={`${project.title} ${secondaryLabel}`} fill sizes="(max-width: 768px) 40vw, 400px" className={isModuFlow ? "object-contain bg-white p-2" : "object-cover"} /> : <>
               <span className="font-mono ui-caption ui-muted">STRUCTURE</span>
               <div aria-hidden="true" className="mt-6 space-y-3 opacity-70"><i className="block h-2 w-3/4 rounded-full bg-black/30" /><i className="block h-2 w-1/2 rounded-full bg-black/20" /><i className="block h-2 w-2/3 rounded-full bg-black/10" /></div>

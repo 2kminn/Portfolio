@@ -16,6 +16,8 @@ const pageVariants = {
   center: { x: 0, rotate: 0, opacity: 1 },
   exit: (direction: number) => ({ x: direction > 0 ? -220 : 220, rotate: direction > 0 ? -7 : 7, opacity: 0 }),
 };
+type GalleryItem = { label: string; source: string };
+type GalleryPage = { label: string; source?: string; mobileSource?: string; items?: GalleryItem[] };
 const GalleryContext = createContext<{ selectImage: (index: number, itemIndex?: number) => void; labels: string[] } | null>(null);
 
 export function ProjectImagePlaceholder({ label, number, compact = false, guide }: {
@@ -88,19 +90,27 @@ export default function ProjectGallery({ project, number, style, children }: {
   const coverPage = { label: project.coverLabel ?? (hasGroupedScreens ? "관리자 CMS" : "대표 화면"), source: project.coverImage ? withBasePath(project.coverImage) : undefined, mobileSource: undefined as string | undefined };
   const screenPage = { label: project.screenLabel ?? (hasGroupedScreens ? "사용자 화면" : "화면 캡처"), source: project.screenImage ? withBasePath(project.screenImage) : undefined, mobileSource: undefined as string | undefined };
   const structurePage = { label: "구조도", source: project.structureImage ? withBasePath(project.structureImage) : undefined, mobileSource: project.structureMobileImage ? withBasePath(project.structureMobileImage) : undefined };
-  const pages = hasGroupedScreens
-    ? project.structureImage ? [screenPage, coverPage, structurePage] : [screenPage, coverPage]
-    : [coverPage, screenPage, structurePage];
+  const pages: GalleryPage[] = project.galleryTabs?.length
+    ? project.galleryTabs.map((tab) => ({
+        label: tab.label,
+        source: withBasePath(tab.images[0].image),
+        items: tab.images.map((item) => ({ label: item.label, source: withBasePath(item.image) })),
+      }))
+    : hasGroupedScreens
+      ? project.structureImage ? [screenPage, coverPage, structurePage] : [screenPage, coverPage]
+      : [coverPage, screenPage, structurePage];
   const labels = pages.map((page) => page.label);
   const activePage = pages[activeIndex];
   const source = activePage.source;
-  const isCollection = hasGroupedScreens && activeIndex === 0 && !!source;
   const portraitGroupEnabled = project.galleryDisplay === "portrait-group" && canGroupPortrait;
-  const showPortraitGroup = isCollection && portraitGroupEnabled;
-  const collectionItems = screenPage.source ? [
+  const legacyCollectionItems = screenPage.source ? [
     { label: project.screenLabel ?? "홈", source: screenPage.source },
     ...(project.galleryExtras?.map((item) => ({ label: item.label, source: withBasePath(item.image) })) ?? []),
   ] : [];
+  const collectionFor = (page: GalleryPage, index: number) => page.items ?? (hasGroupedScreens && index === 0 ? legacyCollectionItems : []);
+  const collectionItems = collectionFor(activePage, activeIndex);
+  const isCollection = collectionItems.length > 0 && !!source;
+  const showPortraitGroup = isCollection && portraitGroupEnabled;
   const activeItem = collectionItems[activeItemIndex];
   const originalMobileSource = activePage.mobileSource ?? source;
   const landscapeCover = project.slug === "moduflow" && activeIndex === 1;
@@ -117,7 +127,7 @@ export default function ProjectGallery({ project, number, style, children }: {
     }
     const nextIndex = (activeIndex + step + pages.length) % pages.length;
     setActiveIndex(nextIndex);
-    setActiveItemIndex(nextIndex === 0 && step < 0 && !portraitGroupEnabled ? collectionItems.length - 1 : 0);
+    setActiveItemIndex(step < 0 && !portraitGroupEnabled ? Math.max(0, collectionFor(pages[nextIndex], nextIndex).length - 1) : 0);
   };
   const selectPage = (index: number) => {
     if (index === activeIndex && activeItemIndex === 0) return;
@@ -127,7 +137,7 @@ export default function ProjectGallery({ project, number, style, children }: {
   };
   const openPage = (index: number, itemIndex = 0) => {
     setActiveIndex(index);
-    setActiveItemIndex(index === 0 ? itemIndex : 0);
+    setActiveItemIndex(itemIndex);
   };
 
   return (

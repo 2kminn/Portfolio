@@ -13,6 +13,7 @@ export type Project = {
   structureImage?: string;
   structureMobileImage?: string;
   galleryExtras?: { label: string; image: string }[];
+  galleryTabs?: { label: string; images: { label: string; image: string }[] }[];
   galleryDisplay?: "portrait-group" | "sequence";
   coverLabel?: string;
   screenLabel?: string;
@@ -140,6 +141,24 @@ const projectRecords: ProjectRecord[] = [
       { label: "미술관 등록", image: "/projects/artar-busan/museum-registration.jpg" },
       { label: "슈퍼유저 승인", image: "/projects/artar-busan/super-admin-approval.jpg" },
     ],
+    galleryTabs: [
+      { label: "등록·승인", images: [
+        { label: "관리자 등록", image: "/projects/artar-busan/museum-registration.jpg" },
+        { label: "슈퍼유저 승인", image: "/projects/artar-busan/super-admin-approval.jpg" },
+      ] },
+      { label: "방문 통계", images: [
+        { label: "방문 통계 대시보드", image: "/projects/artar-busan/dashboard.jpg" },
+      ] },
+      { label: "장소 관리", images: [
+        { label: "장소 등록", image: "/projects/artar-busan/place-registration.jpg" },
+        { label: "장소 목록", image: "/projects/artar-busan/places.jpg" },
+      ] },
+      { label: "작품 관리", images: [
+        { label: "작품 목록·QR 관리", image: "/projects/artar-busan/artworks.jpg" },
+        { label: "작품 등록", image: "/projects/artar-busan/artwork-registration.jpg" },
+        { label: "작품 수정", image: "/projects/artar-busan/artwork-editor.jpg" },
+      ] },
+    ],
     repositoryUrl: "https://github.com/2kminn/museum-admin-cms",
     liveUrl: "https://museum-admin-cms.vercel.app",
     contributions: [
@@ -153,12 +172,14 @@ const projectRecords: ProjectRecord[] = [
       admin: "장소와 작품 정보를 관리하고, QR 기반 안내와 방문 통계를 확인하는 화면입니다.",
     },
     capturePlan: [
-      { title: "방문 통계 대시보드", description: "샘플 방문 추이와 언어별 비중 시각화", format: "desktop", group: "admin", image: "/projects/artar-busan/dashboard.jpg" },
-      { title: "작품 QR 관리", description: "작품별 정보, QR 생성 상태와 노출 여부를 확인", format: "desktop", group: "admin", image: "/projects/artar-busan/artworks.jpg" },
-      { title: "작품 정보 편집", description: "다국어 작품 정보와 QR URL, 미디어 입력 영역", format: "desktop", group: "admin", image: "/projects/artar-busan/artwork-editor.jpg" },
-      { title: "장소 관리", description: "모바일 앱에 표시할 미술관·문화공간 목록", format: "desktop", group: "admin", image: "/projects/artar-busan/places.jpg" },
       { title: "미술관 등록 신청", description: "기관 정보 입력과 서버 없이 확인할 수 있는 임시 신청 흐름", format: "desktop", group: "admin", image: "/projects/artar-busan/museum-registration.jpg" },
       { title: "슈퍼유저 승인", description: "관리자 신청 목록 확인과 승인·거절 처리", format: "desktop", group: "admin", image: "/projects/artar-busan/super-admin-approval.jpg" },
+      { title: "방문 통계 대시보드", description: "샘플 방문 추이와 언어별 비중 시각화", format: "desktop", group: "admin", image: "/projects/artar-busan/dashboard.jpg" },
+      { title: "장소 등록", description: "모바일 앱에 표시할 장소 정보 입력", format: "desktop", group: "admin", image: "/projects/artar-busan/place-registration.jpg" },
+      { title: "장소 목록", description: "등록한 미술관·문화공간 목록과 노출 상태 확인", format: "desktop", group: "admin", image: "/projects/artar-busan/places.jpg" },
+      { title: "작품 목록·QR 관리", description: "작품별 정보, QR 생성 상태와 노출 여부를 확인", format: "desktop", group: "admin", image: "/projects/artar-busan/artworks.jpg" },
+      { title: "작품 등록", description: "다국어 작품 정보, 미디어와 노출 상태 입력", format: "desktop", group: "admin", image: "/projects/artar-busan/artwork-registration.jpg" },
+      { title: "작품 정보 수정", description: "등록된 작품의 다국어 정보와 미디어 수정", format: "desktop", group: "admin", image: "/projects/artar-busan/artwork-editor.jpg" },
     ],
   },
   {
