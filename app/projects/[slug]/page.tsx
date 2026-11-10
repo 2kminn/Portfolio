@@ -12,6 +12,7 @@ import ProjectGallery, { ProjectImagePlaceholder, ProjectImageTrigger } from "@/
 import SectionHeading from "@/components/SectionHeading";
 import UiIcon from "@/components/UiIcon";
 import ProjectScreensPreview from "@/components/ProjectScreensPreview";
+import BackToTop from "@/components/BackToTop";
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -112,13 +113,15 @@ export default async function ProjectDetail({ params }: Props) {
 
   return (
     <ProjectGallery project={project} number={number} style={mediaStyle}>
-    <main style={mediaStyle} className="ui-surface-dark min-h-screen">
+    <main id="top" tabIndex={-1} style={mediaStyle} className="ui-surface-dark min-h-screen outline-none">
       <header className="ui-surface-dark ui-divider sticky top-0 z-40 border-b pt-[env(safe-area-inset-top)]">
         <div className="ui-container flex items-center justify-between gap-4 py-2">
           <Link href="/" className="ui-touch-link ui-label">{profile.handle} <span className="ui-muted ml-2 hidden sm:inline">/ 포트폴리오</span></Link>
-          <Link href="/#projects" className="ui-button mr-40" aria-label="프로젝트 목록으로"><UiIcon icon={ArrowLeft} size="sm" /><span className="hidden sm:inline">프로젝트</span></Link>
+          <Link href="/#projects" className="ui-button" aria-label="프로젝트 목록으로"><UiIcon icon={ArrowLeft} size="sm" /><span className="hidden sm:inline">프로젝트</span></Link>
         </div>
       </header>
+
+      <BackToTop />
 
       <div className="ui-container">
         <section className="py-8" aria-labelledby="project-title">

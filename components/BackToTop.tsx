@@ -12,7 +12,7 @@ export default function BackToTop() {
     const update = () => {
       cancelAnimationFrame(frame);
       frame = requestAnimationFrame(() => {
-        const heroHeight = document.getElementById("top")?.offsetHeight ?? window.innerHeight;
+        const heroHeight = document.querySelector<HTMLElement>(".terminal-screen")?.offsetHeight ?? window.innerHeight;
         setVisible(window.scrollY >= heroHeight);
       });
     };
