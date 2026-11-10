@@ -238,7 +238,7 @@ export default async function ProjectDetail({ params }: Props) {
                   </a>
                 </>
               ) : (
-                <ProjectMedia src={project.structureImage} mobileSrc={project.structureMobileImage} alt={project.structureCaption ?? `${project.title} 시스템 구성도`} label="시스템 구성도" number={`${number}.2`} index={2} compact />
+                <ProjectMedia src={project.structureImage} mobileSrc={project.structureMobileImage} alt={project.structureCaption ?? `${project.title} 시스템 구성도`} label="시스템 구성도" number={`${number}.2`} index={project.galleryTabs ? project.galleryTabs.length - 1 : 2} compact />
               )}
             </section>
           )}

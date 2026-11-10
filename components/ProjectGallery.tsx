@@ -17,7 +17,7 @@ const pageVariants = {
   exit: (direction: number) => ({ x: direction > 0 ? -220 : 220, rotate: direction > 0 ? -7 : 7, opacity: 0 }),
 };
 type GalleryItem = { label: string; source: string };
-type GalleryPage = { label: string; source?: string; mobileSource?: string; items?: GalleryItem[] };
+type GalleryPage = { label: string; source?: string; mobileSource?: string; items?: GalleryItem[]; format?: "portrait" | "landscape" };
 const GalleryContext = createContext<{ selectImage: (index: number, itemIndex?: number) => void; labels: string[] } | null>(null);
 
 export function ProjectImagePlaceholder({ label, number, compact = false, guide }: {
@@ -87,14 +87,16 @@ export default function ProjectGallery({ project, number, style, children }: {
     return () => media.removeEventListener("change", update);
   }, []);
   const hasGroupedScreens = !!project.galleryExtras?.length;
-  const coverPage = { label: project.coverLabel ?? (hasGroupedScreens ? "관리자 CMS" : "대표 화면"), source: project.coverImage ? withBasePath(project.coverImage) : undefined, mobileSource: undefined as string | undefined };
-  const screenPage = { label: project.screenLabel ?? (hasGroupedScreens ? "사용자 화면" : "화면 캡처"), source: project.screenImage ? withBasePath(project.screenImage) : undefined, mobileSource: undefined as string | undefined };
-  const structurePage = { label: "구조도", source: project.structureImage ? withBasePath(project.structureImage) : undefined, mobileSource: project.structureMobileImage ? withBasePath(project.structureMobileImage) : undefined };
+  const coverPage: GalleryPage = { label: project.coverLabel ?? (hasGroupedScreens ? "관리자 CMS" : "대표 화면"), source: project.coverImage ? withBasePath(project.coverImage) : undefined, format: "landscape" };
+  const screenPage: GalleryPage = { label: project.screenLabel ?? (hasGroupedScreens ? "사용자 화면" : "화면 캡처"), source: project.screenImage ? withBasePath(project.screenImage) : undefined, format: project.galleryDisplay === "portrait-group" ? "portrait" : "landscape" };
+  const structurePage: GalleryPage = { label: "구조도", source: project.structureImage ? withBasePath(project.structureImage) : undefined, mobileSource: project.structureMobileImage ? withBasePath(project.structureMobileImage) : undefined, format: "landscape" };
   const pages: GalleryPage[] = project.galleryTabs?.length
     ? project.galleryTabs.map((tab) => ({
         label: tab.label,
         source: withBasePath(tab.images[0].image),
-        items: tab.images.map((item) => ({ label: item.label, source: withBasePath(item.image) })),
+        mobileSource: tab.images[0].image === project.structureImage && project.structureMobileImage ? withBasePath(project.structureMobileImage) : undefined,
+        items: tab.images.length > 1 ? tab.images.map((item) => ({ label: item.label, source: withBasePath(item.image) })) : undefined,
+        format: tab.format ?? "landscape",
       }))
     : hasGroupedScreens
       ? project.structureImage ? [screenPage, coverPage, structurePage] : [screenPage, coverPage]
@@ -102,7 +104,7 @@ export default function ProjectGallery({ project, number, style, children }: {
   const labels = pages.map((page) => page.label);
   const activePage = pages[activeIndex];
   const source = activePage.source;
-  const portraitGroupEnabled = project.galleryDisplay === "portrait-group" && canGroupPortrait;
+  const portraitGroupEnabled = project.galleryDisplay === "portrait-group" && activePage.format === "portrait" && canGroupPortrait;
   const legacyCollectionItems = screenPage.source ? [
     { label: project.screenLabel ?? "홈", source: screenPage.source },
     ...(project.galleryExtras?.map((item) => ({ label: item.label, source: withBasePath(item.image) })) ?? []),
@@ -113,7 +115,7 @@ export default function ProjectGallery({ project, number, style, children }: {
   const showPortraitGroup = isCollection && portraitGroupEnabled;
   const activeItem = collectionItems[activeItemIndex];
   const originalMobileSource = activePage.mobileSource ?? source;
-  const landscapeCover = project.slug === "artar-busan" || (project.slug === "moduflow" && activeIndex === 1);
+  const landscapeCover = activePage.format !== "portrait";
   const imageNumber = activeIndex === 0 ? number : `${number}.${activeIndex}`;
   const move = (step: number) => {
     setDirection(step);

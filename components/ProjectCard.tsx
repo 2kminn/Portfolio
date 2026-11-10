@@ -54,11 +54,11 @@ export default function ProjectCard({ project, index, total, progress }: {
           </Link>
         </div>
 
-        {isArtar && project.galleryTabs ? (
+        {project.galleryTabs?.length === 4 ? (
           <div className="grid h-[300px] grid-cols-2 gap-3 sm:h-[330px] md:h-[clamp(340px,44vh,480px)]">
             {project.galleryTabs.map((tab, tabIndex) => (
               <ProjectImageTrigger key={tab.label} index={tabIndex} className="project-preview relative overflow-hidden rounded-[22px] border bg-white sm:rounded-[32px] ui-divider">
-                <Image src={withBasePath(tab.images[0].image)} alt={`${project.title} ${tab.label}`} fill unoptimized sizes="(max-width: 768px) 50vw, 500px" className="object-contain" />
+                {tab.format === "portrait" ? <ProjectScreensPreview project={project} screens={tab.images} /> : <Image src={withBasePath(tab.images[0].image)} alt={`${project.title} ${tab.label}`} fill unoptimized={isArtar} sizes="(max-width: 768px) 50vw, 500px" className="object-contain" />}
                 <span className="absolute bottom-3 left-3 z-10 rounded-md border border-black/10 bg-white/95 px-2 py-1 text-xs font-semibold text-[#25231f] sm:bottom-5 sm:left-5 sm:px-3 sm:py-1.5">{String(tabIndex + 1).padStart(2, "0")} {tab.label}</span>
               </ProjectImageTrigger>
             ))}

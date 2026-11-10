@@ -13,7 +13,7 @@ export type Project = {
   structureImage?: string;
   structureMobileImage?: string;
   galleryExtras?: { label: string; image: string }[];
-  galleryTabs?: { label: string; images: { label: string; image: string }[] }[];
+  galleryTabs?: { label: string; format?: "portrait"; images: { label: string; image: string }[] }[];
   galleryDisplay?: "portrait-group" | "sequence";
   coverLabel?: string;
   screenLabel?: string;
@@ -102,6 +102,24 @@ const projectRecords: ProjectRecord[] = [
       { label: "루틴 추가", image: "/projects/moduflow/exercise-detail.webp" },
     ],
     galleryDisplay: "portrait-group",
+    galleryTabs: [
+      { label: "운동 시작", format: "portrait", images: [
+        { label: "홈", image: "/projects/moduflow/home.webp" },
+        { label: "운동 목록", image: "/projects/moduflow/exercise-list.webp" },
+        { label: "운동 상세", image: "/projects/moduflow/exercise-detail.webp" },
+      ] },
+      { label: "루틴·기록", format: "portrait", images: [
+        { label: "루틴 관리", image: "/projects/moduflow/routines.webp" },
+        { label: "운동 기록", image: "/projects/moduflow/stats-workout.webp" },
+        { label: "운동존 상태", image: "/projects/moduflow/congestion.webp" },
+      ] },
+      { label: "관리자 CMS", images: [
+        { label: "관리자 대시보드", image: "/projects/moduflow/admin-cms.webp" },
+      ] },
+      { label: "시스템 구성", images: [
+        { label: "시스템 구성도", image: "/projects/moduflow/system-architecture.svg" },
+      ] },
+    ],
     structureCaption: "PWA, Android 앱, 백엔드, 자세 인식 서버의 연결 관계를 정리한 전체 시스템 구성도",
     contributions: [
       { title: "설계와 진행 관리", description: "화면 흐름, 전체 시스템 구성, 데이터 구조와 기능별 테스트 범위를 정리하고 개발 진행을 관리했습니다." },
