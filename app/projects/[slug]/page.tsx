@@ -241,10 +241,12 @@ export default async function ProjectDetail({ params }: Props) {
           )}
 
           <DetailSection number="03" title="결과와 배운 점">{project.result}</DetailSection>
-          <div className="mt-8 flex flex-wrap gap-3">
-            {project.repositoryUrl && <a href={project.repositoryUrl} target="_blank" rel="noopener noreferrer" className="ui-button">GitHub <UiIcon icon={ArrowUpRight} size="sm" /></a>}
-            {project.liveUrl && <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="ui-button ui-button-primary">서비스 보기 <UiIcon icon={ArrowUpRight} size="sm" /></a>}
-          </div>
+          {(project.repositoryUrl || project.liveUrl) && (
+            <div className="mt-8 flex flex-wrap gap-3">
+              {project.repositoryUrl && <a href={project.repositoryUrl} target="_blank" rel="noopener noreferrer" className="ui-button">GitHub <UiIcon icon={ArrowUpRight} size="sm" /></a>}
+              {project.liveUrl && <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="ui-button ui-button-primary">서비스 보기 <UiIcon icon={ArrowUpRight} size="sm" /></a>}
+            </div>
+          )}
         </div>
       </div>
 

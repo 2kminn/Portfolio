@@ -130,7 +130,7 @@ const projectRecords: ProjectRecord[] = [
     technologies: ["React", "TypeScript", "Vite", "Tailwind CSS", "Recharts", "FastAPI 연동", "QR 딥링크"],
     challenge: "초기에는 XR 스마트글라스로 시선만으로 작품 정보를 확인하는 방식을 구상했습니다. 그러나 기기 수급과 개발 환경의 제약으로 기간 내 안정적인 구현이 어려워졌습니다. 팀은 관람객에게 필요한 정보를 현장에서 쉽게 제공한다는 목표를 유지하면서 스마트폰과 작품별 QR을 활용하는 방향으로 전환했습니다.",
     solution: "방문 전 모바일 정보 탐색과 현장 QR 기반 작품 안내 흐름에 맞춰 관리자 CMS를 구성했습니다. React와 TypeScript로 장소·작품 등록 및 수정, 다국어 작품 정보, 작품별 QR 관리, 관리자 권한 흐름과 방문 통계 화면을 구현했습니다. 백엔드 개발과 관리자 CMS의 API 연동을 보조하며 데이터 형식과 오류를 팀원들과 함께 확인했습니다.",
-    result: "XR 기기 제약 속에서도 스마트폰과 QR로 관람 흐름을 완성할 수 있는 방향을 찾았습니다. 담당자별 진행 상황과 CMS 연동 문제를 공유하며, 공동의 목표를 기준으로 구현 방식을 조정하는 협업의 중요성을 배웠습니다. 현재 공개 데모는 서버 연결이 없어 샘플 데이터로 화면을 확인할 수 있습니다.",
+    result: "XR 기기 제약 속에서도 스마트폰과 QR로 관람 흐름을 완성할 수 있는 방향을 찾았습니다. 담당자별 진행 상황과 CMS 연동 문제를 공유하며, 공동의 목표를 기준으로 구현 방식을 조정하는 협업의 중요성을 배웠습니다.",
     coverImage: "/projects/artar-busan/dashboard.jpg",
     screenImage: "/projects/artar-busan/artworks.jpg",
     structureImage: "/projects/artar-busan/system-architecture.svg",
@@ -162,8 +162,6 @@ const projectRecords: ProjectRecord[] = [
         { label: "작품 수정", image: "/projects/artar-busan/artwork-editor.jpg" },
       ] },
     ],
-    repositoryUrl: "https://github.com/2kminn/museum-admin-cms",
-    liveUrl: "https://museum-admin-cms.vercel.app",
     contributions: [
       { title: "관리자 CMS", description: "장소·작품 등록과 수정, 노출 상태 관리, 다국어 작품 입력 화면을 구현했습니다." },
       { title: "QR 중심 운영 흐름", description: "작품별 QR URL과 출력 화면을 관리하고, 현장 모바일 관람 흐름에 맞춰 콘텐츠 구조를 정리했습니다." },
