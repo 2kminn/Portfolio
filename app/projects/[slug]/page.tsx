@@ -228,10 +228,10 @@ export default async function ProjectDetail({ params }: Props) {
               {project.slug === "artar-busan" ? (
                 <>
                   <a href={withBasePath(project.structureMobileImage ?? project.structureImage)} target="_blank" rel="noopener noreferrer" aria-label="ArtAR Busan 모바일 시스템 구성도 원본 보기" className="relative block aspect-[1/2] w-full overflow-hidden rounded-xl border border-[#d9e2ec] bg-white sm:hidden">
-                    <Image src={withBasePath(project.structureMobileImage ?? project.structureImage)} alt={project.structureCaption} fill unoptimized sizes="100vw" className="object-contain" />
+                    <Image src={withBasePath(project.structureMobileImage ?? project.structureImage)} alt={project.structureCaption ?? `${project.title} 시스템 구성도`} fill unoptimized sizes="100vw" className="object-contain" />
                   </a>
                   <a href={withBasePath(project.structureImage)} target="_blank" rel="noopener noreferrer" aria-label="ArtAR Busan 시스템 구성도 원본 보기" className="relative hidden aspect-[15/8] w-full overflow-hidden rounded-xl border border-[#d9e2ec] bg-white sm:block">
-                    <Image src={withBasePath(project.structureImage)} alt={project.structureCaption} fill unoptimized sizes="(max-width: 768px) 100vw, 1100px" className="object-contain" />
+                    <Image src={withBasePath(project.structureImage)} alt={project.structureCaption ?? `${project.title} 시스템 구성도`} fill unoptimized sizes="(max-width: 768px) 100vw, 1100px" className="object-contain" />
                   </a>
                 </>
               ) : (
