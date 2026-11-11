@@ -67,7 +67,7 @@ export const certifications: Certification[] = [
 
 export const skillGroups: SkillGroup[] = [
   { name: "Language", skills: ["Java", "TypeScript", "JavaScript"] },
-  { name: "Backend", skills: ["Spring Boot", "Spring Security", "Spring Data JPA", "Hibernate", "FastAPI", "REST API", "JWT Authentication"] },
+  { name: "Backend", skills: ["Spring Boot", "FastAPI", "REST API", "JWT Authentication"] },
   { name: "Frontend & Mobile", skills: ["React", "React Native", "Expo", "Vite", "Tailwind CSS", "PWA", "Android WebView"] },
   { name: "Database", skills: ["MySQL", "SQLite"] },
   { name: "Infrastructure & Deployment", skills: ["Vercel", "Git", "GitHub"] },
