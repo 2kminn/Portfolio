@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
-import { getProject, projects } from "@/data/projects";
+import { getProject, projects, type Project } from "@/data/projects";
 import { profile } from "@/data/profile";
 import { resolveSocialImageUrl } from "@/lib/metadata";
 import { withBasePath } from "@/lib/base-path";
@@ -85,7 +85,7 @@ function ProjectMedia({ src, mobileSrc, alt, label, number, index, compact = fal
   );
 }
 
-function DetailSection({ number, title, children }: { number: string; title: string; children: ReactNode }) {
+function DetailSection({ number, title, children, learnings }: { number: string; title: string; children: ReactNode; learnings?: Project["learnings"] }) {
   return (
     <section className="ui-detail-section">
       <div className="ui-detail-section-heading">
@@ -93,6 +93,12 @@ function DetailSection({ number, title, children }: { number: string; title: str
         <h3 className="ui-title">{title}</h3>
       </div>
       <p className="ui-body">{children}</p>
+      {learnings?.map((item) => (
+        <div key={item.title} className="mt-4">
+          <h4 className="ui-label font-semibold">{item.title}</h4>
+          <p className="ui-body mt-2">{item.description}</p>
+        </div>
+      ))}
     </section>
   );
 }
@@ -243,7 +249,7 @@ export default async function ProjectDetail({ params }: Props) {
             </section>
           )}
 
-          <DetailSection number="03" title="결과와 배운 점">{project.result}</DetailSection>
+          <DetailSection number="03" title="결과와 배운 점" learnings={project.learnings}>{project.result}</DetailSection>
           {(project.repositoryUrl || project.liveUrl) && (
             <div className="mt-8 flex flex-wrap gap-3">
               {project.repositoryUrl && <a href={project.repositoryUrl} target="_blank" rel="noopener noreferrer" className="ui-button">GitHub <UiIcon icon={ArrowUpRight} size="sm" /></a>}
